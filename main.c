@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 17:11:00 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/03 16:35:35 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/03 18:18:01 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int main(void)
     char *str;
     while(1)
     {
-        str = readline("minishell$ ");
+        str = readline("minishell> ");
         if (str)
             printf("%s\n", str);
         else
