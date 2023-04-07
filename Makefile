@@ -13,9 +13,10 @@
 NAME	=	minishell
 
 CFLAGS	=	-Wall -Wextra -Werror 
-READLINEFLAG	=	-lreadline \
-					-L/Users/yejinkim/.brew/opt/readline/lib \
-					-I/Users/yejinkim/.brew/opt/readline/include
+
+RFLAGS	=	-lreadline \
+			-L /Users/$(USER)/.brew/opt/readline/lib \
+			-I /Users/$(USER)/.brew/opt/readline/include
 
 SRCS_P	=	
 
@@ -33,7 +34,7 @@ all 	:	$(NAME)
 
 $(NAME) :	$(OBJS)
 			$(MKLIB)
-			$(CC) $(CFLAGS) $(READLINEFLAG) -o $(NAME) $(OBJS) $(LIBFT)
+			$(CC) $(CFLAGS) $(RFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
 
 clean   :	
 			$(RM) $(OBJS)
