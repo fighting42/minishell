@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 16:29:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/10 22:57:09 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/10 23:42:29 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,15 +74,22 @@ void	cmd_exec(char *cmd_path, char **cmd, char **envp)
 
 void	execute(t_cmdline *cmdline, char **envp)
 {
+	t_token	*token;
+	char	**cmd;
 	char	*cmd_path;
-	int		in;
 
-	while (cmdline)
+	while (cmdline) 
 	{
-		if (cmdline->type == COMMAND)
+		token = cmdline->token;
+		if (token->type == COMMAND)
 		{
-			cmd_path = find_path(cmdline->cmd, pars_envp(envp));
-			cmd_exec(cmd_path, cmdline->cmd, envp);
+			// test
+			cmd = malloc(sizeof(char *) * 2);
+			cmd[0] = token->value;
+			cmd[1] = NULL;
+			// test
+			cmd_path = find_path(cmd, pars_envp(envp));
+			cmd_exec(cmd_path, cmd, envp);
 		}
 		cmdline = cmdline->next;
 	}

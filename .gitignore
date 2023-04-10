@@ -2,6 +2,7 @@
 .vscode
 
 *.o
+libft.a
 minishell
 
 test
