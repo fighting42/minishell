@@ -12,7 +12,7 @@
 
 NAME	=	minishell
 
-CFLAGS	=	-Wall -Wextra -Werror 
+CFLAGS	=	-Wall -Wextra -Werror -g
 
 RFLAGS	=	-lreadline \
 			-L /Users/$(USER)/.brew/opt/readline/lib \
@@ -20,7 +20,7 @@ RFLAGS	=	-lreadline \
 
 SRCS_P	=	
 
-SRCS_E	=	
+SRCS_E	=	execute/execute.c
 
 SRCS	=	main.c $(SRCS_P) $(SRCS_E)
 
