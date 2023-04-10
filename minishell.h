@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:29:50 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/10 23:09:36 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/10 23:39:13 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,20 @@ typedef enum e_type
 	COMMAND,
 }	t_type;
 
+typedef struct s_token
+{
+	char			*value;
+	t_type 			type;
+	struct s_token	*next;
+}	t_token;
+
 typedef struct s_cmdline
 {
-	t_token		*cmd;
-	t_type		type;
-	t_cmdline	*next;
+	t_token				*token; // cmd -> token 이름 수정
+	struct s_cmdline	*next;
 }	t_cmdline;
 
 // parsing
-typedef struct s_token
-{
-	char		*value;
-	t_type 		type;
-	t_token		*next;
-}	t_token;
-
 typedef struct s_dollar
 {
 	char		*value;
