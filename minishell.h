@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:29:50 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/07 18:32:55 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/10 22:41:23 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,18 @@
 # include <stdio.h>
 # include <stdlib.h>
 
-// yejinkim
+// parsing
+typedef struct s_token
+{
+	char		*value;
+	t_type 		type;
+	t_token		*next;
+}	t_token;
 
-// dapark
-
+typedef struct s_dollar
+{
+	char		*value;
+}	t_dollar;
 
 // 구조체
 typedef enum e_type
@@ -34,22 +42,11 @@ typedef enum e_type
 	COMMAND,
 }	t_type;
 
-typedef struct s_token
-{
-	char		*value;
-	t_type 		type;
-	struct s_token		*next;
-}	t_token;
-
 typedef struct s_cmdline
 {
-	t_token		cmd;
-	struct s_cmdline	*next;
+	t_token		*cmd;
+	t_type		type;
+	t_cmdline	*next;
 }	t_cmdline;
-
-// yejinkim
-
-// dapark
-
 
 #endif

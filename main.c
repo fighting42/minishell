@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 17:11:00 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/07 18:33:44 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/10 18:05:10 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int main(int argc, char **argv, char **envp)
 		
 		// 1순위는 달러처리(환경변수) -> envp에 있어
 		// parse(str);
-		//  return cmdline (token으로 연결, 명령어 세트로 짤라져있음) 
+		//  return cmdline (token으로 연결, 명령어 세트로 짤라져있음)
 		// exec(cmdline); -> 실행!
         
 		if (str)
