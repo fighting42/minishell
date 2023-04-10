@@ -6,30 +6,11 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 17:11:00 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/07 18:33:44 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/10 22:56:34 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// envp 알아서 응요하세요ㅕ
-char	**pars_envp(char **envp)
-{
-	char	**path;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			break ;
-		i++;
-	}
-	if (!envp[i])
-		print_error("path error", 1);
-	path = ft_split(envp[i] + 5, ':');
-	return (path);
-}
 
 int main(int argc, char **argv, char **envp)
 {
@@ -47,9 +28,13 @@ int main(int argc, char **argv, char **envp)
 		//  return cmdline (token으로 연결, 명령어 세트로 짤라져있음) 
 		// exec(cmdline); -> 실행!
         
-		if (str)
-            printf("%s\n", str);
-        else            break ;
+		//exec
+		t_cmdline cmdline;
+		cmdline.cmd = ft_split(str, ' ');
+		cmdline.type = COMMAND;
+		cmdline.next = NULL;
+		execute(&cmdline, envp);
+
         add_history(str);
         free(str);
     }
