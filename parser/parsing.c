@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/10 22:46:02 by dapark           ###   ########.fr       */
+/*   Updated: 2023/04/13 02:10:29 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*chk_env(char **envp, char *str, int start, int size)
+char	*trans_env(char **envp, char *str, int start, int size)
 {
 	int	i, j;
 	char *temp;
@@ -30,7 +30,7 @@ char	*chk_env(char **envp, char *str, int start, int size)
 	}
 	temp[i] = '\0';
 	i = 0;
-	while (envp[i] != '\0')
+	while (envp[i] != 0)
 	{
 		if (ft_strncmp(envp[i], temp, size) == 0)
 			break ;
@@ -75,40 +75,43 @@ int	quote_status(char c, int quote)
 	return (quote);
 }
 
-
-
-t_cmdline	*parsing(char *str, char **envp)
+t_dollar	*chk_env(char *str, char **envp)
 {
-	int			i, count, cnt_dollar, j;
-	int			quote;
-	t_cmdline	command;
 	t_dollar	*env_var;
-	
-	char	sep = " |<>";
-	i = 0, j = 0;
+	char		*sep;
+	int			i;
+	int			j;
+	int			quote;
+	int			cnt_dollar;
+	int			count;
+
+	i = 0; 
+	j = 0;
 	cnt_dollar = 0;
 	quote = 0;
-	
+	sep = " |<>";
 	while (str[i] != '\0')
 	{
 		quote = quote_status(str[i], quote);
-		if (quote == 2 && str[i] == '&' ||\
-			quote == 0 && str[i] == '&')
-			cnt_dollar += 1;
+		if (quote == 2 && str[i] == '$' ||\
+			quote == 0 && str[i] == '$')
+			cnt_dollar++;
 		i++;
 	}
-	env_var = malloc(sizeof(t_dollar) * cnt_dollar + 1);
+	printf("$: %d\n", cnt_dollar);
+	env_var = malloc(sizeof(t_dollar) * cnt_dollar);
+	i = 0;
 	while (str[i] != '\0')
 	{
 		quote = quote_status(str[i], quote);
-		if (quote == 2 && str[i] == '&' ||\
-			quote == 0 && str[i] == '&')
+		if ((quote == 2 && str[i] == '$') ||\
+			(quote == 0 && str[i] == '$'))
 		{
-			count = i;
-				return (-1);
-			while (check_sep(str[count], sep) != 1)
+			count = i + 1;
+			while (check_sep(str[count], sep) != 1 && str[count] != '\0')
 				count++;
-			env_var[j].value = chk_env(envp, str, i + 1, count - i - 1);
+			env_var[j].value = trans_env(envp, str, i + 1, count - i - 1);
+			printf("%s\n", env_var[j].value);
 			j++;
 			i = count ;
 		}
@@ -116,6 +119,55 @@ t_cmdline	*parsing(char *str, char **envp)
 			i++;	
 	}
 	env_var[j].value = 0;
-	count = count_str(str, sep);
-	command.cmd = parse_split(count); //구분자대로 parsing
+	return (env_var);
+}
+
+t_cmdline	*parsing(char *str, char **envp)
+{
+	t_cmdline	*c_head, *c_curr, *c_prev;
+	t_token		*t_head, *t_curr, *t_prev;
+	t_dollar	*env_var;
+	char		**tmp;
+	int			i, quote, count, j;
+
+	i = 0, j = 0;
+	env_var = chk_env(str, envp);
+	count = count_str(str, " |<>");
+	tmp = parse_split(str, count, env_var); //구분자대로 parsing
+	while (tmp[i][j] != '\0') //구분자와 같이 잘린 commands
+	{
+		if (i == 0)
+		{
+			c_head = malloc(sizeof(t_cmdline) * 1);
+
+		}
+		quote = quote_status(str[i], quote);
+		if (str[i] == '|')
+		{
+			c_curr = malloc(sizeof(t_cmdline) * 1);
+			c_head->next = c_curr;
+		}
+		else if (str[i] == '<')
+		{
+
+		}
+		else if (str[i] == '>')
+		
+		else
+		{
+			if ((quote == 2 && str[i] == '$') ||\
+				(quote == 0 && str[i] == '$'))
+			{
+
+			}
+		}
+	}
+}
+
+int main(int argc, char **argv, char **envp)
+{
+	char *str;
+	if (argc != 1)
+		str = parsing(argv[1], envp);
+	return (0);
 }
