@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:29:50 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/10 23:39:13 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/12 11:56:47 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_token
 
 typedef struct s_cmdline
 {
-	t_token				*token; // cmd -> token 이름 수정
+	t_token				*token; // cmd -> token 이름 수정 // 아라똥~~!!ㅎ_ㅎ
 	struct s_cmdline	*next;
 }	t_cmdline;
 
@@ -49,6 +49,18 @@ typedef struct s_dollar
 {
 	char		*value;
 }	t_dollar;
+
+int			check_sep(char c, char *sep);
+int			length_str(char *str, char *sep, int k);
+char		*make_str(char *str, char *sep, int k);
+int			count_str(char *str, char *sep);
+char		**parse_split(char *str, int count, t_dollar *env_var);
+char		*trans_env(char **envp, char *str, int start, int size);
+int			quote_status(char c, int quote);
+t_cmdline	*parsing(char *str, char **envp);
+t_dollar	*chk_env(char *str, char **envp);
+
+
 
 // 함수
 // execute

@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pasrse_split.c                                     :+:      :+:    :+:   */
+/*   parse_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:45:04 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/10 19:22:31 by dapark           ###   ########.fr       */
+/*   Updated: 2023/04/12 12:00:46 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check_sep(char c, char *sep)
 {
@@ -79,31 +79,29 @@ int	count_str(char *str, char *sep)
 	return (count);
 }
 
-char	**parse_split(int count)
+char	**parse_split(char *str, int count, t_dollar *env_var)
 {
 	char	**tmp;
-	//int		count;
 	int		i;
 	int		k;
 
 	i = 0;
 	k = 0;
-	//count = count_str(str, charset);
 	tmp = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!tmp)
 		return (0);
-	/*while (str[i] != '\0' && k < count)
+	while (str[i] != '\0' && k < count)
 	{
-		while (str[i] != '\0' && check_sep(str[i], charset) == 1)
+		while (str[i] != '\0' && check_sep(str[i], " |<>") == 1)
 			i++;
 		if (str[i] != '\0')
 		{
-			tmp[k] = make_str(str, charset, i);
+			tmp[k] = make_str(str, " |<>", i); //구분자도 같이 넣어야돼
 			k++;
 		}
-		while (str[i] != '\0' && check_sep(str[i], charset) == 0)
+		while (str[i] != '\0' && check_sep(str[i], " |<>") == 0)
 			i++;
-	}*/
+	}
 	tmp[k] = 0;
 	return (tmp);
 }
