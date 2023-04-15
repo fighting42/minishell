@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:29:50 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/12 11:56:47 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/04/15 16:57:49 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,14 @@ typedef struct s_token
 	char			*value;
 	t_type 			type;
 	struct s_token	*next;
+	int				pipe_flag;
 }	t_token;
 
 typedef struct s_cmdline
 {
 	t_token				*token; // cmd -> token 이름 수정 // 아라똥~~!!ㅎ_ㅎ
 	struct s_cmdline	*next;
+	int					token_cnt;
 }	t_cmdline;
 
 // parsing
@@ -51,8 +53,8 @@ typedef struct s_dollar
 }	t_dollar;
 
 int			check_sep(char c, char *sep);
-int			length_str(char *str, char *sep, int k);
-char		*make_str(char *str, char *sep, int k);
+int			length_str(char *str, char *sep, int k, int flag);
+char		*make_str(char *str, char *sep, int k, int flag);
 int			count_str(char *str, char *sep);
 char		**parse_split(char *str, int count, t_dollar *env_var);
 char		*trans_env(char **envp, char *str, int start, int size);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:45:04 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/12 12:00:46 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/04/15 16:44:54 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,26 +27,34 @@ int	check_sep(char c, char *sep)
 	return (0);
 }
 
-int	length_str(char *str, char *sep, int k)
+int	length_str(char *str, char *sep, int k, int flag)
 {
 	int	length;
 	int	size;
 
 	size = k;
-	while (str[size] != '\0' && check_sep(str[size], sep) != 1)
-		size++;
+	if (flag == 0)
+	{
+		while (str[size] != '\0' && check_sep(str[size], sep) == 0)
+			size++;
+	}
+	else
+	{
+		while (str[size] != '\0' && check_sep(str[size], sep) == 1)
+			size++;
+	}
 	length = size - k;
 	return (length);
 }
 
-char	*make_str(char *str, char *sep, int k)
+char	*make_str(char *str, char *sep, int k, int flag)
 {
 	char	*tmp;
 	int		i;
 	int		size;
 
 	i = 0;
-	size = length_str(str, sep, k);
+	size = length_str(str, sep, k, flag);
 	tmp = (char *)malloc(sizeof(char) * (size + 1));
 	if (!tmp)
 		return (0);
@@ -75,6 +83,8 @@ int	count_str(char *str, char *sep)
 			count++;
 		while (str[i] != '\0' && check_sep(str[i], sep) == 0)
 			i++;
+		if (str[i] != '\0')
+			count++;
 	}
 	return (count);
 }
@@ -96,11 +106,16 @@ char	**parse_split(char *str, int count, t_dollar *env_var)
 			i++;
 		if (str[i] != '\0')
 		{
-			tmp[k] = make_str(str, " |<>", i); //구분자도 같이 넣어야돼
+			tmp[k] = make_str(str, " |<>", i, 0);//구분자 아닌 애들
 			k++;
 		}
 		while (str[i] != '\0' && check_sep(str[i], " |<>") == 0)
 			i++;
+		if (str[i] != '\0')
+		{
+			tmp[k] = make_str(str, " |<>", i, 1); //구분자인 애들
+			k++;
+		}
 	}
 	tmp[k] = 0;
 	return (tmp);
