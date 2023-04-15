@@ -20,7 +20,7 @@ RFLAGS	=	-lreadline \
 
 SRCS_P	=	
 
-SRCS_E	=	execute/execute.c
+SRCS_E	=	execute/execute.c execute/pipe.c
 
 SRCS	=	main.c $(SRCS_P) $(SRCS_E)
 
