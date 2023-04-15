@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 16:29:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/10 23:42:29 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/15 22:54:38 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,41 +55,77 @@ char	*find_path(char **cmd, char **envp_path)
 	return (NULL);
 }
 
-void	cmd_exec(char *cmd_path, char **cmd, char **envp)
+void	split_cmd(t_cmdline *cmdline, int i, char **envp)
 {
-	pid_t	pid;
-	int		status;
+	static int	prev;
+	t_token		*token;
+	t_cmdinfo	cmdinfo;
+	t_redirect	*redirect;
+	int			j;
+	int			cnt;
 
-	pid = fork();
-	if (pid == -1)
-		printf("fork error\n");
-	else if (pid == 0)
+	j = 0;
+	token = cmdline->token;
+	cnt = i - prev;
+	while ((j++ < i - cnt) && prev)
+		token = token->next;
+	prev = i;
+	cmdinfo.cmd = malloc(sizeof(char *) * (cnt + 1));
+	j = 0;
+	cmdinfo.redirect = NULL;
+	while (j < cnt)
 	{
-		if (execve(cmd_path, cmd, envp) == -1)
-			printf("command not found\n");
+		if (token->type != COMMAND)
+		{
+			redirect = malloc(sizeof(t_redirect));
+			redirect->token = token;
+			redirect->next = NULL;
+			if (!cmdinfo.redirect)
+				cmdinfo.redirect = redirect;
+			else
+			{
+				t_redirect *tmp = cmdinfo.redirect;
+				while (tmp->next)
+					tmp = tmp->next;
+				tmp->next = redirect;
+			}
+			cnt--; // 이게 문제인듯
+			continue ;
+		}
+		cmdinfo.cmd[j] = token->value;
+		token = token->next;
+		j++;
 	}
+	cmdinfo.cmd[j] = NULL;
+	cmdinfo.path = find_path(cmdinfo.cmd, pars_envp(envp));
+	if (cmdinfo.redirect)
+		printf("%s, redirect: %s\n", cmdinfo.cmd[0], cmdinfo.redirect->token->value);
 	else
-		waitpid(pid, &status, 0);
+		printf("%s\n", cmdinfo.cmd[0]);
+	//cmd_exec(&cmdinfo, envp);
+	free(cmdinfo.cmd);
 }
 
 void	execute(t_cmdline *cmdline, char **envp)
 {
 	t_token	*token;
-	char	**cmd;
-	char	*cmd_path;
+	int		i;
 
-	while (cmdline) 
+	i = 1;
+	while (cmdline)
 	{
 		token = cmdline->token;
-		if (token->type == COMMAND)
+		while (token)
 		{
-			// test
-			cmd = malloc(sizeof(char *) * 2);
-			cmd[0] = token->value;
-			cmd[1] = NULL;
-			// test
-			cmd_path = find_path(cmd, pars_envp(envp));
-			cmd_exec(cmd_path, cmd, envp);
+			if (!token->next)
+			{
+				split_cmd(cmdline, i, envp);
+				break ;
+			}
+			else if (token->next->pipe_flag)
+				split_cmd(cmdline, i, envp);
+			token = token->next;
+			i++;
 		}
 		cmdline = cmdline->next;
 	}

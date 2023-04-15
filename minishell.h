@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/29 16:29:50 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/15 16:57:49 by dapark           ###   ########.fr       */
+/*   Updated: 2023/04/15 23:05:49 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,22 @@ typedef struct s_dollar
 	char		*value;
 }	t_dollar;
 
+// execute
+typedef struct s_redirect
+{
+	t_token				*token;
+	struct s_redirect	*next;
+}	t_redirect;
+
+typedef struct s_cmdinfo
+{
+	char		**cmd;
+	char		*path;
+	t_redirect	*redirect;
+}	t_cmdinfo;
+
+// 함수
+// parsing
 int			check_sep(char c, char *sep);
 int			length_str(char *str, char *sep, int k, int flag);
 char		*make_str(char *str, char *sep, int k, int flag);
@@ -62,10 +78,8 @@ int			quote_status(char c, int quote);
 t_cmdline	*parsing(char *str, char **envp);
 t_dollar	*chk_env(char *str, char **envp);
 
-
-
-// 함수
 // execute
 void	execute(t_cmdline *cmdline, char **envp);
+void	cmd_exec(t_cmdinfo *cmdinfo, char **envp);
 
 #endif
