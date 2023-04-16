@@ -19,6 +19,8 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <unistd.h>
+# include <sys/wait.h>
 # include "libft/libft.h"
 
 // 구조체
@@ -53,17 +55,19 @@ typedef struct s_dollar
 }	t_dollar;
 
 // execute
-typedef struct s_redirect
+typedef struct s_redirct
 {
-	t_token				*token;
-	struct s_redirect	*next;
-}	t_redirect;
+	char				*value;
+	t_type				type;
+	struct s_redirct	*next;
+}	t_redirct;
 
 typedef struct s_cmdinfo
 {
+	char		**envp;
 	char		**cmd;
 	char		*path;
-	t_redirect	*redirect;
+	t_redirct	*redirct;
 }	t_cmdinfo;
 
 // 함수
@@ -79,7 +83,13 @@ t_cmdline	*parsing(char *str, char **envp);
 t_dollar	*chk_env(char *str, char **envp);
 
 // execute
+t_token *test_token(char *value, t_type type, int pipe, t_token *next);
+t_cmdline test_cmdline();
 void	execute(t_cmdline *cmdline, char **envp);
-void	cmd_exec(t_cmdinfo *cmdinfo, char **envp);
+void	cmd_exec(t_cmdinfo *cmdinfo);
+void	pipe_exec(t_cmdinfo *cmdinfo);
+int		check_builtin(char *cmd);
+char	*find_path(char **cmd, char **envp_path);
+char	**pars_envp(char **envp);
 
 #endif

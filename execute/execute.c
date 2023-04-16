@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 16:29:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/15 22:54:38 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/16 23:06:18 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,55 +55,71 @@ char	*find_path(char **cmd, char **envp_path)
 	return (NULL);
 }
 
-void	split_cmd(t_cmdline *cmdline, int i, char **envp)
+void	split_redirct(t_cmdinfo *cmdinfo, t_token *token)
+{
+	t_redirct	*redirct;
+	t_redirct	*tmp;
+	
+	redirct = malloc(sizeof(t_redirct));
+	redirct->value = token->value;
+	redirct->type = token->type;
+	redirct->next = NULL;
+	if (!cmdinfo->redirct)
+		cmdinfo->redirct = redirct;
+	else
+	{
+		tmp = cmdinfo->redirct;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = redirct;
+	}
+}
+
+void	split_cmd(t_token *token, t_cmdinfo	*cmdinfo, int cnt)
+{
+	int 		i;
+
+	cmdinfo->cmd = malloc(sizeof(char *) * (cnt + 1));
+	cmdinfo->redirct = NULL;
+	i = 0;
+	while (i < cnt)
+	{
+		if (token->type == COMMAND)
+		{
+			cmdinfo->cmd[i] = token->value;
+			i++;
+		}
+		else
+		{
+			split_redirct(cmdinfo, token);
+			cnt--;
+		}
+		token = token->next;
+	}
+	cmdinfo->cmd[i] = NULL;
+}
+
+void	exec_cmd(t_cmdline *cmdline, int i, char **envp)
 {
 	static int	prev;
 	t_token		*token;
-	t_cmdinfo	cmdinfo;
-	t_redirect	*redirect;
+	t_cmdinfo	*cmdinfo;
 	int			j;
 	int			cnt;
 
 	j = 0;
-	token = cmdline->token;
 	cnt = i - prev;
+	token = cmdline->token;
 	while ((j++ < i - cnt) && prev)
 		token = token->next;
 	prev = i;
-	cmdinfo.cmd = malloc(sizeof(char *) * (cnt + 1));
-	j = 0;
-	cmdinfo.redirect = NULL;
-	while (j < cnt)
-	{
-		if (token->type != COMMAND)
-		{
-			redirect = malloc(sizeof(t_redirect));
-			redirect->token = token;
-			redirect->next = NULL;
-			if (!cmdinfo.redirect)
-				cmdinfo.redirect = redirect;
-			else
-			{
-				t_redirect *tmp = cmdinfo.redirect;
-				while (tmp->next)
-					tmp = tmp->next;
-				tmp->next = redirect;
-			}
-			cnt--; // 이게 문제인듯
-			continue ;
-		}
-		cmdinfo.cmd[j] = token->value;
-		token = token->next;
-		j++;
-	}
-	cmdinfo.cmd[j] = NULL;
-	cmdinfo.path = find_path(cmdinfo.cmd, pars_envp(envp));
-	if (cmdinfo.redirect)
-		printf("%s, redirect: %s\n", cmdinfo.cmd[0], cmdinfo.redirect->token->value);
-	else
-		printf("%s\n", cmdinfo.cmd[0]);
-	//cmd_exec(&cmdinfo, envp);
-	free(cmdinfo.cmd);
+	cmdinfo = malloc(sizeof(t_cmdinfo));
+	cmdinfo->envp = envp;
+	split_cmd(token, cmdinfo, cnt);
+	// cmd_exec(cmdinfo);
+	pipe_exec(cmdinfo);
+	free(cmdinfo->cmd);
+	free(cmdinfo);
 }
 
 void	execute(t_cmdline *cmdline, char **envp)
@@ -112,6 +128,8 @@ void	execute(t_cmdline *cmdline, char **envp)
 	int		i;
 
 	i = 1;
+	// int in = STDIN_FILENO;
+	// int out = STDOUT_FILENO;
 	while (cmdline)
 	{
 		token = cmdline->token;
@@ -119,11 +137,11 @@ void	execute(t_cmdline *cmdline, char **envp)
 		{
 			if (!token->next)
 			{
-				split_cmd(cmdline, i, envp);
+				exec_cmd(cmdline, i, envp);
 				break ;
 			}
 			else if (token->next->pipe_flag)
-				split_cmd(cmdline, i, envp);
+				exec_cmd(cmdline, i, envp);
 			token = token->next;
 			i++;
 		}

@@ -17,62 +17,22 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(void)envp;
-    char *str;
+    // char *str;
 	t_cmdline cmdline;
 
-    while(1)
+    // while(1)
     {
-        str = readline("minishell> ");
+        // str = readline("minishell> ");
 		
 		// 1순위는 달러처리(환경변수) -> envp에 있어
 		// parse(str);
 		//  return cmdline (token으로 연결, 명령어 세트로 짤라져있음)
 		// exec(cmdline); -> 실행!
         
-		//exec test
-		t_token t1, t2, t3, t4, t5, t6, t7;
-		t1.value = "echo";
-		t1.type = COMMAND;
-		t1.pipe_flag = 0;
-		t1.next = &t2;
-		
-		t2.value = "test";
-		t2.type = COMMAND;
-		t2.pipe_flag = 0;
-		t2.next = &t3;
-		
-		t3.value = "ls";
-		t3.type = COMMAND;
-		t3.pipe_flag = 1;
-		t3.next = &t7;
-
-		t7.value = "in";
-		t7.type = STDIN;
-		t7.pipe_flag = 1;
-		t7.next = &t4;
-
-		t4.value = "grep";
-		t4.type = COMMAND;
-		t4.pipe_flag = 0;
-		t4.next = &t5;
-
-		t5.value = "a";
-		t5.type = COMMAND;
-		t5.pipe_flag = 0;
-		t5.next = &t6;
-
-		t6.value = "test/out";
-		t6.type = STDOUT;
-		t6.pipe_flag = 0;
-		t6.next = NULL;
-		
-		cmdline.token = &t1;
-		cmdline.token_cnt = 7;
-		//exec test
+		cmdline = test_cmdline(); // cmdline test!
 		execute(&cmdline, envp);
-
-        add_history(str);
-        free(str);
+        // add_history(str);
+        // free(str);
     }
     return(0);
 }
