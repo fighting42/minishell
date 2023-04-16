@@ -70,6 +70,15 @@ typedef struct s_cmdinfo
 	t_redirct	*redirct;
 }	t_cmdinfo;
 
+typedef struct s_execinfo
+{
+	char		**envp;
+	char		**cmd;
+	char		*path;
+	t_redirct	*redirct;
+	struct s_execinfo *next;
+}	t_execinfo;
+
 // 함수
 // parsing
 int			check_sep(char c, char *sep);
@@ -86,8 +95,7 @@ t_dollar	*chk_env(char *str, char **envp);
 t_token *test_token(char *value, t_type type, int pipe, t_token *next);
 t_cmdline test_cmdline();
 void	execute(t_cmdline *cmdline, char **envp);
-void	cmd_exec(t_cmdinfo *cmdinfo);
-void	pipe_exec(t_cmdinfo *cmdinfo);
+void	pipe_exec(t_execinfo *execinfo, int flag);
 int		check_builtin(char *cmd);
 char	*find_path(char **cmd, char **envp_path);
 char	**pars_envp(char **envp);
