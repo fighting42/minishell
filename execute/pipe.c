@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/17 21:28:15 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/17 22:28:56 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	pipe_exec(t_execinfo *execinfo, int flag)
 			dup2(fds[1], STDOUT_FILENO);
 		close(fds[1]);
 		redirection(execinfo->redirct);
-		if (check_builtin(execinfo->cmd[0]))
+		if (check_builtin(execinfo->cmd[0], execinfo))
 			return ;
 		execinfo->path = find_path(execinfo->cmd, pars_envp(execinfo->envp));
 		if (execve(execinfo->path, execinfo->cmd, execinfo->envp) == -1)

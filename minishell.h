@@ -96,7 +96,7 @@ t_token *test_token(char *value, t_type type, int pipe, t_token *next);
 t_cmdline test_cmdline();
 void	execute(t_cmdline *cmdline, char **envp);
 void	pipe_exec(t_execinfo *execinfo, int flag);
-int		check_builtin(char *cmd);
+int check_builtin(char *cmd, t_execinfo *execinfo);
 char	*find_path(char **cmd, char **envp_path);
 char	**pars_envp(char **envp);
 
