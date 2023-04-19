@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:13:32 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/19 15:28:03 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/19 21:47:31 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,19 +22,12 @@ typedef struct s_redirct
 	struct s_redirct	*next;
 }	t_redirct;
 
-typedef struct s_cmdinfo
-{
-	char		**envp;
-	char		**cmd;
-	char		*path;
-	t_redirct	*redirct;
-}	t_cmdinfo;
-
 typedef struct s_execinfo
 {
 	char		**envp;
 	char		**cmd;
 	char		*path;
+	char		hd_cnt;
 	t_redirct	*redirct;
 	struct s_execinfo *next;
 }	t_execinfo;
@@ -46,5 +39,6 @@ void	pipe_exec(t_execinfo *execinfo, int flag);
 int check_builtin(char *cmd, t_execinfo *execinfo);
 char	*find_path(char **cmd, char **envp_path);
 char	**pars_envp(char **envp);
+void	redirection(t_execinfo *execinfo);
 
 #endif

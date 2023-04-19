@@ -23,6 +23,7 @@ SRCS_P	=
 SRCS_E	=	srcs/execute/execute.c \
 			srcs/execute/pipe.c \
 			srcs/execute/test.c \
+			srcs/execute/redirection.c \
 			srcs/builtin/builtin.c
 
 SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E)

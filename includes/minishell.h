@@ -26,4 +26,9 @@
 # include "execute.h"
 # include "parsing.h"
 
+# define SUCCESS	0
+# define CMF		127	
+
+int	g_exit_status;
+
 #endif

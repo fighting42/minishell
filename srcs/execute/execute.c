@@ -12,6 +12,14 @@
 
 #include "../../includes/minishell.h"
 
+void	exit_status(int exit)
+{
+	if (exit == EXIT_SUCCESS)
+		g_exit_status = 0;
+	else if (exit == EXIT_FAILURE)
+		g_exit_status = 1;
+}
+
 char	**pars_envp(char **envp)
 {
 	char	**path;
@@ -85,10 +93,7 @@ void	split_cmd(t_token *token, t_execinfo *execinfo, int cnt)
 	while (i < cnt)
 	{
 		if (token->type == COMMAND)
-		{
-			execinfo->cmd[i] = token->value;
-			i++;
-		}
+			execinfo->cmd[i++] = token->value;
 		else
 		{
 			split_redirct(execinfo, token);
@@ -115,6 +120,7 @@ t_execinfo	*exec_cmd(t_cmdline *cmdline, int i, char **envp)
 	prev = i;
 	execinfo = malloc(sizeof(t_execinfo));
 	execinfo->envp = envp; 
+	execinfo->hd_cnt = '0';
 	execinfo->next = NULL;
 	split_cmd(token, execinfo, cnt);
 	return (execinfo);
@@ -173,6 +179,7 @@ void	execute(t_cmdline *cmdline, char **envp)
 		if (i == pipe_cnt)
 			flag = 1;
 		pipe_exec(execinfo, flag);
+		unlink_heredoc(execinfo->redirct);
 		execinfo = execinfo->next;
 		i++;
 	}
