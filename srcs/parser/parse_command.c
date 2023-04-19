@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_utils.c                                      :+:      :+:    :+:   */
+/*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/15 17:55:09 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/15 21:09:18 by dapark           ###   ########.fr       */
+/*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
+/*   Updated: 2023/04/19 15:12:01 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-
-t_token	*create_token(char *value)
-{
-	t_token	*ret;
-
-	ret = malloc(sizeof(t_token) * 1);
-	ret->value = value;
-	ret->pipe_flag = 0;
-	return (ret);
-}
+#include "../../includes/minishell.h"
 
 char *remove_quote(char *str)
 {
@@ -58,4 +48,3 @@ char *remove_quote(char *str)
 	}
 	return (ret);
 }
-

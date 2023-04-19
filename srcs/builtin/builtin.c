@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 int	ft_echo(t_execinfo *execinfo)
 {
@@ -51,6 +51,16 @@ int	ft_env(t_execinfo *execinfo)
 	return (1);
 }
 
+int ft_pwd(void)
+{
+	char	*ret;
+
+	ret = getcwd(NULL, 0);
+	printf("%s\n", ret);
+	free(ret);
+	return (1);
+}
+
 int check_builtin(char *cmd, t_execinfo *execinfo)
 {
     if (!ft_strncmp("echo", cmd, ft_strlen(cmd)))
@@ -58,7 +68,7 @@ int check_builtin(char *cmd, t_execinfo *execinfo)
     else if (!ft_strncmp("cd", cmd, ft_strlen(cmd)))
         return (1);
     else if (!ft_strncmp("pwd", cmd, ft_strlen(cmd)))
-        return (1);
+        return (ft_pwd());
     else if (!ft_strncmp("export", cmd, ft_strlen(cmd)))
         return (1);
     else if (!ft_strncmp("unset", cmd, ft_strlen(cmd)))

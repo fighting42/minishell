@@ -10,19 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
-	(void)envp;
-    // char *str;
-	t_cmdline cmdline;
+    char		*str;
+	t_cmdline	cmdline;
 
-    // while(1)
+    while(1)
     {
-        // str = readline("minishell> ");
+        str = readline("minishell$ ");
 		
 		// 1순위는 달러처리(환경변수) -> envp에 있어
 		// parse(str);
@@ -31,8 +30,9 @@ int main(int argc, char **argv, char **envp)
         
 		cmdline = test_cmdline(); // cmdline test!
 		execute(&cmdline, envp);
-        // add_history(str);
-        // free(str);
+        
+		add_history(str);
+        free(str);
     }
     return(0);
 }

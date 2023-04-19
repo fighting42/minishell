@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parse_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:45:04 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/15 16:44:54 by dapark           ###   ########.fr       */
+/*   Updated: 2023/04/19 15:12:08 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include "../minishell.h"
+#include "../../includes/minishell.h"
 
 int	check_sep(char c, char *sep)
 {

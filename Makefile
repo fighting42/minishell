@@ -20,15 +20,18 @@ RFLAGS	=	-lreadline \
 
 SRCS_P	=	
 
-SRCS_E	=	execute/execute.c execute/pipe.c execute/test.c builtin/builtin.c
+SRCS_E	=	srcs/execute/execute.c \
+			srcs/execute/pipe.c \
+			srcs/execute/test.c \
+			srcs/builtin/builtin.c
 
-SRCS	=	main.c $(SRCS_P) $(SRCS_E)
+SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E)
 
 OBJS 	=	$(SRCS:.c=.o)
 
 MKLIB	=	make -C libft
 
-LIBFT 	=	libft/libft.a
+LIBFT 	=	srcs/libft/libft.a
 
 all 	:	$(NAME)
 
