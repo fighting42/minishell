@@ -29,7 +29,7 @@ SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E)
 
 OBJS 	=	$(SRCS:.c=.o)
 
-MKLIB	=	make -C libft
+MKLIB	=	make -C srcs/libft
 
 LIBFT 	=	srcs/libft/libft.a
 
