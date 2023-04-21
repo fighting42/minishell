@@ -21,6 +21,7 @@ RFLAGS	=	-lreadline \
 SRCS_P	=	
 
 SRCS_E	=	srcs/execute/execute.c \
+			srcs/execute/init.c \
 			srcs/execute/pipe.c \
 			srcs/execute/test.c \
 			srcs/execute/redirection.c \

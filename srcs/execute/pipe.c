@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/19 22:42:46 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/21 18:12:21 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,22 +27,17 @@ void	pipe_exec(t_execinfo *execinfo, int flag)
 			dup2(fds[1], STDOUT_FILENO);
 		close(fds[1]);
 		redirection(execinfo);
-		if (!ft_strncmp(execinfo->cmd[0], "$?", 2)) // $? 처리하기 !
-		{
-			g_exit_status = 0;
-			printf("%d\n", g_exit_status);
-			return ;
-		} 
 		if (check_builtin(execinfo->cmd[0], execinfo))
 			return ;
 		execinfo->path = find_path(execinfo->cmd, pars_envp(execinfo->envp));
+		g_exit_status = 0;
 		if (execve(execinfo->path, execinfo->cmd, execinfo->envp) == -1)
-			printf("command not found\n");
+			print_error(127, STDOUT_FILENO);
  	}
 	else
 	{
 		waitpid(pid, &status, 0);
-		close(fds[1]); 
+		close(fds[1]);
 		dup2(fds[0], STDIN_FILENO);
 		close(fds[0]);
 	}

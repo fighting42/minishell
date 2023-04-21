@@ -28,6 +28,8 @@ int main(int argc, char **argv, char **envp)
 		//  return cmdline (token으로 연결, 명령어 세트로 짤라져있음)
 		// exec(cmdline); -> 실행!
         
+		// $? 처리 추가 ! -> g_exit_status
+
 		cmdline = test_cmdline(); // cmdline test!
 		execute(&cmdline, envp);
         

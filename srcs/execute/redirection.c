@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:06:34 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/19 22:42:18 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/21 18:13:07 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	unlink_heredoc(t_execinfo *execinfo)
 {
 	char	*file;
-	
+
 	while (0 < ft_atoi(&execinfo->hd_cnt))
 	{
 		file = ft_strjoin(".heredoc/.tmp", &execinfo->hd_cnt);
@@ -27,10 +27,10 @@ void	unlink_heredoc(t_execinfo *execinfo)
 
 char	*do_heredoc(t_redirct *rd, t_execinfo *execinfo)
 {
-	char	*line;
-	int		fd;
-	char	*file;
-	static char i;
+	char		*line;
+	int			fd;
+	char		*file;
+	static char	i;
 
 	if (!i)
 		i = '1';
@@ -69,7 +69,7 @@ int	fd_open(t_redirct *rd, t_execinfo *execinfo)
 	else if (rd->type == HEREDOC)
 	{
 		file = do_heredoc(rd, execinfo);
-		fd = open(file, O_RDONLY); // 환경변수 처리 추가 !
+		fd = open(file, O_RDONLY); // heredoc 환경변수 처리 추가 !
 		free(file);
 		return (fd);
 	}
@@ -81,13 +81,10 @@ void	do_redirct(t_redirct *rd, t_execinfo *execinfo, int flag)
 	int	fd;
 
 	fd = fd_open(rd, execinfo);
-	if (rd->type == STDIN) 
+	if (rd->type == STDIN)
 		dup2(fd, STDIN_FILENO);
-	else if (rd->type == HEREDOC)
-	{
-		if (flag)
-			dup2(fd, STDIN_FILENO);
-	}
+	else if (rd->type == HEREDOC && flag)
+		dup2(fd, STDIN_FILENO);
 	else if (rd->type == STDOUT || rd->type == APPEND)
 		dup2(fd, STDOUT_FILENO);
 	close(fd);
@@ -108,8 +105,7 @@ void	redirection(t_execinfo *execinfo)
 		rd = rd->next;
 	}
 	if (cnt > 16)
-		printf("error\n");
-	
+		print_error(2, STDOUT_FILENO);
 	rd = execinfo->redirct;
 	while (rd)
 	{
