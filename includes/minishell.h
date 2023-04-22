@@ -20,12 +20,16 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <sys/wait.h>
+# include <string.h>
+# include <errno.h>
 # include "../srcs/libft/libft.h"
 
 # include "cmdline.h"
-# include "execute.h"
 # include "parsing.h"
+# include "execute.h"
+# include "builtin.h"
 
 int	g_exit_status;
+extern int errno; // ???
 
 #endif

@@ -6,11 +6,54 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/21 18:12:21 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/22 21:47:00 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	**pars_envp(char **envp)
+{
+	char	**path;
+	int		i;
+
+	i = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			break ;
+		i++;
+	}
+	if (!envp[i])
+		printf("path error\n");
+	path = ft_split(envp[i] + 5, ':');
+	return (path);
+}
+
+char	*find_path(char **cmd, char **envp_path)
+{
+	char	*tmp;
+	char	*path;
+	int		i;
+
+	i = 0;
+	while (envp_path[i])
+	{
+		if (cmd[0][0] == '/')
+			path = cmd[0];
+		else
+		{
+			tmp = ft_strjoin(envp_path[i], "/");
+			path = ft_strjoin(tmp, cmd[0]);
+			free(tmp);
+		}
+		if (access(path, X_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	return (NULL);
+}
 
 void	pipe_exec(t_execinfo *execinfo, int flag)
 {
@@ -27,12 +70,12 @@ void	pipe_exec(t_execinfo *execinfo, int flag)
 			dup2(fds[1], STDOUT_FILENO);
 		close(fds[1]);
 		redirection(execinfo);
-		if (check_builtin(execinfo->cmd[0], execinfo))
-			return ;
-		execinfo->path = find_path(execinfo->cmd, pars_envp(execinfo->envp));
+		if (check_builtin(execinfo, STDOUT_FILENO))
+			return ; // return이 맞나?
+		execinfo->path = find_path(execinfo->cmd, pars_envp(execinfo->env->value));
 		g_exit_status = 0;
-		if (execve(execinfo->path, execinfo->cmd, execinfo->envp) == -1)
-			print_error(127, STDOUT_FILENO);
+		if (execve(execinfo->path, execinfo->cmd, execinfo->env->value) == -1)
+			print_error(execinfo->cmd[0], 127, STDOUT_FILENO);
  	}
 	else
 	{

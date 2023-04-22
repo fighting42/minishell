@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:06:34 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/21 18:13:07 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/22 18:23:51 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	redirection(t_execinfo *execinfo)
 		rd = rd->next;
 	}
 	if (cnt > 16)
-		print_error(2, STDOUT_FILENO);
+		print_error(NULL, 2, STDOUT_FILENO);
 	rd = execinfo->redirct;
 	while (rd)
 	{

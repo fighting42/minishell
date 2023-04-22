@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:13:32 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/21 17:49:54 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/22 21:45:59 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ typedef struct s_redirct
 
 typedef struct s_execinfo
 {
-	char		**envp;
+	t_env		*env;
 	char		**cmd;
 	char		*path;
 	char		hd_cnt;
@@ -35,14 +35,13 @@ typedef struct s_execinfo
 
 t_token *test_token(char *value, t_type type, int pipe, t_token *next);
 t_cmdline test_cmdline(void);
-void	execute(t_cmdline *cmdline, char **envp);
+void	execute(t_cmdline *cmdline, t_env *env);
 void	pipe_exec(t_execinfo *execinfo, int flag);
-int check_builtin(char *cmd, t_execinfo *execinfo);
+int check_builtin(t_execinfo *execinfo, int fd);
 char	*find_path(char **cmd, char **envp_path);
-char	**pars_envp(char **envp);
 void	redirection(t_execinfo *execinfo);
-t_execinfo	*init_execinfo(t_cmdline *cmdline, char **envp);
+t_execinfo	*init_execinfo(t_cmdline *cmdline, t_env *env);
 void	unlink_heredoc(t_execinfo *execinfo);
-void	print_error(int status, int fd);
+void	print_error(char *cmd, int status, int fd);
 
 #endif

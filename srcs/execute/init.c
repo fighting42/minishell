@@ -6,54 +6,11 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 15:06:56 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/21 18:09:47 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/22 20:43:00 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	**pars_envp(char **envp)
-{
-	char	**path;
-	int		i;
-
-	i = 0;
-	while (envp[i])
-	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
-			break ;
-		i++;
-	}
-	if (!envp[i])
-		printf("path error\n");
-	path = ft_split(envp[i] + 5, ':');
-	return (path);
-}
-
-char	*find_path(char **cmd, char **envp_path)
-{
-	char	*tmp;
-	char	*path;
-	int		i;
-
-	i = 0;
-	while (envp_path[i])
-	{
-		if (cmd[0][0] == '/')
-			path = cmd[0];
-		else
-		{
-			tmp = ft_strjoin(envp_path[i], "/");
-			path = ft_strjoin(tmp, cmd[0]);
-			free(tmp);
-		}
-		if (access(path, X_OK) == 0)
-			return (path);
-		free(path);
-		i++;
-	}
-	return (NULL);
-}
 
 void	split_redirct(t_execinfo *execinfo, t_token *token)
 {
@@ -112,7 +69,7 @@ t_execinfo	*append_info(t_execinfo *head, t_execinfo *curr)
 	return (head);
 }
 
-t_execinfo	*split_execinfo(t_cmdline *cmdline, int i, char **envp)
+t_execinfo	*split_execinfo(t_cmdline *cmdline, int i, t_env *env)
 {
 	static int	prev;
 	t_token		*token;
@@ -127,14 +84,14 @@ t_execinfo	*split_execinfo(t_cmdline *cmdline, int i, char **envp)
 		token = token->next;
 	prev = i;
 	execinfo = malloc(sizeof(t_execinfo));
-	execinfo->envp = envp;
+	execinfo->env = env;
 	execinfo->hd_cnt = '0';
 	execinfo->next = NULL;
 	split_cmd(token, execinfo, cnt);
 	return (execinfo);
 }
 
-t_execinfo	*init_execinfo(t_cmdline *cmdline, char **envp)
+t_execinfo	*init_execinfo(t_cmdline *cmdline, t_env *env)
 {
 	int			i;
 	int			pipe_cnt;
@@ -152,13 +109,13 @@ t_execinfo	*init_execinfo(t_cmdline *cmdline, char **envp)
 			if (!token->next)
 			{
 				execinfo = append_info(execinfo, \
-					split_execinfo(cmdline, i, envp));
+					split_execinfo(cmdline, i, env));
 				break ;
 			}
 			else if (token->next->pipe_flag)
 			{
 				execinfo = append_info(execinfo, \
-					split_execinfo(cmdline, i, envp));
+					split_execinfo(cmdline, i, env));
 				pipe_cnt++;
 			}
 			token = token->next;

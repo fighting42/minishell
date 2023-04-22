@@ -1,45 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmdline.h                                          :+:      :+:    :+:   */
+/*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/19 15:31:45 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/22 21:46:10 by yejinkim         ###   ########seoul.kr  */
+/*   Created: 2023/04/22 16:12:21 by yejinkim          #+#    #+#             */
+/*   Updated: 2023/04/22 22:40:48 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CMDLINE_H
-# define CMDLINE_H
+#include "../../includes/minishell.h"
 
-typedef struct s_env
+int	ft_env(char **env, int fd)
 {
-	char **value;
-}	t_env;
+	int	i;
 
-typedef enum e_type
-{
-	STDIN,
-	STDOUT,
-	APPEND,
-	HEREDOC,
-	COMMAND,
-}	t_type;
-
-typedef struct s_token
-{
-	char			*value;
-	t_type 			type;
-	struct s_token	*next;
-	int				pipe_flag;
-}	t_token;
-
-typedef struct s_cmdline
-{
-	t_token				*token; 
-	struct s_cmdline	*next;
-	int					token_cnt;
-}	t_cmdline;
-
-#endif
+	i = 0;
+	while (env[i])
+		ft_putendl_fd(env[i++], fd);
+	return (1);
+}

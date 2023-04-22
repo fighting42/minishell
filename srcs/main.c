@@ -12,13 +12,31 @@
 
 #include "../includes/minishell.h"
 
+char	**init_env(char **envp)
+{
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	tmp = malloc(sizeof(char *) * i);
+	i = -1;
+	while (envp[++i])
+		tmp[i] = ft_strdup(envp[i]);
+	tmp[i] = NULL;
+	return (tmp);
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
 	(void)argv;
     char		*str;
 	t_cmdline	cmdline;
+	t_env		env;
 
+	env.value = init_env(envp); // 파싱할 때  env->value 사용하기!
     //while(1)
     {
         str = readline("minishell$ ");
@@ -31,8 +49,8 @@ int main(int argc, char **argv, char **envp)
 		// $? 처리 추가 ! -> g_exit_status
 
 		cmdline = test_cmdline(); // cmdline test!
-		execute(&cmdline, envp);
-        
+		execute(&cmdline, &env);
+		
 		add_history(str);
         free(str);
     }
