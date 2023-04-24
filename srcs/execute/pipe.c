@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/24 18:30:26 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/24 22:13:00 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**pars_envp(char **envp)
 		i++;
 	}
 	if (!envp[i])
-		printf("path error\n");
+		print_error(NULL, NULL, NO_FILE_ERR, 127);
 	path = ft_split(envp[i] + 5, ':');
 	return (path);
 }
@@ -73,9 +73,9 @@ void	pipe_exec(t_execinfo *execinfo, int flag)
 		if (!check_builtin_fd(execinfo, STDOUT_FILENO))
 			exit(0);
 		execinfo->path = find_path(execinfo->cmd, pars_envp(execinfo->env->value));
-		g_exit_status = 0;
+		g_status = 0;
 		if (execve(execinfo->path, execinfo->cmd, execinfo->env->value) == -1)
-			print_error(execinfo->cmd[0], 127, STDOUT_FILENO);
+			print_error(NULL, execinfo->cmd[0], CMD_ERR, 127);
  	}
 	else
 	{

@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:25:38 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/24 19:31:28 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/24 23:33:01 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,21 @@
 
 int	ft_unset(t_execinfo *execinfo)
 {
+	int	cnt;
 	int	i;
-	char *cmd;
-	char **env;
 
-	i = 0;
-
-	cmd = ft_strjoin(execinfo->cmd[1], "=");
-	env = execinfo->env->value;
-	while (env[i])
+	cnt = 1;
+	while (execinfo->cmd[cnt])
 	{
-		if (!ft_strncmp(env[i], cmd, ft_strlen(cmd)))
-			break ;
-		i++;
+		i = 0;
+		while (execinfo->cmd[cnt][i])
+		{
+			if (!(ft_isalnum(execinfo->cmd[cnt][i])))
+				print_error("bash: unset", execinfo->cmd[cnt], NOT_VALID_ERR, 1); // cmd 따옴표 묶어서 출력
+			i++;
+		}
+		cnt++;
 	}
-	if (!env[i])
-		return (1); // error
-	free(cmd);
-	while (env[i + 1])
-	{
-		env[i] = env[i + 1];
-		i++;
-	}
-	env[i] = NULL;
-	free(env[i]);
+	del_env(execinfo, cnt - 1);
 	return (0);
 }

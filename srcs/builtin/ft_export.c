@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:06:54 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/24 17:30:56 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/24 23:07:19 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,22 @@
 
 int	ft_export(t_execinfo *execinfo)
 {
-	int		cnt;
-	int		i;
-	char	**new_env;
+	int	cnt;
+	int	i;
 
-	cnt = 0;
-	while (execinfo->env->value[cnt])
-		cnt++;
-	new_env = malloc(sizeof(char *) * (cnt + 1));
-	i = 0;
-	while (i < cnt)
+	cnt = 1;
+	while (execinfo->cmd[cnt])
 	{
-		new_env[i] = ft_strdup(execinfo->env->value[i]);
-		free(execinfo->env->value[i]);
-		i++;
+		i = 0;
+		while (execinfo->cmd[cnt][i])
+		{
+			if (!(ft_isalnum(execinfo->cmd[cnt][i]) || (i != 0 && execinfo->cmd[cnt][i] == '=')))
+				print_error("bash: export", execinfo->cmd[cnt], NOT_VALID_ERR, 1); // cmd 따옴표 묶어서 출력
+			i++;
+		}
+		cnt++;
 	}
-	new_env[i++] = execinfo->cmd[1];
-	new_env[i] = NULL;
-	free(execinfo->env->value);
-	execinfo->env->value = new_env;
+	add_env(execinfo, cnt - 1);
 	return (0);
 }
 

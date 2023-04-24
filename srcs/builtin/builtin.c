@@ -25,7 +25,7 @@ int check_builtin(t_execinfo *execinfo)
     else if (!ft_strncmp("unset", cmd, ft_strlen(cmd)))
         return (ft_unset(execinfo));
     else if (!ft_strncmp("exit", cmd, ft_strlen(cmd)))
-        return (ft_exit()); // eixt | cd test, exit | ls
+        return (ft_exit());
 	return (1);
 }
 
@@ -39,6 +39,6 @@ int	check_builtin_fd(t_execinfo *execinfo, int fd)
     else if (!ft_strncmp("pwd", cmd, ft_strlen(cmd)))
         return (ft_pwd());
     else if (!ft_strncmp("env", cmd, ft_strlen(cmd)))
-        return (ft_env(execinfo->env->value, fd));
+        return (ft_env(execinfo, fd));
 	return (1);
 }

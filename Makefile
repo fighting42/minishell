@@ -27,13 +27,14 @@ SRCS_E	=	srcs/execute/execute.c \
 			srcs/execute/redirection.c
 	
 SRCS_B	=	srcs/builtin/builtin.c \
+			srcs/builtin/env_utils.c \
 			srcs/builtin/ft_echo.c \
+			srcs/builtin/ft_cd.c \
 			srcs/builtin/ft_pwd.c \
-			srcs/builtin/ft_env.c \
 			srcs/builtin/ft_export.c \
 			srcs/builtin/ft_unset.c \
-			srcs/builtin/ft_exit.c \
-			srcs/builtin/ft_cd.c \
+			srcs/builtin/ft_env.c \
+			srcs/builtin/ft_exit.c
 
 SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E) $(SRCS_B)
 

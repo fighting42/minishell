@@ -12,21 +12,24 @@
 
 #include "../../includes/minishell.h"
 
-void	print_error(char *cmd, int status, int fd)
+void	print_error(char *err, char *cmd, char *msg, int status)
 {
-	ft_putstr_fd("minishell: ", fd);
+	if (!err)
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+	else
+	{
+		ft_putstr_fd(err, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+	}
 	if (cmd)
 	{
-		ft_putstr_fd(cmd, fd);
-		ft_putstr_fd(": ", fd);
+		ft_putstr_fd(cmd, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
 	}
-	if (status == 127)
-		ft_putendl_fd("command not found", fd);
-	else if (status == 2)
-		ft_putendl_fd("maximum here-document count exceeded", fd); // heredoc error
-	else
-		ft_putstr_fd(strerror(errno), fd);
-	g_exit_status = status;
+	if (msg)
+		ft_putendl_fd(msg, STDERR_FILENO);
+	g_status = status;
+	write(2, ft_itoa(g_status), 3); write(2, "\n", 1); // exit_status test !
 	exit(EXIT_FAILURE);
 }
 
@@ -40,7 +43,7 @@ void	execute(t_cmdline *cmdline, t_env *env)
 	i = 0;
 	last_flag = 0;
 	execinfo = init_execinfo(cmdline, env);
-	if (check_builtin(execinfo))
+	if (!check_builtin(execinfo))
 		return ; // 수정필요
 	pipe_cnt = execinfo->pipe_cnt;
 	while (i < pipe_cnt + 1)

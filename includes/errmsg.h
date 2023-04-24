@@ -1,30 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   errmsg.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/04/22 16:12:21 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/24 22:12:03 by yejinkim         ###   ########seoul.kr  */
+/*   Created: 2023/04/24 21:15:53 by yejinkim          #+#    #+#             */
+/*   Updated: 2023/04/24 22:45:53 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#ifndef ERRMSG_H
+# define ERRMSG_H
 
-int	ft_env(t_execinfo *execinfo, int fd)
-{
-	int	i;
-	char	**env;
+# define CMD_ERR "command not found"
+# define NO_FILE_ERR "No such file or directory"
+# define HEREDOC_ERR "maximum here-document count exceeded"
+# define NOT_VALID_ERR "not a valid identifier"
 
-	i = 0;
-	env = execinfo->env->value;
-	if (execinfo->cmd[1])
-		print_error("env", execinfo->cmd[1], NO_FILE_ERR, 127);
-	else
-	{
-		while (env[i])
-			ft_putendl_fd(env[i++], fd);
-	}
-	return (0);
-}
+#endif
