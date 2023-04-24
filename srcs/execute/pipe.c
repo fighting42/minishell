@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/22 21:47:00 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/24 18:30:26 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**pars_envp(char **envp)
 	i = 0;
 	while (envp[i])
 	{
-		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+		if (!ft_strncmp(envp[i], "PATH=", 5))
 			break ;
 		i++;
 	}
@@ -68,10 +68,10 @@ void	pipe_exec(t_execinfo *execinfo, int flag)
 		close(fds[0]);
 		if (!flag) // 마지막 cmd
 			dup2(fds[1], STDOUT_FILENO);
-		close(fds[1]);
+		close(fds[1]);   
 		redirection(execinfo);
-		if (check_builtin(execinfo, STDOUT_FILENO))
-			return ; // return이 맞나?
+		if (!check_builtin_fd(execinfo, STDOUT_FILENO))
+			exit(0);
 		execinfo->path = find_path(execinfo->cmd, pars_envp(execinfo->env->value));
 		g_exit_status = 0;
 		if (execve(execinfo->path, execinfo->cmd, execinfo->env->value) == -1)

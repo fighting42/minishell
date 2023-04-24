@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:13:32 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/22 21:45:59 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/24 18:24:23 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ t_token *test_token(char *value, t_type type, int pipe, t_token *next);
 t_cmdline test_cmdline(void);
 void	execute(t_cmdline *cmdline, t_env *env);
 void	pipe_exec(t_execinfo *execinfo, int flag);
-int check_builtin(t_execinfo *execinfo, int fd);
 char	*find_path(char **cmd, char **envp_path);
 void	redirection(t_execinfo *execinfo);
 t_execinfo	*init_execinfo(t_cmdline *cmdline, t_env *env);

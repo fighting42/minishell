@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:06:54 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/22 22:28:51 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/24 17:30:56 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,6 @@ int	ft_export(t_execinfo *execinfo)
 	new_env[i] = NULL;
 	free(execinfo->env->value);
 	execinfo->env->value = new_env;
-	return (1);
+	return (0);
 }
 

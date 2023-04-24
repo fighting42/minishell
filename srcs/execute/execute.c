@@ -40,14 +40,14 @@ void	execute(t_cmdline *cmdline, t_env *env)
 	i = 0;
 	last_flag = 0;
 	execinfo = init_execinfo(cmdline, env);
+	if (check_builtin(execinfo))
+		return ; // 수정필요
 	pipe_cnt = execinfo->pipe_cnt;
 	while (i < pipe_cnt + 1)
 	{
 		if (i == pipe_cnt)
-			last_flag = 1;	
+			last_flag = 1;
 		pipe_exec(execinfo, last_flag);
-		// ft_env(execinfo->env->value, STDOUT_FILENO); ㅠㅠ 왜 2번 출력되는거야 ㅠㅠ
-		unlink_heredoc(execinfo);
 		execinfo = execinfo->next;
 		i++;
 	}

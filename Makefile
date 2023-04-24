@@ -31,9 +31,9 @@ SRCS_B	=	srcs/builtin/builtin.c \
 			srcs/builtin/ft_pwd.c \
 			srcs/builtin/ft_env.c \
 			srcs/builtin/ft_export.c \
-			#srcs/builtin/ft_cd.c \
 			srcs/builtin/ft_unset.c \
 			srcs/builtin/ft_exit.c \
+			srcs/builtin/ft_cd.c \
 
 SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E) $(SRCS_B)
 

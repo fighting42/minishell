@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:12:21 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/22 22:40:48 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/24 17:30:49 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ int	ft_env(char **env, int fd)
 	i = 0;
 	while (env[i])
 		ft_putendl_fd(env[i++], fd);
-	return (1);
+	return (0);
 }
