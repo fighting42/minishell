@@ -6,11 +6,27 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 21:26:21 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/24 23:42:01 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/26 12:42:49 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	**init_env(char **envp)
+{
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	while (envp[i])
+		i++;
+	tmp = malloc(sizeof(char *) * i);
+	i = -1;
+	while (envp[++i])
+		tmp[i] = ft_strdup(envp[i]);
+	tmp[i] = NULL;
+	return (tmp);
+}
 
 char	*get_env(char **env, char *var)
 {

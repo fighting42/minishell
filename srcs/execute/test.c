@@ -21,9 +21,9 @@ t_cmdline test_cmdline(void)
 	// t7 = test_token("test/out", STDOUT, 0, NULL);
 	// t6 = test_token("a", COMMAND, 0, t7);
 	// t5 = test_token("grep", COMMAND, 0, t6);
-	t4 = test_token("HOME", COMMAND, 0, NULL);
-	t3 = test_token("PATH", COMMAND, 0, t4);
-	t2 = test_token("unset", COMMAND, 0, t3);
+	t4 = test_token("ls", COMMAND, 1, NULL);
+	t3 = test_token("test/a", COMMAND, 0, t4);
+	t2 = test_token("cat", COMMAND, 0, t3);
 	// t1 = test_token("export", COMMAND, 0, t2);
 	cmdline.token = t2;
 	cmdline.token_cnt = 3;

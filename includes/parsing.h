@@ -6,14 +6,14 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/24 21:17:02 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/26 12:47:24 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-#include "minishell.h"
+# include "minishell.h"
 
 typedef struct s_dollar
 {

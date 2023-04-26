@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:31:45 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/22 21:46:10 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/26 12:45:55 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 typedef struct s_env
 {
-	char **value;
+	char	**value;
 }	t_env;
 
 typedef enum e_type
@@ -30,14 +30,14 @@ typedef enum e_type
 typedef struct s_token
 {
 	char			*value;
-	t_type 			type;
+	t_type			type;
 	struct s_token	*next;
 	int				pipe_flag;
 }	t_token;
 
 typedef struct s_cmdline
 {
-	t_token				*token; 
+	t_token				*token;
 	struct s_cmdline	*next;
 	int					token_cnt;
 }	t_cmdline;
