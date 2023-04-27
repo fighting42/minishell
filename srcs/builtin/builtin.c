@@ -17,7 +17,6 @@ int check_builtin(t_execinfo *execinfo)
 	char	*cmd;
 
 	cmd = execinfo->cmd[0];
-
     if (!ft_strncmp("cd", cmd, ft_strlen(cmd)))
         return (ft_cd(execinfo));
     else if (!ft_strncmp("export", cmd, ft_strlen(cmd)))
@@ -25,7 +24,7 @@ int check_builtin(t_execinfo *execinfo)
     else if (!ft_strncmp("unset", cmd, ft_strlen(cmd)))
         return (ft_unset(execinfo));
     else if (!ft_strncmp("exit", cmd, ft_strlen(cmd)))
-        return (ft_exit());
+        return (ft_exit(execinfo));
 	return (1);
 }
 

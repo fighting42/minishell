@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 15:06:56 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/26 13:43:56 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/27 14:08:29 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,12 @@ t_execinfo	*create_exec(t_cmdline *cmdline, int i, t_env *env)
 	exec->env = env;
 	exec->hd_cnt = '0';
 	exec->next = NULL;
-	j = 0;
+	if (i == 1)
+		prev = 0;
 	cnt = i - prev;
 	token = cmdline->token;
-	while ((j++ < i - cnt) && prev)
+	j = 0;
+	while ((j++ < i - cnt) && prev && token->next)
 		token = token->next;
 	prev = i;
 	check_cmd(token, exec, cnt);
@@ -101,23 +103,19 @@ t_execinfo	*init_execinfo(t_cmdline *cmdline, t_env *env)
 	i = 1;
 	pipe_cnt = 0;
 	exec = NULL;
-	while (cmdline)
+	token = cmdline->token;
+	while (token)
 	{
-		token = cmdline->token;
-		while (token)
+		if (!token->next || token->next->pipe_flag)
 		{
-			if (!token->next || token->next->pipe_flag)
-			{
-				exec = append_exec(exec, create_exec(cmdline, i, env));
-				if (!token->next)
-					break ;
-				else
-					pipe_cnt++;
-			}
-			token = token->next;
-			i++;
+			exec = append_exec(exec, create_exec(cmdline, i, env));
+			if (!token->next)
+				break ;
+			else
+				pipe_cnt++;
 		}
-		cmdline = cmdline->next;
+		token = token->next;
+		i++;
 	}
 	exec->pipe_cnt = pipe_cnt;
 	return (exec);

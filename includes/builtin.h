@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:18:29 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/26 12:45:22 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/27 16:04:59 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int		ft_pwd(void);
 int		ft_export(t_execinfo *execinfo);
 int		ft_unset(t_execinfo *execinfo);
 int		ft_env(t_execinfo *execinfo, int fd);
-int		ft_exit(void);
+int		ft_exit(t_execinfo *exec);
 // env_utils
 char	**init_env(char **envp);
 int		get_env_i(char **env, char *var);
 char	*get_env(char **env, char *var);
-void	set_env(char **env, char *var, char *value);
-void	add_env(t_execinfo *execinfo, int cnt);
-void	del_env(t_execinfo *execinfo, int cnt);
+void	set_env(t_env *env, char *var, char *value);
+void	add_env(t_env *env, char *value);
+void	del_env(t_env *env, char *var);
+char	*error_cmd(char *cmd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 21:26:21 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/26 12:42:49 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/04/27 15:50:07 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**init_env(char **envp)
 	i = 0;
 	while (envp[i])
 		i++;
-	tmp = malloc(sizeof(char *) * i);
+	tmp = malloc(sizeof(char *) * (i + 1));
 	i = -1;
 	while (envp[++i])
 		tmp[i] = ft_strdup(envp[i]);
@@ -68,7 +68,7 @@ int	get_env_i(char **env, char *var)
 	return (i);
 }
 
-void	set_env(char **env, char *var, char *value)
+void	set_env(t_env *env, char *var, char *value)
 {
 	int	i;
 	int	len;
@@ -76,71 +76,66 @@ void	set_env(char **env, char *var, char *value)
 	i = 0;
 	var = ft_strjoin(var, "=");
 	len = ft_strlen(var);
-	while (env[i])
+	while (env->value[i])
 	{
-		if (!ft_strncmp(env[i], var, len))
+		if (!ft_strncmp(env->value[i], var, len))
 			break ;
 		i++;
 	}
-	// OLDPWD 없을때도 있나 ?
-	if (!env[i])
+	if (!env->value[i])
+	{
+		if (!ft_strncmp("OLDPWD=", var, len))
+			add_env(env, ft_strjoin(var, getcwd(NULL, 0)));
 		return ;
+	}
 	free(var);
-	// free(env[i]);
-	env[i] = ft_strjoin(var, value);
+	// free(env->value[i]);
+	env->value[i] = ft_strjoin(var, value);
 }
 
-void	add_env(t_execinfo *execinfo, int cnt)
+char	**init_add_env(char **env)
 {
-	int		size;
 	int		i;
-	int		j;
-	char	**new_env;
+	char	**tmp;
 
-	size = 0;
-	while (execinfo->env->value[size])
-		size++;
-	new_env = malloc(sizeof(char *) * (size + cnt + 1));
 	i = 0;
-	while (i < size)
+	while (env[i])
+		i++;
+	tmp = malloc(sizeof(char *) * (i + 2));
+	i = -1;
+	while (env[++i])
+		tmp[i] = ft_strdup(env[i]);
+	tmp[i++] = NULL;
+	tmp[i] = NULL;
+	return (tmp);
+}
+
+void	add_env(t_env *env, char *value)
+{
+	int		i;
+	char	**new_env;
+	
+	if (!ft_strchr(value, '='))
+		return ;
+	new_env = init_add_env(env->value);
+	i = 0;
+	while (new_env[i])
+		free(env->value[i++]);
+	new_env[i] = ft_strdup(value);
+	free(env->value);
+	env->value = new_env;
+}
+
+void	del_env(t_env *env, char *var)
+{
+	int i;
+
+	i = get_env_i(env->value, var);
+	while (env->value[i + 1])
 	{
-		new_env[i] = ft_strdup(execinfo->env->value[i]);
-		free(execinfo->env->value[i]);
+		env->value[i] = env->value[i + 1];
 		i++;
 	}
-	j = 1;
-	i--;
-	while (++i < size + cnt)
-	{
-		if (!ft_strchr(execinfo->cmd[j], '='))
-			continue ;
-		new_env[i] = execinfo->cmd[j];
-		j++;
-	}
-	new_env[i] = NULL;
-	free(execinfo->env->value);
-	execinfo->env->value = new_env;
-}
-
-void	del_env(t_execinfo *execinfo, int cnt)
-{
-	int	i;
-	int	j;
-	char **env;
-
-	env = execinfo->env->value;
-	j = 0;
-	while (++j < cnt + 1)
-	{
-		i = get_env_i(env, execinfo->cmd[j]);
-		if (i < 0)
-			continue ;
-		while (env[i + 1])
-		{
-			env[i] = env[i + 1];
-			i++;
-		}
-		env[i] = NULL;
-		free(env[i]);
-	}
+	env->value[i] = NULL;
+	free(env->value[i]);
 }

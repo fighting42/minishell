@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
     char		*str;
-	t_cmdline	cmdline;
+	t_cmdline	*cmdline;
 	t_env		env;
 
 	// 다팍씨 보세요
@@ -36,10 +36,16 @@ int main(int argc, char **argv, char **envp)
 		// exec(cmdline);
 
 		cmdline = test_cmdline(); // test_cmdline() 자리에 parsing 함수 넣어주세용
-		execute(&cmdline, &env);
+		execute(cmdline, &env);
 		
 		add_history(str);
         free(str);
+		
+		int i=0;
+		while (env.value[i])
+			printf("%s\n", env.value[i++]);
+		printf("\n\n");
+		ft_pwd();
     }
     return(0);
 }
