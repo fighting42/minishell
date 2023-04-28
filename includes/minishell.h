@@ -28,6 +28,8 @@
 # include "builtin.h"
 # include "errmsg.h"
 
+#define NULL 0
+
 int	g_status;
 
 #endif

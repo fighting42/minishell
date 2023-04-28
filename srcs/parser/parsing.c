@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/26 18:29:16 by dapark           ###   ########.fr       */
+/*   Updated: 2023/04/28 17:20:42 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -261,9 +261,10 @@ t_cmdline	*parsing(char *str, t_env *env)
 					if ((is_not_ok_sep(tmp[i], "|><;")) == 1)
 						return (0);
 				}
-				t_curr->value = tmp[i];
-				t_curr->next = create_token();
-				t_curr = t_curr->next;
+				append_token(t_head, t_curr, tmp[i], r_flag);
+				t_curr = create_token();
+				/*t_curr->value = tmp[i];
+				t_curr = t_curr->next;*/
 				i++;
 				j = 0;
 			}
@@ -280,20 +281,24 @@ t_cmdline	*parsing(char *str, t_env *env)
 					if ((is_not_ok_sep(tmp[i], "|><;")) == 1)
 						return (0);
 				}
-				t_curr->value = tmp[i];
+				append_token(t_head, t_curr, tmp[i], r_flag);
+				t_curr = create_token();
+				/*t_curr->value = tmp[i];
 				t_curr->next = create_token(0);
-				t_curr = t_curr->next;
+				t_curr = t_curr->next;*/
 				i++;
 				j = 0;
 			}
 			else if ((quote == 2 && tmp[i][j] == '$') ||\
 					(quote == 0 && tmp[i][j] == '$'))
 			{
-				t_curr->value = env_var[dollar_index].value;
-				t_curr->type = COMMAND;
+				append_token(t_head, t_curr, env_var[dollar_index].value, COMMAND);
+				t_curr = create_token();
+				/*t_curr->value = env_var[dollar_index].value;
+				t_curr->type = COMMAND;*/
 				dollar_index++;
-				t_curr->next = create_token(0);
-				t_curr = t_curr->next;
+				//t_curr->next = create_token(0);
+				//t_curr = t_curr->next;
 				i++;
 				j = 0;
 			}
