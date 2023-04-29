@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/28 17:20:42 by dapark           ###   ########.fr       */
+/*   Updated: 2023/04/29 22:16:52 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -214,8 +214,8 @@ t_cmdline	*parsing(char *str, t_env *env)
 	t_token		*t_curr, *t_head, *t_prev;
 	t_dollar	*env_var;
 	char		**tmp;
-	int			i, quote, cnt_split, j, cnt_colon, dollar_index;
-	int			*r_flag;
+	int			i, quote = 0, cnt_split, j, cnt_colon, dollar_index;
+	int			type;
 
 	i = 0, j = 0, dollar_index = 0;
 	if (chk_whole_quote(str) == 1)
@@ -227,65 +227,63 @@ t_cmdline	*parsing(char *str, t_env *env)
 	cnt_colon = count_colon(str);
 	c_head = malloc(sizeof(t_cmdline) * cnt_colon);
 	c_curr = c_head;
-	c_curr->token = create_token();
-	t_head = c_curr->token;
+	t_head = create_token();
+	t_curr = t_head;
+	c_curr->token = t_head;
 	cnt_split = count_str(str, " |<>;");
 	tmp = parse_split(str, cnt_split, env_var);
+	for (int k = 0; tmp[k] != NULL ; k++)
+			printf("split : %s\n", tmp[k]);
 	int s = 0;
-	while (tmp[i][j] != '\0')
+	while (tmp[i] != NULL)
 	{
 		j = 0;
 		while (tmp[i][j] != '\0')
 		{
-			quote = quote_status(str[i], quote);
+			quote = quote_status(tmp[i][j], quote);
 			if (tmp[i][j] == ';')
 			{
 				c_curr = c_curr->next;
 				c_curr->token = create_token();
 				t_curr = c_curr->token;
+				i++;
+				j = 0;
 			}
 			else if (tmp[i][j] == '|')
 			{
 				t_curr->pipe_flag = 1;
+				i++;
+				j = 0;
 			}
 			else if (tmp[i][j] == '<')
 			{
 				if (tmp[i][j + 1] == '<')
-					r_flag = HEREDOC;
-				//	t_curr->type = HEREDOC;
+					type = HEREDOC;
 				else
-					r_flag = STDIN;
-				//	t_curr->type = STDIN;
+					type = STDIN;
 				while (check_sep(tmp[++i][0], " |<>;") == 1)
 				{
 					if ((is_not_ok_sep(tmp[i], "|><;")) == 1)
 						return (0);
 				}
-				append_token(t_head, t_curr, tmp[i], r_flag);
+				append_token(t_head, t_curr, tmp[i], type);
 				t_curr = create_token();
-				/*t_curr->value = tmp[i];
-				t_curr = t_curr->next;*/
 				i++;
 				j = 0;
 			}
 			else if (tmp[i][j] == '>')
 			{
 				if (tmp[i][j + 1] == '>')
-					r_flag = APPEND;
-				//	t_curr->type = APPEND;
+					type = APPEND;
 				else
-					r_flag = STDOUT;
-				//	t_curr->type = STDOUT;
+					type = STDOUT;
 				while (check_sep(tmp[++i][0], " |<>;") == 1)
 				{
 					if ((is_not_ok_sep(tmp[i], "|><;")) == 1)
 						return (0);
 				}
-				append_token(t_head, t_curr, tmp[i], r_flag);
+				append_token(t_head, t_curr, tmp[i], type);
 				t_curr = create_token();
-				/*t_curr->value = tmp[i];
-				t_curr->next = create_token(0);
-				t_curr = t_curr->next;*/
 				i++;
 				j = 0;
 			}
@@ -294,48 +292,54 @@ t_cmdline	*parsing(char *str, t_env *env)
 			{
 				append_token(t_head, t_curr, env_var[dollar_index].value, COMMAND);
 				t_curr = create_token();
-				/*t_curr->value = env_var[dollar_index].value;
-				t_curr->type = COMMAND;*/
 				dollar_index++;
-				//t_curr->next = create_token(0);
-				//t_curr = t_curr->next;
 				i++;
 				j = 0;
 			}
-			else if (check_sep(tmp[i][0], " |<>;"))
+			else if (tmp[i][j] == ' ')
+				j++;
+			//띄어쓰기 없이 바로 유효한 따옴표 들어왔을 때 처리
+			else if (chk_quote_one(tmp[i], 0) != -1) //두번째 quote만날때까지 무조건 join
 			{
-				j = chk_quote_one(tmp[i], 0);
-				if (j != -1) //두번째 quote만날때까지 무조건 join
+				int n = 0; 
+				char *temp = (char *)malloc(sizeof(char) * (j + 1));
+				while (n++ < j)
+					temp[n] = str[n];
+				temp[n] = '\0';
+				int	k = chk_quote_one(tmp[++i], 1);
+				while (k == -1)
 				{
-					int n = 0;
-					char *tmp = (char *)malloc(sizeof(char) * (j + 1));
-					while (n++ < j)
-						tmp[n] = str[n];
-					tmp[n] = '\0';
-					int	k = chk_quote_one(&tmp[++i], 1);
-					while (k == -1)
-					{
-						tmp = ft_strjoin(tmp, &tmp[i]);
-						k = chk_quote_one(&tmp[++i], 1);
-					}
-					n = 0;
-					char *last = (char *)malloc(sizeof(char) * (k + 1));
-					while (n++ < k)
-						last[n] = str[n];
-					last[n] = '\0';
-					tmp = ft_strjoin(tmp, last);
-					t_curr->value = tmp; //띄어쓰기 없이 바로 유효한 따옴표 들어왔을 때 처리해야됨
+					temp = ft_strjoin(temp, tmp[i]);
+					k = chk_quote_one(tmp[++i], 1);
 				}
-				else
-					t_curr->value = remove_quote(tmp[i]);
-				t_curr->type = COMMAND;
-				t_curr->next = create_token(0);
-				t_curr = t_curr->next;
+				n = 0;
+				char *last = (char *)malloc(sizeof(char) * (k + 1));
+				while (n++ < k)
+					last[n] = str[n];
+				last[n] = '\0';
+				temp = ft_strjoin(temp, last);
+				append_token(t_head, t_curr, temp, COMMAND);
+				t_curr = create_token();
+				i++;
+				j = 0;
+			}
+			else if (is_not_ok_sep(tmp[i], "\', \"") == 1 && \
+					(chk_quote_one(tmp[i], 0) == -1))
+			{
+				append_token(t_head, t_curr, remove_quote(tmp[i]), COMMAND);
+				t_curr = create_token();
 				i++;
 				j = 0;
 			}
 			else
+			{
+				if (tmp[i][j + 1] == '\0')
+				{
+					append_token(t_head, t_curr, tmp[i], COMMAND);
+					t_curr = create_token();
+				}
 				j++;
+			}
 		}
 		i++;
 	}
@@ -356,11 +360,10 @@ int main(int argc, char **argv, char **envp)
 	char *tmp = "ls -al | echo $USER | echo \'$USER\'";
 	str = parsing(tmp, &temp);
 	prt = str->token;
-	while (!prt)
+	while (prt)
 	{
 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
 		prt = prt->next;
 	}	
-
 	return (0);
 }
