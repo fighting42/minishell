@@ -41,11 +41,11 @@ int main(int argc, char **argv, char **envp)
 		add_history(str);
         free(str);
 		
-		int i=0;
-		while (env.value[i])
-			printf("%s\n", env.value[i++]);
-		printf("\n\n");
-		ft_pwd();
+		// int i=0;
+		// while (env.value[i])
+		// 	printf("%s\n", env.value[i++]);
+		// printf("\n\n");
+		// ft_pwd();
     }
     return(0);
 }

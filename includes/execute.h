@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:13:32 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/27 16:08:39 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/03 14:30:06 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,6 @@ char		*find_path(char **cmd, char **envp_path);
 void		redirection(t_execinfo *execinfo);
 t_execinfo	*init_execinfo(t_cmdline *cmdline, t_env *env);
 void		unlink_heredoc(t_execinfo *execinfo);
-void		print_error(char *err, char *cmd, char *msg, int status);
+void	print_error(char *err, char *cmd, char *msg, int flag, int status);
 
 #endif

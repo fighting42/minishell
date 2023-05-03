@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-void	print_error(char *err, char *cmd, char *msg, int status)
+void	print_error(char *err, char *cmd, char *msg, int flag, int status)
 {
 	if (!err)
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -30,7 +30,8 @@ void	print_error(char *err, char *cmd, char *msg, int status)
 		ft_putendl_fd(msg, STDERR_FILENO);
 	g_status = status;
 	write(2, ft_itoa(g_status), 3); write(2, "\n", 1); // exit_status test !
-	exit(EXIT_FAILURE);
+	if (flag == EXIT_Y)
+		exit(EXIT_FAILURE);
 }
 
 void	execute(t_cmdline *cmdline, t_env *env)

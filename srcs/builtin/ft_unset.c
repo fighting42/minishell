@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:25:38 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/27 15:28:51 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/03 14:31:28 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_unset(t_execinfo *execinfo)
 		while (execinfo->cmd[i][j])
 		{
 			if (!(ft_isalnum(execinfo->cmd[i][j])))
-				print_error("bash: unset", error_cmd(execinfo->cmd[i]), NOT_VALID_ERR, 1);
+				print_error("bash: unset", error_cmd(execinfo->cmd[i]), NOT_VALID_ERR, EXIT_Y, 1);
 			j++;
 		}
 		del_env(execinfo->env, execinfo->cmd[i]);

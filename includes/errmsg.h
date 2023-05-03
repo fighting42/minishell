@@ -6,13 +6,15 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 21:15:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/27 16:52:00 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/03 14:27:29 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef ERRMSG_H
 # define ERRMSG_H
 
+# define EXIT_Y 1
+# define EXIT_N 0
 # define CMD_ERR "command not found"
 # define NO_FILE_ERR "No such file or directory"
 # define HEREDOC_ERR "maximum here-document count exceeded"
