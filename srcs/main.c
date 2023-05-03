@@ -12,6 +12,11 @@
 
 #include "../includes/minishell.h"
 
+void	test_leaks(void)
+{
+	system("leaks minishell");
+}
+
 int main(int argc, char **argv, char **envp)
 {
 	(void)argc;
@@ -25,8 +30,9 @@ int main(int argc, char **argv, char **envp)
 	// 2. $? 처리 추가하기! -> 전역변수 "g_status"
 	// 3. cmdline 구조체에 token_cnt 필요 없어졌슴니다 히히 -> 지워도 됨!
 	
-	env.value = init_env(envp); 
-    //while(1)
+	// atexit(test_leaks); // leaks test !
+	env.value = init_env(envp);
+    // while(1)
     {
         str = readline("minishell$ ");
 		
@@ -37,15 +43,9 @@ int main(int argc, char **argv, char **envp)
 
 		cmdline = test_cmdline(); // test_cmdline() 자리에 parsing 함수 넣어주세용
 		execute(cmdline, &env);
-		
+
 		add_history(str);
         free(str);
-		
-		// int i=0;
-		// while (env.value[i])
-		// 	printf("%s\n", env.value[i++]);
-		// printf("\n\n");
-		// ft_pwd();
     }
     return(0);
 }

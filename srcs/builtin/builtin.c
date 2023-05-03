@@ -12,19 +12,19 @@
 
 #include "../../includes/minishell.h"
 
-int check_builtin(t_execinfo *execinfo)
+int	check_builtin(t_execinfo *execinfo)
 {
 	char	*cmd;
 
 	cmd = execinfo->cmd[0];
-    if (!ft_strncmp("cd", cmd, ft_strlen(cmd)))
-        return (ft_cd(execinfo));
-    else if (!ft_strncmp("export", cmd, ft_strlen(cmd)))
-        return (ft_export(execinfo));
-    else if (!ft_strncmp("unset", cmd, ft_strlen(cmd)))
-        return (ft_unset(execinfo));
-    else if (!ft_strncmp("exit", cmd, ft_strlen(cmd)))
-        return (ft_exit(execinfo));
+	if (!ft_strncmp("cd", cmd, ft_strlen(cmd)))
+		return (ft_cd(execinfo));
+	else if (!ft_strncmp("export", cmd, ft_strlen(cmd)))
+		return (ft_export(execinfo));
+	else if (!ft_strncmp("unset", cmd, ft_strlen(cmd)))
+		return (ft_unset(execinfo));
+	else if (!ft_strncmp("exit", cmd, ft_strlen(cmd)))
+		return (ft_exit(execinfo));
 	return (1);
 }
 
@@ -34,10 +34,10 @@ int	check_builtin_fd(t_execinfo *execinfo, int fd)
 
 	cmd = execinfo->cmd[0];
 	if (!ft_strncmp("echo", cmd, ft_strlen(cmd)))
-        return (ft_echo(execinfo->cmd, fd));
-    else if (!ft_strncmp("pwd", cmd, ft_strlen(cmd)))
-        return (ft_pwd());
-    else if (!ft_strncmp("env", cmd, ft_strlen(cmd)))
-        return (ft_env(execinfo, fd));
+		return (ft_echo(execinfo->cmd, fd));
+	else if (!ft_strncmp("pwd", cmd, ft_strlen(cmd)))
+		return (ft_pwd());
+	else if (!ft_strncmp("env", cmd, ft_strlen(cmd)))
+		return (ft_env(execinfo, fd));
 	return (1);
 }

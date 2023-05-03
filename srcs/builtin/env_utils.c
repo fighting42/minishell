@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 21:26:21 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/27 15:50:07 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/03 17:47:17 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,34 +108,4 @@ char	**init_add_env(char **env)
 	tmp[i++] = NULL;
 	tmp[i] = NULL;
 	return (tmp);
-}
-
-void	add_env(t_env *env, char *value)
-{
-	int		i;
-	char	**new_env;
-	
-	if (!ft_strchr(value, '='))
-		return ;
-	new_env = init_add_env(env->value);
-	i = 0;
-	while (new_env[i])
-		free(env->value[i++]);
-	new_env[i] = ft_strdup(value);
-	free(env->value);
-	env->value = new_env;
-}
-
-void	del_env(t_env *env, char *var)
-{
-	int i;
-
-	i = get_env_i(env->value, var);
-	while (env->value[i + 1])
-	{
-		env->value[i] = env->value[i + 1];
-		i++;
-	}
-	env->value[i] = NULL;
-	free(env->value[i]);
 }

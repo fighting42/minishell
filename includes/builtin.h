@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:18:29 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/27 16:04:59 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/03 17:44:57 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int		ft_env(t_execinfo *execinfo, int fd);
 int		ft_exit(t_execinfo *exec);
 // env_utils
 char	**init_env(char **envp);
+char	**init_add_env(char **env);
 int		get_env_i(char **env, char *var);
 char	*get_env(char **env, char *var);
 void	set_env(t_env *env, char *var, char *value);
