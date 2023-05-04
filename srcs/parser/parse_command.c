@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/29 21:30:22 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/04 14:34:44 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *remove_quote(char *str)
+char	*remove_quote(char *str)
 {
-	int	i;
-	int	j;
-	int	len;
-	int	cnt;
-	int chk_cnt;
-	char *ret;
+	int		i;
+	int		j;
+	int		len;
+	int		cnt;
+	int		chk_cnt;
+	char	*ret;
 
 	i = 0;
 	j = 0;

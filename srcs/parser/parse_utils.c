@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:55:09 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/29 21:55:28 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/04 14:35:06 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token	*create_token()
+t_token	*create_token(void)
 {
 	t_token	*ret;
 
@@ -21,7 +21,7 @@ t_token	*create_token()
 	return (ret);
 }
 
-void	append_token(t_token *head, t_token *curr, char *value, int type) // value값 바로 넣을 수 없나?
+void	append_token(t_token *head, t_token *curr, char *value, int type)
 {
 	t_token	*tmp;
 

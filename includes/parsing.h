@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/26 18:23:52 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/04 14:28:15 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,6 @@ char		*make_str(char *str, char *sep, int k, int flag);
 int			count_str(char *str, char *sep);
 char		**parse_split(char *str, int count, t_dollar *env_var);
 t_token		*create_token();
-void		append_token(t_token *head, t_token *curr, char *value, int *r_flag);
+void		append_token(t_token *head, t_token *curr, char *value, int type);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/04/29 22:16:52 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/04 14:33:04 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,6 @@ t_dollar	*chk_env(char *str, t_env *env)
 			cnt_dollar++;
 		i++;
 	}
-	printf("$: %d\n", cnt_dollar);
 	env_var = malloc(sizeof(t_dollar) * cnt_dollar);
 	i = 0;
 	while (str[i] != '\0')
@@ -113,7 +112,7 @@ t_dollar	*chk_env(char *str, t_env *env)
 			while (check_sep(str[count], sep) != 1 && str[count] != '\0')
 				count++;
 			env_var[j].value = trans_env(env, str, i + 1, count - i - 1);
-			printf("%s\n", env_var[j].value);
+			//printf("[%d] = %s\n", j, env_var[j].value);
 			j++;
 			i = count ;
 		}
@@ -121,6 +120,9 @@ t_dollar	*chk_env(char *str, t_env *env)
 			i++;	
 	}
 	env_var[j].value = 0;
+	j = -1;
+	//while (env_var[++j].value != NULL)
+	//	printf("환경변수 확인[%d] : %s\n", j, env_var[j].value);
 	return (env_var);
 }
 
@@ -175,7 +177,7 @@ int	chk_quote_one(char *str, int flag)
 			chk++;
 			if (chk == 1)
 				quote = str[j];
-			if (flag == 0)
+			if (flag == 0 && chk != 0)
 				return (j);
 			if (chk == 1)
 				break;
@@ -198,6 +200,7 @@ int	chk_whole_quote(char *str)
 	int	quote;
 
 	quote = 0;
+	i = 0;
 	while (str[i] != '\0')
 	{
 		quote = quote_status(str[i], quote);
@@ -232,8 +235,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 	c_curr->token = t_head;
 	cnt_split = count_str(str, " |<>;");
 	tmp = parse_split(str, cnt_split, env_var);
-	for (int k = 0; tmp[k] != NULL ; k++)
-			printf("split : %s\n", tmp[k]);
 	int s = 0;
 	while (tmp[i] != NULL)
 	{
@@ -246,14 +247,24 @@ t_cmdline	*parsing(char *str, t_env *env)
 				c_curr = c_curr->next;
 				c_curr->token = create_token();
 				t_curr = c_curr->token;
-				i++;
-				j = 0;
+				while (tmp[i][j] != '\0')
+				{
+					quote = quote_status(tmp[i][j], quote);
+					j++;
+				}
+				//i++;
+				//j = 0;
 			}
 			else if (tmp[i][j] == '|')
 			{
 				t_curr->pipe_flag = 1;
-				i++;
-				j = 0;
+				while (tmp[i][j] != '\0')
+				{
+					quote = quote_status(tmp[i][j], quote);
+					j++;
+				}
+				//i++;
+				//j = 0;
 			}
 			else if (tmp[i][j] == '<')
 			{
@@ -268,8 +279,13 @@ t_cmdline	*parsing(char *str, t_env *env)
 				}
 				append_token(t_head, t_curr, tmp[i], type);
 				t_curr = create_token();
-				i++;
-				j = 0;
+				while (tmp[i][j] != '\0')
+				{
+					quote = quote_status(tmp[i][j], quote);
+					j++;
+				}
+				//i++;
+				//j = 0;
 			}
 			else if (tmp[i][j] == '>')
 			{
@@ -284,8 +300,13 @@ t_cmdline	*parsing(char *str, t_env *env)
 				}
 				append_token(t_head, t_curr, tmp[i], type);
 				t_curr = create_token();
-				i++;
-				j = 0;
+				while (tmp[i][j] != '\0')
+				{
+					quote = quote_status(tmp[i][j], quote);
+					j++;
+				}
+				//i++;
+				//j = 0;
 			}
 			else if ((quote == 2 && tmp[i][j] == '$') ||\
 					(quote == 0 && tmp[i][j] == '$'))
@@ -293,8 +314,13 @@ t_cmdline	*parsing(char *str, t_env *env)
 				append_token(t_head, t_curr, env_var[dollar_index].value, COMMAND);
 				t_curr = create_token();
 				dollar_index++;
-				i++;
-				j = 0;
+				while (tmp[i][j] != '\0')
+				{
+					quote = quote_status(tmp[i][j], quote);
+					j++;
+				}
+				//i++;
+				//j = 0;
 			}
 			else if (tmp[i][j] == ' ')
 				j++;
@@ -320,16 +346,26 @@ t_cmdline	*parsing(char *str, t_env *env)
 				temp = ft_strjoin(temp, last);
 				append_token(t_head, t_curr, temp, COMMAND);
 				t_curr = create_token();
-				i++;
-				j = 0;
+				while (tmp[i][j] != '\0')
+				{
+					quote = quote_status(tmp[i][j], quote);
+					j++;
+				}
+				//i++;
+				//j = 0;
 			}
 			else if (is_not_ok_sep(tmp[i], "\', \"") == 1 && \
 					(chk_quote_one(tmp[i], 0) == -1))
 			{
 				append_token(t_head, t_curr, remove_quote(tmp[i]), COMMAND);
 				t_curr = create_token();
-				i++;
-				j = 0;
+				while (tmp[i][j] != '\0')
+				{
+					quote = quote_status(tmp[i][j], quote);
+					j++;
+				}
+				//i++;
+				//j = 0;
 			}
 			else
 			{
@@ -357,7 +393,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	char *tmp = "ls -al | echo $USER | echo \'$USER\'";
+	char *tmp = "ls -al | echo $USER | echo $PATH | echo >> $USER";
 	str = parsing(tmp, &temp);
 	prt = str->token;
 	while (prt)
