@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/05 20:54:17 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/05 22:08:05 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,9 @@ t_dollar	*chk_env(char *str, t_env *env)
 			cnt_dollar++;
 		i++;
 	}
-	env_var = malloc(sizeof(t_dollar) * cnt_dollar);
+	env_var = malloc(sizeof(t_dollar) * (cnt_dollar + 1));
 	i = 0;
+	quote = 0;
 	while (str[i] != '\0')
 	{
 		quote = quote_status(str[i], quote);
@@ -116,18 +117,14 @@ t_dollar	*chk_env(char *str, t_env *env)
 				while (check_sep(str[count], sep) != 1 && str[count] != '\0')
 					count++;
 				env_var[j].value = trans_env(env, str, i + 1, count - i - 1);
-				//printf("[%d] = %s\n", j, env_var[j].value);
 			}
 			j++;
 			i = count ;
 		}
 		else
-			i++;	
+			i++;
 	}
-	env_var[j].value = 0;
-	j = -1;
-	//while (env_var[++j].value != NULL)
-	//	printf("환경변수 확인[%d] : %s\n", j, env_var[j].value);
+	env_var[j].value = NULL;
 	return (env_var);
 }
 
@@ -195,7 +192,7 @@ int	chk_whole_quote(char *str)
 		quote = quote_status(str[i], quote);
 		i++;
 	}
-	if (quote == 1)
+	if (quote == 1 || quote == 2)
 		return (1);
 	return (0);
 }
@@ -221,8 +218,10 @@ t_cmdline	*parsing(char *str, t_env *env)
 	t_head = create_token();
 	t_curr = t_head;
 	c_curr->token = t_head;
-	cnt_split = count_str(str, " |<>;");
+	cnt_split = count_str(str, " |<>");
 	tmp = parse_split(str, cnt_split);
+	for (int i = 0; tmp[i] != NULL; i++)
+		printf("tmp[%d] : %s\n", i, tmp[i]);
 	while (tmp[i] != NULL)
 	{
 		j = 0;
@@ -244,18 +243,27 @@ t_cmdline	*parsing(char *str, t_env *env)
 					type = HEREDOC;
 				else
 					type = STDIN;
-				while (check_sep(tmp[++i][0], " |<>;") == 1)
+				while (check_sep(tmp[++i][0], " |<>") == 1)
 				{
-					if ((is_not_ok_sep(tmp[i], "|><;")) == 1)
+					if ((is_not_ok_sep(tmp[i], "|><")) == 1)
 						return (0);
 				}
-				append_token(t_head, t_curr, tmp[i], type);
-				t_curr = create_token();
+				j = 0;
 				while (tmp[i][j] != '\0')
 				{
 					quote = quote_status(tmp[i][j], quote);
+					if ((quote == 2 && tmp[i][j] == '$') ||\
+						(quote == 0 && tmp[i][j] == '$'))
+					{
+						printf(" < quote  : %d\n", quote);
+						append_token(t_head, t_curr, env_var[dollar_index].value, type);
+						dollar_index++;
+						break;
+					}
+					append_token(t_head, t_curr, tmp[i], type);
 					j++;
 				}
+				t_curr = create_token();
 			}
 			else if (tmp[i][j] == '>')
 			{
@@ -263,13 +271,21 @@ t_cmdline	*parsing(char *str, t_env *env)
 					type = APPEND;
 				else
 					type = STDOUT;
-				while (check_sep(tmp[++i][0], " |<>;") == 1)
+				while (check_sep(tmp[i + 1][0], " |<>") == 1)
 				{
-					if ((is_not_ok_sep(tmp[i], "|><;")) == 1)
+					if ((is_not_ok_sep(tmp[i + 1], "|><")) == 1)
 						return (0);
 				}
-				append_token(t_head, t_curr, tmp[i], type);
-				t_curr = create_token();
+				// if ((quote == 2 && tmp[i][0] == '$') ||\
+				// 	(quote == 0 && tmp[i][0] == '$'))
+				// {
+				printf(" > quote  : %d\n", quote);
+				// 	append_token(t_head, t_curr, env_var[dollar_index].value, type);
+				// 	dollar_index++;
+				// }
+				// else
+				// 	append_token(t_head, t_curr, tmp[i], type);
+				// t_curr = create_token();
 				while (tmp[i][j] != '\0')
 				{
 					quote = quote_status(tmp[i][j], quote);
@@ -279,6 +295,7 @@ t_cmdline	*parsing(char *str, t_env *env)
 			else if ((quote == 2 && tmp[i][j] == '$') ||\
 					(quote == 0 && tmp[i][j] == '$'))
 			{
+				printf(" $ quote i == %d : %d\n", i, quote);
 				append_token(t_head, t_curr, env_var[dollar_index].value, COMMAND);
 				t_curr = create_token();
 				dollar_index++;
@@ -344,23 +361,25 @@ t_cmdline	*parsing(char *str, t_env *env)
 	return (c_head);
 }
 
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_cmdline *str;
-// 	t_token *prt;
-// 	t_env temp;
+int main(int argc, char **argv, char **envp)
+{
+	t_cmdline *str;
+	t_token *prt;
+	t_env temp;
 
-// 	temp.value = envp;
-// 	(void)argc;
-// 	(void)argv;
+	temp.value = envp;
+	(void)argc;
+	(void)argv;
 
-// 	char *tmp = "ls -al | echo $USER | echo $PATH | echo >> $USER";
-// 	str = parsing(tmp, &temp);
-// 	prt = str->token;
-// 	while (prt)
-// 	{
-// 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
-// 		prt = prt->next;
-// 	}	
-// 	return (0);
-// }
+	char *tmp = "echo $? | echo >> \"$PATH\"";
+	printf("%s\n", tmp);
+	g_status = 0;
+	str = parsing(tmp, &temp);
+	prt = str->token;
+	while (prt)
+	{
+		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
+		prt = prt->next;
+	}	
+	return (0);
+}
