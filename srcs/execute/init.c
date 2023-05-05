@@ -69,9 +69,8 @@ void	check_cmd(t_token *token, t_execinfo *exec, int cnt)
 	exec->cmd[i] = NULL;
 }
 
-t_execinfo	*create_exec(t_cmdline *cmdline, int i, t_env *env)
+t_execinfo	*create_exec(t_cmdline *cmdline, int i, int prev, t_env *env)
 {
-	static int	prev;
 	t_token		*token;
 	t_execinfo	*exec;
 	int			j;
@@ -81,8 +80,6 @@ t_execinfo	*create_exec(t_cmdline *cmdline, int i, t_env *env)
 	exec->env = env;
 	exec->hd_cnt = '0';
 	exec->next = NULL;
-	if (!prev) // 여기 고쳐야됨! 2번째 들어왔을 때 static 변수 초기화 안됨.
-		prev = 0;
 	cnt = i - prev;
 	token = cmdline->token;
 	j = 0;
@@ -96,11 +93,13 @@ t_execinfo	*create_exec(t_cmdline *cmdline, int i, t_env *env)
 t_execinfo	*init_execinfo(t_cmdline *cmdline, t_env *env)
 {
 	int			i;
+	int			prev;
 	int			pipe_cnt;
 	t_token		*token;
 	t_execinfo	*exec;
 
 	i = 1;
+	prev = 0;
 	pipe_cnt = 0;
 	exec = NULL;
 	token = cmdline->token;
@@ -108,7 +107,8 @@ t_execinfo	*init_execinfo(t_cmdline *cmdline, t_env *env)
 	{
 		if (!token->next || (token->next && token->next->pipe_flag))
 		{
-			exec = append_exec(exec, create_exec(cmdline, i, env));
+			exec = append_exec(exec, create_exec(cmdline, i, prev, env));
+			prev = i;
 			if (!token->next)
 				break ;
 			else

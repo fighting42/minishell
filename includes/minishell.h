@@ -30,6 +30,6 @@
 
 // # define NULL 0
 
-int	g_status;
+extern int	g_status;
 
 #endif

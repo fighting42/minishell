@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+int	g_status = 0;
 
 void	test_leaks(void)
 {
