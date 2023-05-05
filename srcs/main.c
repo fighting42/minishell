@@ -45,5 +45,6 @@ int main(int argc, char **argv, char **envp)
 			free(str);
 		}
 	}
+	free_env(&env);
     return(0);
 }

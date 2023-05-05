@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:18:29 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/03 17:44:57 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/05 21:42:21 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ char	*get_env(char **env, char *var);
 void	set_env(t_env *env, char *var, char *value);
 void	add_env(t_env *env, char *value);
 void	del_env(t_env *env, char *var);
+void	free_env(t_env *env);
 char	*error_cmd(char *cmd);
 
 #endif

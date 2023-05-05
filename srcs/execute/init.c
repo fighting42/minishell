@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 15:06:56 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/05 21:03:24 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/05 22:19:18 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_execinfo	*create_exec(t_cmdline *cmdline, int i, t_env *env)
 	exec->env = env;
 	exec->hd_cnt = '0';
 	exec->next = NULL;
-	if (i == 1)
+	if (!prev) // 여기 고쳐야됨! 2번째 들어왔을 때 static 변수 초기화 안됨.
 		prev = 0;
 	cnt = i - prev;
 	token = cmdline->token;

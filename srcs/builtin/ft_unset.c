@@ -6,11 +6,31 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:25:38 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/03 17:41:30 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/05 22:20:23 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	get_env_i(char **env, char *var)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	var = ft_strjoin(var, "=");
+	len = ft_strlen(var);
+	while (env[i])
+	{
+		if (!ft_strncmp(env[i], var, len))
+			break ;
+		i++;
+	}
+	if (!env[i])
+		return (-1);
+	free(var);
+	return (i);
+}
 
 void	del_env(t_env *env, char *var)
 {

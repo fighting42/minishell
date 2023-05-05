@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/03 18:19:41 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/05 21:59:06 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	exec_cmd(int fds[2], t_execinfo *execinfo, int flag)
 	execinfo->path = find_path(execinfo->cmd, pars_envp(execinfo->env->value));
 	g_status = 0;
 	if (execve(execinfo->path, execinfo->cmd, execinfo->env->value) == -1)
-		print_error(errmsg(0, execinfo->cmd[0], NULL, CMD_ERR), EXIT_Y, 127);
+		print_error(errmsg(1, execinfo->cmd[0], NULL, CMD_ERR), EXIT_Y, 127);
 }
 
 void	exec_pipe(t_execinfo *execinfo, int flag)

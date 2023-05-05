@@ -31,13 +31,19 @@ char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg)
 {
 	char	*tmp;
 
-	tmp = NULL;
+	tmp = "";
 	if (flag)
 		tmp = ft_strjoin(tmp, "minishell: ");
 	if (cmd1)
+	{
 		tmp = ft_strjoin(tmp, cmd1);
+		tmp = ft_strjoin(tmp, ": ");
+	}
 	if (cmd2)
+	{
 		tmp = ft_strjoin(tmp, cmd2);
+		tmp = ft_strjoin(tmp, ": ");
+	}
 	if (msg)
 		tmp = ft_strjoin(tmp, msg);
 	return (tmp);
@@ -73,17 +79,19 @@ void	execute(t_cmdline *cmdline, t_env *env)
 	int			pipe_cnt;
 	t_execinfo	*execinfo;
 
-	int fd_in = STDIN_FILENO;
-	int fd_out = STDOUT_FILENO;
+	int fd_in = dup(STDIN_FILENO);
+	int fd_out = dup(STDOUT_FILENO);
 
 	i = 0;
 	last_flag = 0;
+	if (cmdline->token->value == NULL)
+		return ;
 	execinfo = init_execinfo(cmdline, env);
-	if (!check_builtin(execinfo))
-		return; // while문 안으로 들어가야 될듯
 	pipe_cnt = execinfo->pipe_cnt;
 	while (i < pipe_cnt + 1)
 	{
+		if (!check_builtin(execinfo))
+			break ;
 		if (i == pipe_cnt)
 			last_flag = 1;
 		exec_pipe(execinfo, last_flag);
@@ -92,11 +100,6 @@ void	execute(t_cmdline *cmdline, t_env *env)
 		i++;
 	}
 	wait_procs(pipe_cnt + 1);
-
-	i = 0;
-	while (env->value[i])
-		free(env->value[i++]);
-	free(env->value);
 
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
