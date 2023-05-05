@@ -7,6 +7,6 @@ minishell
 
 test
 a.out
-a.out/dSYM
+a.out.dSYM
 
 *.gch
