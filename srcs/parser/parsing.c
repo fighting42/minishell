@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/05 22:08:05 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/06 01:55:22 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,8 @@ int	chk_quote_one(char *str, int flag)
 		}
 		j++;
 	}
+	if (chk == 0)
+		return (-2); // 따옴표가 한개도 없음
 	j++;
 	while (str[j] != '\0')
 	{
@@ -203,8 +205,10 @@ t_cmdline	*parsing(char *str, t_env *env)
 	t_token		*t_curr, *t_head;
 	t_dollar	*env_var;
 	char		**tmp;
+	char		*cmd;
 	int			i, quote = 0, cnt_split, j, dollar_index;
 	int			type;
+	int			quote_tmp, cnt_dlr = 0;
 
 	i = 0, j = 0, dollar_index = 0;
 	if (chk_whole_quote(str) == 1)
@@ -248,22 +252,11 @@ t_cmdline	*parsing(char *str, t_env *env)
 					if ((is_not_ok_sep(tmp[i], "|><")) == 1)
 						return (0);
 				}
-				j = 0;
 				while (tmp[i][j] != '\0')
 				{
 					quote = quote_status(tmp[i][j], quote);
-					if ((quote == 2 && tmp[i][j] == '$') ||\
-						(quote == 0 && tmp[i][j] == '$'))
-					{
-						printf(" < quote  : %d\n", quote);
-						append_token(t_head, t_curr, env_var[dollar_index].value, type);
-						dollar_index++;
-						break;
-					}
-					append_token(t_head, t_curr, tmp[i], type);
 					j++;
 				}
-				t_curr = create_token();
 			}
 			else if (tmp[i][j] == '>')
 			{
@@ -276,29 +269,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 					if ((is_not_ok_sep(tmp[i + 1], "|><")) == 1)
 						return (0);
 				}
-				// if ((quote == 2 && tmp[i][0] == '$') ||\
-				// 	(quote == 0 && tmp[i][0] == '$'))
-				// {
-				printf(" > quote  : %d\n", quote);
-				// 	append_token(t_head, t_curr, env_var[dollar_index].value, type);
-				// 	dollar_index++;
-				// }
-				// else
-				// 	append_token(t_head, t_curr, tmp[i], type);
-				// t_curr = create_token();
-				while (tmp[i][j] != '\0')
-				{
-					quote = quote_status(tmp[i][j], quote);
-					j++;
-				}
-			}
-			else if ((quote == 2 && tmp[i][j] == '$') ||\
-					(quote == 0 && tmp[i][j] == '$'))
-			{
-				printf(" $ quote i == %d : %d\n", i, quote);
-				append_token(t_head, t_curr, env_var[dollar_index].value, COMMAND);
-				t_curr = create_token();
-				dollar_index++;
 				while (tmp[i][j] != '\0')
 				{
 					quote = quote_status(tmp[i][j], quote);
@@ -307,6 +277,58 @@ t_cmdline	*parsing(char *str, t_env *env)
 			}
 			else if (tmp[i][j] == ' ')
 				j++;
+			else if (chk_whole_quote(tmp[i]) == 0) //따옴표 없거나 쌍으로 잘 있을 때
+			{
+				quote_tmp = 0;
+				if (type == 0)
+					type = COMMAND;
+				while (tmp[i][j] != '\0')
+				{
+					quote_tmp = quote_status(tmp[i][j], quote_tmp);
+					if (quote_tmp == 1)
+						break;
+					j++;
+				}
+				if (quote_tmp != 1)
+				{
+					cmd = remove_quote(tmp[i]);
+					j = 0;
+					while (cmd[j] != '\0')
+					{
+						if (cmd[j] == '$')
+							cnt_dlr++;
+						j++;
+					}
+					if (cnt_dlr == 0)
+						append_token(t_head, t_curr, cmd, type);
+					else
+					{
+						j = 0;
+						cmd = remove_quote(tmp[i]);
+						while (cmd[j] != '\0')
+						{
+							if (cmd[j] == '$') {
+							//$전까지 str을 하나의 token으로, 환경변수 값을 하나의 token, 그 뒤의 str도 하나의 token으로 잇기
+								append_token(t_head, t_curr, env_var[dollar_index].value, type);
+								dollar_index++;
+							}
+						}
+					}
+				}
+				else //''가 들어간 str
+				{
+					cmd = remove_quote(tmp[i]);
+					append_token(t_head, t_curr, cmd, type);
+				}
+				j = 0;
+				type = 0;
+				t_curr = create_token();
+				while (tmp[i][j] != '\0')
+				{
+					quote = quote_status(tmp[i][j], quote);
+					j++;
+				}
+			}
 			//띄어쓰기 없이 바로 유효한 따옴표 들어왔을 때 처리
 			else if (chk_quote_one(tmp[i], 0) != -1) //두번째 quote만날때까지 무조건 join
 			{
@@ -318,6 +340,7 @@ t_cmdline	*parsing(char *str, t_env *env)
 				int	k = chk_quote_one(tmp[++i], 1);
 				while (k == -1)
 				{
+					temp = ft_strjoin(temp, " ");
 					temp = ft_strjoin(temp, tmp[i]);
 					k = chk_quote_one(tmp[++i], 1);
 				}
@@ -371,8 +394,9 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	char *tmp = "echo $? | echo >> \"$PATH\"";
+	char *tmp = "echo \"asdf asdfe asdf\"";
 	printf("%s\n", tmp);
+	
 	g_status = 0;
 	str = parsing(tmp, &temp);
 	prt = str->token;
