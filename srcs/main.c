@@ -32,7 +32,7 @@ int main(int argc, char **argv, char **envp)
 	
 	// atexit(test_leaks); // leaks test !
 	env.value = init_env(envp);
-    // while(1)
+	// while(1)
     {
         str = readline("minishell$ ");
 		
@@ -41,7 +41,8 @@ int main(int argc, char **argv, char **envp)
 		//  return cmdline (token으로 연결, 명령어 세트로 짤라져있음)
 		// exec(cmdline);
 
-		cmdline = test_cmdline(); // test_cmdline() 자리에 parsing 함수 넣어주세용
+		//cmdline = test_cmdline(); // test_cmdline() 자리에 parsing 함수 넣어주세용
+		cmdline = parsing(str, &env);
 		execute(cmdline, &env);
 
 		add_history(str);

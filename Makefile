@@ -18,7 +18,10 @@ RFLAGS	=	-lreadline \
 			-L /Users/$(USER)/.brew/opt/readline/lib \
 			-I /Users/$(USER)/.brew/opt/readline/include
 
-SRCS_P	=	
+SRCS_P	=	srcs/parser/parse_command.c \
+			srcs/parser/parse_split.c \
+			srcs/parser/parse_utils.c \
+			srcs/parser/parsing.c \
 
 SRCS_E	=	srcs/execute/execute.c \
 			srcs/execute/init.c \

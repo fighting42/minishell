@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/04 14:33:04 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/05 19:21:26 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,23 +383,23 @@ t_cmdline	*parsing(char *str, t_env *env)
 	return (c_head);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	t_cmdline *str;
-	t_token *prt;
-	t_env temp;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_cmdline *str;
+// 	t_token *prt;
+// 	t_env temp;
 
-	temp.value = envp;
-	(void)argc;
-	(void)argv;
+// 	temp.value = envp;
+// 	(void)argc;
+// 	(void)argv;
 
-	char *tmp = "ls -al | echo $USER | echo $PATH | echo >> $USER";
-	str = parsing(tmp, &temp);
-	prt = str->token;
-	while (prt)
-	{
-		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
-		prt = prt->next;
-	}	
-	return (0);
-}
+// 	char *tmp = "ls -al | echo $USER | echo $PATH | echo >> $USER";
+// 	str = parsing(tmp, &temp);
+// 	prt = str->token;
+// 	while (prt)
+// 	{
+// 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
+// 		prt = prt->next;
+// 	}	
+// 	return (0);
+// }

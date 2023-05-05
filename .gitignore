@@ -8,3 +8,5 @@ minishell
 test
 a.out
 a.out/dSYM
+
+*.gch
