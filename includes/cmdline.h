@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmdline.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:31:45 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/26 12:45:55 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/05 20:32:26 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ typedef struct s_token
 typedef struct s_cmdline
 {
 	t_token				*token;
-	struct s_cmdline	*next;
-	int					token_cnt;
 }	t_cmdline;
 
 #endif

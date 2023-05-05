@@ -32,21 +32,18 @@ int main(int argc, char **argv, char **envp)
 	
 	// atexit(test_leaks); // leaks test !
 	env.value = init_env(envp);
-	// while(1)
+	str = NULL;
+	while(1)
     {
         str = readline("minishell$ ");
-		
-		// 1순위는 달러처리(환경변수) -> envp에 있어
-		// parse(str);
-		//  return cmdline (token으로 연결, 명령어 세트로 짤라져있음)
-		// exec(cmdline);
+		if (str)
+		{
+			cmdline = parsing(str, &env);
+			execute(cmdline, &env);
 
-		//cmdline = test_cmdline(); // test_cmdline() 자리에 parsing 함수 넣어주세용
-		cmdline = parsing(str, &env);
-		execute(cmdline, &env);
-
-		add_history(str);
-        free(str);
-    }
+			add_history(str);
+			free(str);
+		}
+	}
     return(0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:45:04 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/04 14:35:37 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/05 20:27:42 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	count_str(char *str, char *sep)
 	return (count);
 }
 
-char	**parse_split(char *str, int count, t_dollar *env_var)
+char	**parse_split(char *str, int count)
 {
 	char	**tmp;
 	int		i;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/05 19:21:26 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/05 20:54:17 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,10 +109,15 @@ t_dollar	*chk_env(char *str, t_env *env)
 			(quote == 0 && str[i] == '$'))
 		{
 			count = i + 1;
-			while (check_sep(str[count], sep) != 1 && str[count] != '\0')
-				count++;
-			env_var[j].value = trans_env(env, str, i + 1, count - i - 1);
-			//printf("[%d] = %s\n", j, env_var[j].value);
+			if (str[count] == '?')
+				env_var[j].value = ft_itoa(g_status);
+			else
+			{
+				while (check_sep(str[count], sep) != 1 && str[count] != '\0')
+					count++;
+				env_var[j].value = trans_env(env, str, i + 1, count - i - 1);
+				//printf("[%d] = %s\n", j, env_var[j].value);
+			}
 			j++;
 			i = count ;
 		}
@@ -124,22 +129,6 @@ t_dollar	*chk_env(char *str, t_env *env)
 	//while (env_var[++j].value != NULL)
 	//	printf("환경변수 확인[%d] : %s\n", j, env_var[j].value);
 	return (env_var);
-}
-
-int		count_colon(char *str)
-{
-	int	i;
-	int	cnt;
-
-	i = 0;
-	cnt = 1;
-	while (str[i] != '\0')
-	{
-		if (str[i] == ';')
-			cnt++;
-		i++;
-	}
-	return (cnt);
 }
 
 int	is_not_ok_sep(char *str, char *sep)
@@ -214,10 +203,10 @@ int	chk_whole_quote(char *str)
 t_cmdline	*parsing(char *str, t_env *env)
 {
 	t_cmdline	*c_head, *c_curr;
-	t_token		*t_curr, *t_head, *t_prev;
+	t_token		*t_curr, *t_head;
 	t_dollar	*env_var;
 	char		**tmp;
-	int			i, quote = 0, cnt_split, j, cnt_colon, dollar_index;
+	int			i, quote = 0, cnt_split, j, dollar_index;
 	int			type;
 
 	i = 0, j = 0, dollar_index = 0;
@@ -227,35 +216,20 @@ t_cmdline	*parsing(char *str, t_env *env)
 		return (0);
 	}
 	env_var = chk_env(str, env);
-	cnt_colon = count_colon(str);
-	c_head = malloc(sizeof(t_cmdline) * cnt_colon);
+	c_head = malloc(sizeof(t_cmdline));
 	c_curr = c_head;
 	t_head = create_token();
 	t_curr = t_head;
 	c_curr->token = t_head;
 	cnt_split = count_str(str, " |<>;");
-	tmp = parse_split(str, cnt_split, env_var);
-	int s = 0;
+	tmp = parse_split(str, cnt_split);
 	while (tmp[i] != NULL)
 	{
 		j = 0;
 		while (tmp[i][j] != '\0')
 		{
 			quote = quote_status(tmp[i][j], quote);
-			if (tmp[i][j] == ';')
-			{
-				c_curr = c_curr->next;
-				c_curr->token = create_token();
-				t_curr = c_curr->token;
-				while (tmp[i][j] != '\0')
-				{
-					quote = quote_status(tmp[i][j], quote);
-					j++;
-				}
-				//i++;
-				//j = 0;
-			}
-			else if (tmp[i][j] == '|')
+			if (tmp[i][j] == '|')
 			{
 				t_curr->pipe_flag = 1;
 				while (tmp[i][j] != '\0')
@@ -263,8 +237,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 					quote = quote_status(tmp[i][j], quote);
 					j++;
 				}
-				//i++;
-				//j = 0;
 			}
 			else if (tmp[i][j] == '<')
 			{
@@ -284,8 +256,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 					quote = quote_status(tmp[i][j], quote);
 					j++;
 				}
-				//i++;
-				//j = 0;
 			}
 			else if (tmp[i][j] == '>')
 			{
@@ -305,8 +275,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 					quote = quote_status(tmp[i][j], quote);
 					j++;
 				}
-				//i++;
-				//j = 0;
 			}
 			else if ((quote == 2 && tmp[i][j] == '$') ||\
 					(quote == 0 && tmp[i][j] == '$'))
@@ -319,8 +287,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 					quote = quote_status(tmp[i][j], quote);
 					j++;
 				}
-				//i++;
-				//j = 0;
 			}
 			else if (tmp[i][j] == ' ')
 				j++;
@@ -351,8 +317,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 					quote = quote_status(tmp[i][j], quote);
 					j++;
 				}
-				//i++;
-				//j = 0;
 			}
 			else if (is_not_ok_sep(tmp[i], "\', \"") == 1 && \
 					(chk_quote_one(tmp[i], 0) == -1))
@@ -364,8 +328,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 					quote = quote_status(tmp[i][j], quote);
 					j++;
 				}
-				//i++;
-				//j = 0;
 			}
 			else
 			{
@@ -379,7 +341,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 		}
 		i++;
 	}
-	c_curr->next = 0;
 	return (c_head);
 }
 

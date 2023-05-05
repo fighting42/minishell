@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 15:06:56 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/04/27 14:08:29 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/05 21:03:24 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ t_execinfo	*init_execinfo(t_cmdline *cmdline, t_env *env)
 	token = cmdline->token;
 	while (token)
 	{
-		if (!token->next || token->next->pipe_flag)
+		if (!token->next || (token->next && token->next->pipe_flag))
 		{
 			exec = append_exec(exec, create_exec(cmdline, i, env));
 			if (!token->next)

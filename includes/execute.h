@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:13:32 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/03 17:33:08 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/05 20:47:55 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ typedef struct s_execinfo
 	struct s_execinfo	*next;
 }	t_execinfo;
 
-t_token		*test_token(char *value, t_type type, int pipe, t_token *next);
-t_cmdline	*test_cmdline(void);
 void		execute(t_cmdline *cmdline, t_env *env);
 void		exec_pipe(t_execinfo *execinfo, int flag);
 char		*find_path(char **cmd, char **envp_path);
