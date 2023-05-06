@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:55:09 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/06 23:02:35 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/07 01:21:11 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*create_token(void)
 {
 	t_token	*ret;
 
-	ret = malloc(sizeof(t_token) * 1);
+	ret = (t_token *)malloc(sizeof(t_token));
 	ret->pipe_flag = 0;
 	ret->next = NULL;
 	return (ret);

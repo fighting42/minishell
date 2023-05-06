@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/06 23:11:10 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/07 01:55:08 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,13 +152,13 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 		if (count_dollar(parse->tmp[parse->i]) == 0)
 		{
 			tmp = remove_quote(parse->tmp[parse->i]);
-			append_token(parse->t_head, t_curr, tmp, parse->type);
+			append_token(parse->c_head->token, t_curr, tmp, parse->type);
 		}
 		else
 		{
 			tmp1 = env_to_str(parse, NULL); //환경변수 바꾸고
 			tmp = remove_quote(tmp); // 따옴표 제거
-			append_token(parse->t_head, t_curr, tmp, parse->type);
+			append_token(parse->c_head->token, t_curr, tmp, parse->type);
 		}
 	}
 	else
@@ -166,13 +166,13 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 		if (count_dollar(str) == 0)
 		{
 			tmp = remove_quote(str);
-			append_token(parse->t_head, t_curr, tmp, parse->type);
+			append_token(parse->c_head->token, t_curr, tmp, parse->type);
 		}
 		else
 		{
 			tmp1 = env_to_str(parse, str); //환경변수 바꾸고
 			tmp = remove_quote(tmp); // 따옴표 제거
-			append_token(parse->t_head, t_curr, tmp, parse->type);
+			append_token(parse->c_head->token, t_curr, tmp, parse->type);
 		}
 	}
 }

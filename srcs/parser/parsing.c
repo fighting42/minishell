@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/06 23:04:41 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/07 02:34:00 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@ int	g_status = 0;
 t_cmdline	*parsing(char *str, t_env *env)
 {
 	t_token		*t_curr;
+	t_cmdline	*c_curr;
 	t_parse		*parse;
 
 	char		*cmd;
@@ -23,13 +24,24 @@ t_cmdline	*parsing(char *str, t_env *env)
 
 	if (error_case(str) == 1)
 		return (0);
-	parse = malloc(sizeof(parse));
-	init_parse(parse, str, env);
-	t_curr = parse->t_head;
-	parse->c_head->token = parse->t_head;
+	c_curr = malloc(sizeof(t_cmdline));
+	t_curr = create_token();
+	c_curr->token = t_curr;
+	parse = malloc(sizeof(t_parse));
+	init_parse(parse, str, env, c_curr);
+
+	printf("quote %lu %p\n", sizeof(parse->quote), &parse->quote);
+	printf("i %lu %p\n", sizeof(parse->i),&parse->i);
+	printf("j %lu %p\n", sizeof(parse->j),&parse->j);
+	printf("dallar_index %lu %p\n", sizeof(parse->dollar_index),&parse->dollar_index);
+	printf("type %lu %p\n", sizeof(parse->type),&parse->type);
+	printf("env_var %lu %p\n", sizeof(parse->env_var),&parse->env_var);
+	printf("c_head %lu %p\n", sizeof(parse->c_head),&parse->c_head);
+	printf("tmp %lu %p\n", sizeof(parse->tmp),&parse->tmp);
 
 	for (parse->i = 0; parse->tmp[parse->i] != NULL; parse->i++)
 		printf("split : %s\n", parse->tmp[parse->i]);
+		
 	parse->i = 0;
 	while (parse->tmp[parse->i] != NULL)
 	{
@@ -56,10 +68,7 @@ t_cmdline	*parsing(char *str, t_env *env)
 				if (cmd_or_str(parse, t_curr) == 1)
 					return (0);
 				if (parse->tmp[parse->i + 1] != NULL)
-				{
 					t_curr = create_token();
-					printf("NULL check : %d\n", parse->i + 1);
-				}
 			}
 		}
 		parse->i++;
@@ -77,7 +86,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	char *tmp = "echo \"$USER sdfeasdf\"";
+	char *tmp = "echo \"$USER sdfe asdf\"";
 	printf("%s\n", tmp);
 	
 	g_status = 0;
