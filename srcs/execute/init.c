@@ -12,23 +12,22 @@
 
 #include "../../includes/minishell.h"
 
-t_execinfo	*append_exec(t_execinfo *head_exec, t_execinfo *new_exec)
+void	append_pipeline(t_exec *exec, t_pipeline *pipeline)
 {
-	t_execinfo	*tmp;
+	t_pipeline	*tmp;
 
-	if (!head_exec)
-		head_exec = new_exec;
+	if (!exec->pipeline)
+		exec->pipeline = pipeline;
 	else
 	{
-		tmp = head_exec;
+		tmp = exec->pipeline;
 		while (tmp->next)
 			tmp = tmp->next;
-		tmp->next = new_exec;
+		tmp->next = pipeline;
 	}
-	return (head_exec);
 }
 
-void	append_redirct(t_execinfo *exec, t_token *token)
+void	append_redirct(t_pipeline *pipeline, t_token *token)
 {
 	t_redirct	*redirct;
 	t_redirct	*tmp;
@@ -37,86 +36,80 @@ void	append_redirct(t_execinfo *exec, t_token *token)
 	redirct->value = token->value;
 	redirct->type = token->type;
 	redirct->next = NULL;
-	if (!exec->redirct)
-		exec->redirct = redirct;
+	if (!pipeline->redirct)
+		pipeline->redirct = redirct;
 	else
 	{
-		tmp = exec->redirct;
+		tmp = pipeline->redirct;
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = redirct;
 	}
 }
 
-void	check_cmd(t_token *token, t_execinfo *exec, int cnt)
+void	split_cmdline(t_token *token, t_pipeline *pipeline, int cnt)
 {
 	int	i;
 
-	exec->cmd = malloc(sizeof(char *) * (cnt + 1));
-	exec->redirct = NULL;
+	pipeline->cmd = malloc(sizeof(char *) * (cnt + 1));
+	pipeline->redirct = NULL;
 	i = 0;
 	while (i < cnt)
 	{
 		if (token->type == COMMAND)
-			exec->cmd[i++] = token->value;
+			pipeline->cmd[i++] = token->value;
 		else
 		{
-			append_redirct(exec, token);
+			append_redirct(pipeline, token);
 			cnt--;
 		}
 		token = token->next;
 	}
-	exec->cmd[i] = NULL;
+	pipeline->cmd[i] = NULL;
 }
 
-t_execinfo	*create_exec(t_cmdline *cmdline, int i, int prev, t_env *env)
+t_pipeline	*create_pipeline(t_cmdline *cmdline, int i, int prev, t_env *env)
 {
 	t_token		*token;
-	t_execinfo	*exec;
+	t_pipeline	*pipeline;
 	int			j;
 	int			cnt;
 
-	exec = malloc(sizeof(t_execinfo));
-	exec->env = env;
-	exec->hd_cnt = '0';
-	exec->next = NULL;
-	cnt = i - prev;
+	pipeline = malloc(sizeof(t_pipeline));
+	pipeline->env = env;
 	token = cmdline->token;
+	cnt = i - prev;
 	j = 0;
 	while ((j++ < i - cnt) && prev && token->next)
 		token = token->next;
 	prev = i;
-	check_cmd(token, exec, cnt);
-	return (exec);
+	split_cmdline(token, pipeline, cnt);
+	return (pipeline);
 }
 
-t_execinfo	*init_execinfo(t_cmdline *cmdline, t_env *env)
+void	check_cmdline(t_cmdline *cmdline, t_env *env, t_exec *exec)
 {
-	int			i;
-	int			prev;
-	int			pipe_cnt;
-	t_token		*token;
-	t_execinfo	*exec;
+	int		i;
+	int		prev;
+	t_token	*token;
 
 	i = 1;
 	prev = 0;
-	pipe_cnt = 0;
-	exec = NULL;
 	token = cmdline->token;
 	while (token)
 	{
+		if (token->type == HEREDOC)
+			exec->heredoc_cnt++;
 		if (!token->next || (token->next && token->next->pipe_flag))
 		{
-			exec = append_exec(exec, create_exec(cmdline, i, prev, env));
+			append_pipeline(exec, create_pipeline(cmdline, i, prev, env));
 			prev = i;
 			if (!token->next)
 				break ;
 			else
-				pipe_cnt++;
+				exec->pipe_cnt++;
 		}
 		token = token->next;
 		i++;
 	}
-	exec->pipe_cnt = pipe_cnt;
-	return (exec);
 }
