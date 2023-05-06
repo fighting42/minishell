@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:50:08 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/06 17:07:45 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/06 20:03:59 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,8 @@ int	ft_exit(t_exec *exec)
 		print_error(errmsg(1, "exit", cmd[1], NUMERIC_ERR), EXIT_Y, 255);
 	if (cmd[2])
 		print_error(errmsg(1, "exit", cmd[1], MANY_ARGS_ERR), EXIT_N, 1);
-	if (exec->pipe_cnt)
-		return (1);
+	if (0 < exec->pipe_cnt)
+		return (0);
 	ft_putendl_fd("exit", STDOUT_FILENO);
 	g_status = ft_atol(cmd[1]);
 	g_status %= 256;

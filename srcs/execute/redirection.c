@@ -6,22 +6,24 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:06:34 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/06 17:32:04 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/06 20:17:34 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	unlink_heredoc(t_exec *exec)
+void	unlink_heredoc(int cnt)
 {
 	char	*file;
+	int		i;
 
-	while (0 < exec->heredoc_cnt)
+	i = 1;
+	while (i <= cnt)
 	{
-		file = ft_strjoin(".heredoc/.tmp", ft_itoa(exec->heredoc_cnt));
+		file = ft_strjoin(".heredoc/.tmp", ft_itoa(i));
 		unlink(file);
 		free(file);
-		exec->heredoc_cnt--;
+		i++;
 	}
 }
 
@@ -33,7 +35,7 @@ char	*do_heredoc(t_redirct *redirct, t_exec *exec)
 
 	file = ft_strjoin(".heredoc/.tmp", ft_itoa(exec->heredoc_cnt));
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	exec->heredoc_cnt++;
+	exec->heredoc_cnt--;
 	while (1)
 	{
 		line = readline("> ");
@@ -45,7 +47,6 @@ char	*do_heredoc(t_redirct *redirct, t_exec *exec)
 		free(line);
 	}
 	free(line);
-	// free(file);
 	close(fd);
 	return (file);
 }
@@ -91,18 +92,18 @@ void	redirct(t_exec *exec)
 	int			cnt;
 	int			flag;
 
-	cnt = 0;
-	if (exec->heredoc_cnt > 16)
+	cnt = exec->heredoc_cnt;
+	if (cnt > 16)
 		print_error(HEREDOC_ERR, EXIT_Y, 2);
 	redirct = exec->pipeline->redirct;
 	while (redirct)
 	{
-		if (cnt - 1 == exec->heredoc_cnt)
+		if (1 == exec->heredoc_cnt)
 			flag = 1;
 		else
 			flag = 0;
 		do_redirct(redirct, exec, flag);
 		redirct = redirct->next;
 	}
-	unlink_heredoc(exec);
+	unlink_heredoc(cnt);
 }

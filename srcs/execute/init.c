@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-t_exec	*append_pipeline(t_exec *exec, t_pipeline *pipeline)
+void	append_pipeline(t_exec *exec, t_pipeline *pipeline)
 {
 	t_pipeline	*tmp;
 
@@ -25,7 +25,6 @@ t_exec	*append_pipeline(t_exec *exec, t_pipeline *pipeline)
 			tmp = tmp->next;
 		tmp->next = pipeline;
 	}
-	return (exec);
 }
 
 void	append_redirct(t_pipeline *pipeline, t_token *token)
@@ -48,7 +47,7 @@ void	append_redirct(t_pipeline *pipeline, t_token *token)
 	}
 }
 
-void	check_cmd(t_token *token, t_pipeline *pipeline, int cnt)
+void	split_cmdline(t_token *token, t_pipeline *pipeline, int cnt)
 {
 	int	i;
 
@@ -84,23 +83,18 @@ t_pipeline	*create_pipeline(t_cmdline *cmdline, int i, int prev, t_env *env)
 	while ((j++ < i - cnt) && prev && token->next)
 		token = token->next;
 	prev = i;
-	check_cmd(token, pipeline, cnt);
+	split_cmdline(token, pipeline, cnt);
 	return (pipeline);
 }
 
-t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
+void	check_cmdline(t_cmdline *cmdline, t_env *env, t_exec *exec)
 {
 	int		i;
 	int		prev;
 	t_token	*token;
-	t_exec	*exec;
 
 	i = 1;
 	prev = 0;
-	exec = malloc(sizeof(t_exec));
-	exec->pipeline = NULL;
-	exec->pipe_cnt = 0;
-	exec->heredoc_cnt = 0;
 	token = cmdline->token;
 	while (token)
 	{
@@ -108,7 +102,7 @@ t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 			exec->heredoc_cnt++;
 		if (!token->next || (token->next && token->next->pipe_flag))
 		{
-			exec = append_pipeline(exec, create_pipeline(cmdline, i, prev, env));
+			append_pipeline(exec, create_pipeline(cmdline, i, prev, env));
 			prev = i;
 			if (!token->next)
 				break ;
@@ -118,5 +112,4 @@ t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 		token = token->next;
 		i++;
 	}
-	return (exec);
 }

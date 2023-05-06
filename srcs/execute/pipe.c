@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/06 17:40:18 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/06 20:17:01 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ void	exec_cmd(int fds[2], t_exec *exec, int flag)
 		print_error(errmsg(1, pl->cmd[0], NULL, CMD_ERR), EXIT_Y, 127);
 }
 
-void	exec_pipe(t_exec *exec, int flag)
+void	exec_fork(t_exec *exec, int flag)
 {
 	int			fds[2];
 	pid_t		pid;
 
 	pipe(fds);
-	pid = fork(); // fork 실패 error처리
+	pid = fork();
 	if (pid == 0)
 		exec_cmd(fds, exec, flag);
 	else

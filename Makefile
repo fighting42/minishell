@@ -26,7 +26,8 @@ SRCS_P	=	srcs/parser/parse_command.c \
 SRCS_E	=	srcs/execute/execute.c \
 			srcs/execute/init.c \
 			srcs/execute/pipe.c \
-			srcs/execute/redirection.c
+			srcs/execute/redirection.c \
+			srcs/execute/utils.c
 	
 SRCS_B	=	srcs/builtin/builtin.c \
 			srcs/builtin/env_utils.c \

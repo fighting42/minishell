@@ -25,41 +25,11 @@ t_pipeline	*next_pipeline(t_pipeline *pipeline)
 	tmp = pipeline->redirct;
 	while (tmp)
 	{
-		free(tmp);
 		tmp = pipeline->redirct->next;
+		free(pipeline->redirct);
+		pipeline->redirct = tmp;
 	}
 	return (next);
-}
-
-char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg)
-{
-	char	*tmp;
-
-	tmp = "";
-	if (flag)
-		tmp = ft_strjoin(tmp, "minishell: ");
-	if (cmd1)
-	{
-		tmp = ft_strjoin(tmp, cmd1);
-		tmp = ft_strjoin(tmp, ": ");
-	}
-	if (cmd2)
-	{
-		tmp = ft_strjoin(tmp, cmd2);
-		tmp = ft_strjoin(tmp, ": ");
-	}
-	if (msg)
-		tmp = ft_strjoin(tmp, msg);
-	return (tmp);
-}
-
-void	print_error(char *errmsg, int flag, int status)
-{
-	ft_putendl_fd(errmsg, STDERR_FILENO);
-	g_status = status;
-	write(2, ft_itoa(g_status), 3); write(2, "\n", 1); // exit_status test !
-	if (flag == EXIT_Y)
-		exit(EXIT_FAILURE);
 }
 
 void	wait_procs(int cnt)
@@ -76,19 +46,26 @@ void	wait_procs(int cnt)
 	}
 }
 
-void	execute(t_cmdline *cmdline, t_env *env)
+t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
+{
+	t_exec	*exec;
+
+	exec = malloc(sizeof(t_exec));
+	exec->pipeline = NULL;
+	exec->pipe_cnt = 0;
+	exec->heredoc_cnt = 0;
+	check_cmdline(cmdline, env, exec);
+	return (exec);
+}
+
+void	exec_pipeline(t_cmdline *cmdline, t_env *env)
 {
 	int		i;
 	int		last_flag;
 	t_exec	*exec;
 
-	int fd_in = dup(STDIN_FILENO);
-	int fd_out = dup(STDOUT_FILENO);
-
 	i = 0;
 	last_flag = 0;
-	if (cmdline->token->value == NULL)
-		return ;
 	exec = init_exec(cmdline, env);
 	while (i < exec->pipe_cnt + 1)
 	{
@@ -96,12 +73,24 @@ void	execute(t_cmdline *cmdline, t_env *env)
 			break ;
 		if (i == exec->pipe_cnt)
 			last_flag = 1;
-		exec_pipe(exec, last_flag);
+		exec_fork(exec, last_flag);
 		exec->pipeline = next_pipeline(exec->pipeline);
 		i++;
 	}
 	wait_procs(exec->pipe_cnt + 1);
 	free(exec);
+}
+
+void	execute(t_cmdline *cmdline, t_env *env)
+{
+	int		fd_in;
+	int		fd_out;
+
+	if (cmdline->token->value == NULL)
+		return ;
+	fd_in = dup(STDIN_FILENO);
+	fd_out = dup(STDOUT_FILENO);
+	exec_pipeline(cmdline, env);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 }

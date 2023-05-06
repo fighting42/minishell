@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
 int	g_status = 0;
 
 void	test_leaks(void)
@@ -38,10 +39,9 @@ int main(int argc, char **argv, char **envp)
     {
         str = readline("minishell$ ");
 		if (str)
-		{
+		{		
 			cmdline = parsing(str, &env);
 			execute(cmdline, &env);
-
 			add_history(str);
 			free(str);
 		}
