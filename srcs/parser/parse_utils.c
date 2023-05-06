@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:55:09 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/05 21:05:44 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/06 23:02:35 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,14 @@ void	append_token(t_token *head, t_token *curr, char *value, int type)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = curr;
-		curr->next = NULL;
+	}
+}
+
+void	move_index_j(t_parse *parse)
+{
+	while (parse->tmp[parse->i][parse->j] != '\0')
+	{
+		parse->quote = quote_status(parse->tmp[parse->i][parse->j], parse->quote);
+		parse->j++;
 	}
 }
