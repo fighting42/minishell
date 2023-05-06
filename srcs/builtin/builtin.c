@@ -12,32 +12,32 @@
 
 #include "../../includes/minishell.h"
 
-int	check_builtin(t_execinfo *execinfo)
+int	check_builtin(t_exec *exec)
 {
 	char	*cmd;
 
-	cmd = execinfo->cmd[0];
+	cmd = exec->pipeline->cmd[0];
 	if (!ft_strncmp("cd", cmd, ft_strlen(cmd)))
-		return (ft_cd(execinfo));
+		return (ft_cd(exec->pipeline));
 	else if (!ft_strncmp("export", cmd, ft_strlen(cmd)))
-		return (ft_export(execinfo));
+		return (ft_export(exec->pipeline));
 	else if (!ft_strncmp("unset", cmd, ft_strlen(cmd)))
-		return (ft_unset(execinfo));
+		return (ft_unset(exec->pipeline));
 	else if (!ft_strncmp("exit", cmd, ft_strlen(cmd)))
-		return (ft_exit(execinfo));
+		return (ft_exit(exec));
 	return (1);
 }
 
-int	check_builtin_fd(t_execinfo *execinfo, int fd)
+int	check_builtin_fd(t_pipeline *pipeline, int fd)
 {
 	char	*cmd;
 
-	cmd = execinfo->cmd[0];
+	cmd = pipeline->cmd[0];
 	if (!ft_strncmp("echo", cmd, ft_strlen(cmd)))
-		return (ft_echo(execinfo->cmd, fd));
+		return (ft_echo(pipeline->cmd, fd));
 	else if (!ft_strncmp("pwd", cmd, ft_strlen(cmd)))
 		return (ft_pwd());
 	else if (!ft_strncmp("env", cmd, ft_strlen(cmd)))
-		return (ft_env(execinfo, fd));
+		return (ft_env(pipeline, fd));
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:18:29 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/05 21:42:21 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/06 17:35:20 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,15 @@
 
 # include "minishell.h"
 
-int		check_builtin(t_execinfo *execinfo);
-int		check_builtin_fd(t_execinfo *execinfo, int fd);
+int		check_builtin(t_exec *exec);
+int		check_builtin_fd(t_pipeline *pipeline, int fd);
 int		ft_echo(char **cmd, int fd);
-int		ft_cd(t_execinfo *execinfo);
+int		ft_cd(t_pipeline *pipeline);
 int		ft_pwd(void);
-int		ft_export(t_execinfo *execinfo);
-int		ft_unset(t_execinfo *execinfo);
-int		ft_env(t_execinfo *execinfo, int fd);
-int		ft_exit(t_execinfo *exec);
+int		ft_export(t_pipeline *pipeline);
+int		ft_unset(t_pipeline *pipeline);
+int		ft_env(t_pipeline *pipeline, int fd);
+int		ft_exit(t_exec *exec);
 // env_utils
 char	**init_env(char **envp);
 char	**init_add_env(char **env);

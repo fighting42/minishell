@@ -12,19 +12,23 @@
 
 #include "../../includes/minishell.h"
 
-void	free_exec(t_execinfo *exec)
+t_pipeline	*next_pipeline(t_pipeline *pipeline)
 {
-	t_redirct *tmp;
+	t_pipeline	*next;
+	t_redirct	*tmp;
 
-	free(exec->cmd);
-	free(exec->path);
-	tmp = exec->redirct;
+	next = pipeline->next;
+	if (pipeline->cmd)
+		free(pipeline->cmd);
+	if (pipeline->path)
+		free(pipeline->path);
+	tmp = pipeline->redirct;
 	while (tmp)
 	{
-		free(exec->redirct);
-		tmp = tmp->next;
+		free(tmp);
+		tmp = pipeline->redirct->next;
 	}
-	free(exec);
+	return (next);
 }
 
 char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg)
@@ -74,10 +78,9 @@ void	wait_procs(int cnt)
 
 void	execute(t_cmdline *cmdline, t_env *env)
 {
-	int			i;
-	int			last_flag;
-	int			pipe_cnt;
-	t_execinfo	*execinfo;
+	int		i;
+	int		last_flag;
+	t_exec	*exec;
 
 	int fd_in = dup(STDIN_FILENO);
 	int fd_out = dup(STDOUT_FILENO);
@@ -86,21 +89,19 @@ void	execute(t_cmdline *cmdline, t_env *env)
 	last_flag = 0;
 	if (cmdline->token->value == NULL)
 		return ;
-	execinfo = init_execinfo(cmdline, env);
-	pipe_cnt = execinfo->pipe_cnt;
-	while (i < pipe_cnt + 1)
+	exec = init_exec(cmdline, env);
+	while (i < exec->pipe_cnt + 1)
 	{
-		if (!check_builtin(execinfo))
+		if (!check_builtin(exec))
 			break ;
-		if (i == pipe_cnt)
+		if (i == exec->pipe_cnt)
 			last_flag = 1;
-		exec_pipe(execinfo, last_flag);
-		free_exec(execinfo);
-		execinfo = execinfo->next;
+		exec_pipe(exec, last_flag);
+		exec->pipeline = next_pipeline(exec->pipeline);
 		i++;
 	}
-	wait_procs(pipe_cnt + 1);
-
+	wait_procs(exec->pipe_cnt + 1);
+	free(exec);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 }

@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/05 21:59:06 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/06 17:40:18 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,22 +55,25 @@ char	*find_path(char **cmd, char **envp_path)
 	return (NULL);
 }
 
-void	exec_cmd(int fds[2], t_execinfo *execinfo, int flag)
+void	exec_cmd(int fds[2], t_exec *exec, int flag)
 {
+	t_pipeline	*pl;
+
+	pl = exec->pipeline;
 	close(fds[0]);
 	if (!flag)
 		dup2(fds[1], STDOUT_FILENO);
 	close(fds[1]);
-	redirection(execinfo);
-	if (!check_builtin_fd(execinfo, STDOUT_FILENO))
+	redirct(exec);
+	if (!check_builtin_fd(pl, STDOUT_FILENO))
 		exit(0);
-	execinfo->path = find_path(execinfo->cmd, pars_envp(execinfo->env->value));
+	pl->path = find_path(pl->cmd, pars_envp(pl->env->value));
 	g_status = 0;
-	if (execve(execinfo->path, execinfo->cmd, execinfo->env->value) == -1)
-		print_error(errmsg(1, execinfo->cmd[0], NULL, CMD_ERR), EXIT_Y, 127);
+	if (execve(pl->path, pl->cmd, pl->env->value) == -1)
+		print_error(errmsg(1, pl->cmd[0], NULL, CMD_ERR), EXIT_Y, 127);
 }
 
-void	exec_pipe(t_execinfo *execinfo, int flag)
+void	exec_pipe(t_exec *exec, int flag)
 {
 	int			fds[2];
 	pid_t		pid;
@@ -78,7 +81,7 @@ void	exec_pipe(t_execinfo *execinfo, int flag)
 	pipe(fds);
 	pid = fork(); // fork 실패 error처리
 	if (pid == 0)
-		exec_cmd(fds, execinfo, flag);
+		exec_cmd(fds, exec, flag);
 	else
 	{
 		close(fds[1]);

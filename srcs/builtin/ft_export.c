@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:06:54 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/05 22:20:10 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/06 17:05:23 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,22 +56,22 @@ char	*error_cmd(char *cmd)
 	return (tmp2);
 }
 
-int	ft_export(t_execinfo *execinfo)
+int	ft_export(t_pipeline *pipeline)
 {
 	int	i;
 	int	j;
 
 	i = 1;
-	while (execinfo->cmd[i])
+	while (pipeline->cmd[i])
 	{
 		j = 0;
-		while (execinfo->cmd[i][j])
+		while (pipeline->cmd[i][j])
 		{
-			if (!(ft_isalnum(execinfo->cmd[i][j]) || (i != 0 && execinfo->cmd[i][j] == '=')))
-				print_error(errmsg(1, "export", error_cmd(execinfo->cmd[i]), NOT_VALID_ERR), EXIT_Y, 1);
+			if (!(ft_isalnum(pipeline->cmd[i][j]) || (i != 0 && pipeline->cmd[i][j] == '=')))
+				print_error(errmsg(1, "export", error_cmd(pipeline->cmd[i]), NOT_VALID_ERR), EXIT_Y, 1);
 			j++;
 		}
-		add_env(execinfo->env, execinfo->cmd[i]);
+		add_env(pipeline->env, pipeline->cmd[i]);
 		i++;
 	}
 	return (0);
