@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:45:04 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/05 20:27:42 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/06 16:19:23 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,24 @@ char	**parse_split(char *str, int count)
 	}
 	tmp[k] = NULL;
 	return (tmp);
+}
+
+int	is_not_ok_sep(char *str, char *sep)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		j = 0;
+		while(sep[j] != '\0')
+		{
+			if (str[i] == sep[j])
+				return (1);
+			j++;
+		}
+		i++;
+	}
+	return (0);
 }
