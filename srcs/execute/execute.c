@@ -86,8 +86,6 @@ void	execute(t_cmdline *cmdline, t_env *env)
 	int		fd_in;
 	int		fd_out;
 
-	if (cmdline->token->value == NULL)
-		return ;
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	exec_pipeline(cmdline, env);

@@ -39,7 +39,9 @@ SRCS_B	=	srcs/builtin/builtin.c \
 			srcs/builtin/ft_env.c \
 			srcs/builtin/ft_exit.c
 
-SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E) $(SRCS_B)
+SRCS_U	=	srcs/utils/signal.c
+
+SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E) $(SRCS_B) $(SRCS_U)
 
 OBJS 	=	$(SRCS:.c=.o)
 

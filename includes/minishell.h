@@ -20,6 +20,8 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <string.h>
+# include <signal.h>
+# include <termios.h>
 # include "../srcs/libft/libft.h"
 
 # include "cmdline.h"
@@ -27,6 +29,7 @@
 # include "execute.h"
 # include "builtin.h"
 # include "errmsg.h"
+# include "utils.h"
 
 // # define NULL 0
 

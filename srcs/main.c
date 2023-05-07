@@ -21,25 +21,27 @@ void	test_leaks(void)
 
 int main(int argc, char **argv, char **envp)
 {
-	(void)argc;
-	(void)argv;
     char		*str;
 	t_cmdline	*cmdline;
 	t_env		env;
 
-	// 다팍씨 보세요
-	// 1. 파싱할 때 envp말고 "env->value" 사용하기!
-	// 2. $? 처리 추가하기! -> 전역변수 "g_status"
-	// 3. cmdline 구조체에 token_cnt 필요 없어졌슴니다 히히 -> 지워도 됨!
-	
 	// atexit(test_leaks); // leaks test !
+	(void)argc;
+	(void)argv;
 	env.value = init_env(envp);
-	str = NULL;
+	init_signal();
 	while(1)
     {
         str = readline("minishell$ ");
-		if (str)
-		{		
+		if (!str)
+		{
+			ft_putendl_fd("exit", STDOUT_FILENO);
+			exit(0);
+		}
+		else if (!ft_strncmp(str, "", 1))
+			continue ;
+		else
+		{
 			cmdline = parsing(str, &env);
 			execute(cmdline, &env);
 			add_history(str);
