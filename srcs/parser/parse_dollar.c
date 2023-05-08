@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/08 21:25:21 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/08 21:27:43 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,10 +121,8 @@ t_envval	*chk_env(char *str, t_env *env)
 			(quote == 0 && str[i] == '$'))
 		{
 			count = i + 1;
-			if (str[count] == '?' && str[count + 1] == NULL)
+			if (str[count] == '?')
 				env_var[j].value = ft_itoa(g_status); // 함수로 만들기 -> $?뒤의 것들 다 붙이기
-			else if (str[count] == '?' && str[count + 1] != NULL)
-				
 			else
 			{
 				while (check_sep(str[count], sep) != 1 && str[count] != '\0')
