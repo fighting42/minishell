@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/08 21:15:38 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/08 22:00:17 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	char *tmp = "echo \'$USER \'sd\'fe asd\'f";
+	char *tmp = "echo $ $? ";
 	printf("%s\n", tmp);
 	
 	g_status = 0;
