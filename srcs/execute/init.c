@@ -56,13 +56,13 @@ void	split_cmdline(t_token *token, t_pipeline *pipeline, int cnt)
 	i = 0;
 	while (i < cnt)
 	{
-		if (token->type == COMMAND)
-			pipeline->cmd[i++] = token->value;
-		else
+		if ((token->type == COMMAND && !token->value) || token->type != COMMAND)
 		{
 			append_redirct(pipeline, token);
 			cnt--;
 		}
+		else
+			pipeline->cmd[i++] = token->value;
 		token = token->next;
 	}
 	pipeline->cmd[i] = NULL;

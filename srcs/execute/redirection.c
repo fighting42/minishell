@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:06:34 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/06 20:17:34 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/08 21:26:40 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ char	*do_heredoc(t_redirct *redirct, t_exec *exec)
 int	fd_open(t_redirct *redirct, t_exec *exec)
 {
 	char	*file;
+	char	*str;
 	int		fd;
 
 	if (redirct->type == STDIN)
@@ -68,6 +69,11 @@ int	fd_open(t_redirct *redirct, t_exec *exec)
 		fd = open(file, O_RDONLY); // heredoc 환경변수 처리 추가 !
 		free(file);
 		return (fd);
+	}
+	if (redirct->type == COMMAND && exec->pipeline->cmd[0] == NULL)
+	{
+		str = readline("> ");
+		exec->pipeline->cmd[0] = str;
 	}
 	return (0);
 }
