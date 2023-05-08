@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/08 21:55:36 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/09 02:05:17 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*trans_env(t_env *env, char *str, int start, int size)
 	}
 	free(temp);
 	if (env->value[i] == 0)
-		return ("\n");
+		return ("");
 	while (env->value[i][len] != '\0')
 		len++;
 	len = len - size + 1;
@@ -96,6 +96,46 @@ char	*strdup_ori(char *str, int start, int end)
 	return (tmp);
 }
 
+void	trans_question_mark(t_envval *env_var, char *str, int start, int j)
+{
+	int		i;
+	int		len;
+	int		l;
+	int		k = 0;
+	char	*ret;
+	char	*tmp;
+	char	*g_str;
+
+	l = start;
+	len = 0;
+	g_str = ft_itoa(g_status);
+	while (!(check_sep(str[l], " ><|") == 1 || str[l] == '\0'))
+		l++;
+	if (len == 0)
+	{
+		env_var[j].value = ft_itoa(g_status); // 함수로 만들기 -> $?뒤의 것들 다 붙이기
+		env_var[j].size_v = 1;
+		env_var[j].ori = "?";
+		return ;
+	}
+	else
+	{
+		tmp = malloc(sizeof(char) * l - start + 1);
+		while (start < l)
+		{
+			tmp[k] = str[start];
+			k++;
+			start++;
+		}
+		tmp[k] = '\0';
+		ret = ft_strdup(g_str);
+		ret = ft_strjoin(ret, tmp);
+		env_var[j].value = ret; // 함수로 만들기 -> $?뒤의 것들 다 붙이기
+		env_var[j].size_v = ft_strlen(ret);
+		env_var[j].ori = ft_strjoin("$?", tmp);
+	}
+}
+
 t_envval	*chk_env(char *str, t_env *env)
 {
 	t_envval	*env_var;
@@ -110,7 +150,7 @@ t_envval	*chk_env(char *str, t_env *env)
 	j = 0;
 	cnt_dollar = count_dollar(str);
 	quote = 0;
-	sep = " |<\">";
+	sep = " |<\">$";
 	env_var = malloc(sizeof(t_envval) * (cnt_dollar + 1));
 	i = 0;
 	quote = 0;
@@ -122,11 +162,7 @@ t_envval	*chk_env(char *str, t_env *env)
 		{
 			count = i + 1;
 			if (str[count] == '?')
-			{
-				env_var[j].value = ft_itoa(g_status); // 함수로 만들기 -> $?뒤의 것들 다 붙이기
-				env_var[j].size_v = 1;
-				env_var[j].ori = "?";
-			}
+				trans_question_mark(env_var, str, count + 1, j);
 			else if (str[count] == ' ')
 			{
 				env_var[j].value = "$";
@@ -139,7 +175,7 @@ t_envval	*chk_env(char *str, t_env *env)
 					count++;
 				env_var[j].value = trans_env(env, str, i + 1, count - i - 1);
 				env_var[j].ori = strdup_ori(str, i + 1, count - 1);
-				env_var[j].size_v = count - i - 1;
+				env_var[j].size_v = ft_strlen(env_var[j].value);
 			}
 			j++;
 			i = count ;

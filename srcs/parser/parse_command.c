@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/08 22:02:47 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/09 01:35:22 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ char	*env_to_str(t_parse *parse, char *str)
 		if ((quote == 2 && temp[k] == '$') ||\
 			(quote == 0 && temp[k] == '$'))
 		{
+			m = 0;
 			while(parse->env_var[parse->dollar_index].value[m] != '\0')
 			{
 				ret[n] = parse->env_var[parse->dollar_index].value[m];
@@ -125,7 +126,6 @@ char	*valid_join(t_parse *parse, int quote)
 				else
 				{
 					flag = 2;
-					//ret = ft_strjoin(ret, parse->tmp[parse->i]);
 					ret_add = valid_join(parse, curr_q); 
 					break;
 				}

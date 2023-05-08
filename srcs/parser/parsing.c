@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/08 22:00:17 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/09 02:04:08 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ t_cmdline	*parsing(char *str, t_env *env)
 
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
+
+	for (int k = 0; parse->env_var[k].value != NULL; k++)
+		printf("환경변수 :: %s, %d\n", parse->env_var[k].value, parse->env_var[k].size_v);
 
 	for (parse->i = 0; parse->tmp[parse->i] != NULL; parse->i++)
 		printf("split : %s\n", parse->tmp[parse->i]);
@@ -78,7 +81,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	char *tmp = "echo $ $? ";
+	char *tmp = "echo $aa aaaa";
 	printf("%s\n", tmp);
 	
 	g_status = 0;
