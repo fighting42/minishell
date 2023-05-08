@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:55:09 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/07 01:21:11 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/08 20:53:22 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	append_token(t_token *head, t_token *curr, char *value, int type)
 	t_token	*tmp;
 
 	curr->value = value;
+	printf("값 확인 :: %s\n", curr->value);
 	if (type != -1)
 	{
 		if (type == 0)
@@ -48,6 +49,7 @@ void	append_token(t_token *head, t_token *curr, char *value, int type)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = curr;
+		curr->next = NULL;
 	}
 }
 

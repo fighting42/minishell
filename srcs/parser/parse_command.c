@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/07 01:55:08 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/08 20:58:06 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	len_env_to_str(t_parse *parse, char *str)
 	int	chk;
 	char	*temp;
 
-	k = 0; 
+	k = -1; 
 	quote = 0;
 	len = 0;
 	chk = 0;
@@ -28,16 +28,16 @@ int	len_env_to_str(t_parse *parse, char *str)
 		temp = parse->tmp[parse->i];
 	else
 		temp = str;
-	while (temp[k++] != '\0')
+	while (temp[++k] != '\0')
 	{
 		quote = quote_status(temp[k], quote);
 		if ((quote == 2 && temp[k] == '$') ||\
 			(quote == 0 && temp[k] == '$'))
 		{
-			len += strlen(parse->env_var[parse->dollar_index].value);
+			len += ft_strlen(parse->env_var[parse->dollar_index].value);
+			k += ft_strlen(parse->env_var[parse->dollar_index].ori);
 			parse->dollar_index++;
 			chk++;
-			k += strlen(parse->env_var[parse->dollar_index].ori);
 		}
 		else
 			len++;
@@ -66,7 +66,7 @@ char	*env_to_str(t_parse *parse, char *str)
 		temp = str;
 	len = len_env_to_str(parse, str);
 	ret = (char *)malloc(sizeof(char) * len + 1);
-	while (parse->tmp[parse->i][k] != '\0')
+	while (temp[k] != '\0')
 	{
 		quote = quote_status(temp[k], quote);
 		if ((quote == 2 && temp[k] == '$') ||\
@@ -78,15 +78,16 @@ char	*env_to_str(t_parse *parse, char *str)
 				n++;
 				m++;
 			}
+			k += ft_strlen(parse->env_var[parse->dollar_index].ori);
+			k += 1;
 			parse->dollar_index++;
-			k += strlen(parse->env_var[parse->dollar_index].ori);
 		}
 		else
 		{
 			ret[n] = temp[k];
 			n++;
+			k++;
 		}
-		k++;
 	}
 	ret[n] = '\0';
 	return (ret);
@@ -171,7 +172,7 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 		else
 		{
 			tmp1 = env_to_str(parse, str); //환경변수 바꾸고
-			tmp = remove_quote(tmp); // 따옴표 제거
+			tmp = remove_quote(tmp1); // 따옴표 제거
 			append_token(parse->c_head->token, t_curr, tmp, parse->type);
 		}
 	}

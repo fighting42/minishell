@@ -6,13 +6,13 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:32:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/06 21:24:27 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/08 21:21:56 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	error_case(char *str)
+int	error_quote(char *str)
 {
 	if (chk_whole_quote(str, 0) == 1)
 	{
@@ -21,3 +21,10 @@ int	error_case(char *str)
 	}
 	return (0);
 }
+
+// int error_case(char *str)
+// {
+		//1. 파이프가 맨 처음에 들어왔을 때 -> 에러
+		//2. 맨 끝이 파이프 -> 다음 토큰에 널값 넣고 플래그 바꿔서 넘기기
+		//3. 말도 안되는 명령어들 -> 에러
+// }

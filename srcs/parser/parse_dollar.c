@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/07 02:39:18 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/08 21:27:43 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ char	*strdup_ori(char *str, int start, int end)
 	int		j;
 	char	*tmp;
 
+	int count = 0;
 	i = start;
 	j = 0;
 	tmp = (char *)malloc(sizeof(char) * (end - start + 2));
@@ -121,13 +122,13 @@ t_envval	*chk_env(char *str, t_env *env)
 		{
 			count = i + 1;
 			if (str[count] == '?')
-				env_var[j].value = ft_itoa(g_status);
+				env_var[j].value = ft_itoa(g_status); // 함수로 만들기 -> $?뒤의 것들 다 붙이기
 			else
 			{
 				while (check_sep(str[count], sep) != 1 && str[count] != '\0')
 					count++;
 				env_var[j].value = trans_env(env, str, i + 1, count - i - 1);
-				env_var[j].ori = strdup_ori(str, i + 1, count - i - 1);
+				env_var[j].ori = strdup_ori(str, i + 1, count - 1);
 			}
 			j++;
 			i = count ;

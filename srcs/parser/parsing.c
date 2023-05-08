@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/07 02:34:00 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/08 21:15:38 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,14 @@ t_cmdline	*parsing(char *str, t_env *env)
 	int			quote = 0;
 	int			cnt_dlr = 0;
 
-	if (error_case(str) == 1)
+	if (error_quote(str) == 1)
 		return (0);
 	c_curr = malloc(sizeof(t_cmdline));
 	t_curr = create_token();
 	c_curr->token = t_curr;
+
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
-
-	printf("quote %lu %p\n", sizeof(parse->quote), &parse->quote);
-	printf("i %lu %p\n", sizeof(parse->i),&parse->i);
-	printf("j %lu %p\n", sizeof(parse->j),&parse->j);
-	printf("dallar_index %lu %p\n", sizeof(parse->dollar_index),&parse->dollar_index);
-	printf("type %lu %p\n", sizeof(parse->type),&parse->type);
-	printf("env_var %lu %p\n", sizeof(parse->env_var),&parse->env_var);
-	printf("c_head %lu %p\n", sizeof(parse->c_head),&parse->c_head);
-	printf("tmp %lu %p\n", sizeof(parse->tmp),&parse->tmp);
 
 	for (parse->i = 0; parse->tmp[parse->i] != NULL; parse->i++)
 		printf("split : %s\n", parse->tmp[parse->i]);
@@ -86,7 +78,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	char *tmp = "echo \"$USER sdfe asdf\"";
+	char *tmp = "echo \'$USER \'sd\'fe asd\'f";
 	printf("%s\n", tmp);
 	
 	g_status = 0;
