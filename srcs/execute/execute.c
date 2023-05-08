@@ -42,6 +42,18 @@ void	wait_procs(int cnt)
 	while (i < cnt)
 	{
 		pid = waitpid(-1, &status, 0);
+		if (WTERMSIG(status) == 2)
+		{
+			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
+			ft_putstr_fd("\b\b\b\b\b\b\b\b\b\b\b", STDOUT_FILENO);
+			ft_putendl_fd("^C", STDOUT_FILENO);
+		}
+		if (WTERMSIG(status) == 3) // 안됨..
+		{
+			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
+			ft_putstr_fd("\b\b\b\b\b\b\b\b\b\b\b", STDOUT_FILENO);
+			ft_putendl_fd("^\\Quit: 3", STDOUT_FILENO);
+		}
 		i++;
 	}
 }

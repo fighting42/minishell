@@ -14,18 +14,12 @@
 
 int	g_status = 0;
 
-void	test_leaks(void)
-{
-	system("leaks minishell");
-}
-
 int main(int argc, char **argv, char **envp)
 {
     char		*str;
 	t_cmdline	*cmdline;
 	t_env		env;
 
-	// atexit(test_leaks); // leaks test !
 	(void)argc;
 	(void)argv;
 	env.value = init_env(envp);
@@ -35,6 +29,8 @@ int main(int argc, char **argv, char **envp)
         str = readline("minishell$ ");
 		if (!str)
 		{
+			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
+			ft_putstr_fd("\033[11C", STDOUT_FILENO);
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit(0);
 		}
