@@ -14,9 +14,9 @@ NAME	=	minishell
 
 CFLAGS	=	-Wall -Wextra -Werror -g
 
-RFLAGS	=	-lreadline \
-			-L /Users/$(USER)/.brew/opt/readline/lib \
-			-I /Users/$(USER)/.brew/opt/readline/include
+RINCS	=	-I /Users/$(USER)/.brew/opt/readline/include
+
+RLIBS	=	-lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 
 SRCS_P	=	srcs/parser/parse_command.c \
 			srcs/parser/parse_split.c \
@@ -45,22 +45,27 @@ SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E) $(SRCS_B) $(SRCS_U)
 
 OBJS 	=	$(SRCS:.c=.o)
 
-MKLIB	=	make -C srcs/libft
+LDIR	=	srcs/libft
 
-LIBFT 	=	srcs/libft/libft.a
+LIBFT 	=	$(LDIR)/libft.a
 
-all 	:	$(NAME)
+
+%.o		:	%.c
+			$(CC) $(CFLAGS) $(RINCS) -c $< -o $@
+
+all 	:	
+			make -C $(LDIR) 
+			make $(NAME)
 
 $(NAME) :	$(OBJS)
-			$(MKLIB)
-			$(CC) $(CFLAGS) $(RFLAGS) -o $(NAME) $(OBJS) $(LIBFT)
+			$(CC) $(CFLAGS) $(RLIBS) $(OBJS) $(LIBFT) -o $(NAME) 
 
 clean   :	
+			make -C $(LDIR) clean
 			$(RM) $(OBJS)
-			$(MKLIB) clean
 
 fclean  :	clean
-			$(RM) $(NAME) $(LIBFT)
+			$(RM) $(LIBFT) $(NAME) 
 
 re		:	fclean all
 
