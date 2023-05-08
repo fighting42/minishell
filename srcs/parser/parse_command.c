@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/08 20:58:06 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/08 22:02:47 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,11 @@ int	len_env_to_str(t_parse *parse, char *str)
 		if ((quote == 2 && temp[k] == '$') ||\
 			(quote == 0 && temp[k] == '$'))
 		{
-			len += ft_strlen(parse->env_var[parse->dollar_index].value);
-			k += ft_strlen(parse->env_var[parse->dollar_index].ori);
+			len += parse->env_var[parse->dollar_index].size_v;
+			if (ft_strlen(parse->env_var[parse->dollar_index].ori) != 0)
+				k += ft_strlen(parse->env_var[parse->dollar_index].ori);
+			else
+				k += 1;			
 			parse->dollar_index++;
 			chk++;
 		}
@@ -113,14 +116,16 @@ char	*valid_join(t_parse *parse, int quote)
 			if (curr_q == quote)
 			{
 				flag = 1;
-				ret = ft_strjoin(ret, parse->tmp[parse->i]);
 				curr_q = chk_whole_quote(parse->tmp[parse->i], parse->j + 1);
 				if (curr_q == 0)
+				{
+					ret = ft_strjoin(ret, parse->tmp[parse->i]);
 					break;
+				}
 				else
 				{
 					flag = 2;
-					ret = ft_strjoin(ret, parse->tmp[parse->i]);
+					//ret = ft_strjoin(ret, parse->tmp[parse->i]);
 					ret_add = valid_join(parse, curr_q); 
 					break;
 				}
@@ -158,7 +163,7 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 		else
 		{
 			tmp1 = env_to_str(parse, NULL); //환경변수 바꾸고
-			tmp = remove_quote(tmp); // 따옴표 제거
+			tmp = remove_quote(tmp1); // 따옴표 제거
 			append_token(parse->c_head->token, t_curr, tmp, parse->type);
 		}
 	}
