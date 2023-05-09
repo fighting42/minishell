@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:04:02 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 11:09:06 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 15:50:06 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	init_parse(t_parse	*parse, char *str, t_env *env, t_cmdline *c_curr)
 {
 	int		cnt_split;
-	t_parse	ret;
 
 	parse->quote = 0;
 	parse->i = 0;

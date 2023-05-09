@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:32:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 12:01:31 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 16:33:09 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,26 +52,35 @@ int error_case(char *str, t_parse *parse)
 		{
 			if (check_sep(str[i + 1],  "<") == 1)
 				i = i + 1;
+			i++;
 			while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 				i++;
-			if (check_sep(str[i], "><|") == 1)
+			if (check_sep(str[i], "><|") == 1){
+				printf("< error\n");
 				return (1);
+			}
 		}
 		if (check_sep(str[i], ">") == 1)
 		{
 			if (check_sep(str[i + 1],  ">") == 1)
 				i = i + 1;
+			i++;
 			while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 				i++;
-			if (check_sep(str[i], "><|") == 1)
+			if (check_sep(str[i], "><|") == 1){
+				printf("> error\n");
 				return (1);
+			}
 		}
 		if (check_sep(str[i], "|") == 1)
 		{
+			i++;
 			while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 				i++;
-			if (check_sep(str[i], "><|") == 1)
+			if (check_sep(str[i], "><|") == 1){
+				printf("| error\n");
 				return (1);
+			}
 		}
 		i++;
 	}
@@ -96,10 +105,10 @@ int error_case(char *str, t_parse *parse)
 		}
 	}
 	// 4. echo $aa -> 이럴 때만 개행임 나머지는 그냥 무시
-	i = 0;
-	while (str[i] != '\0')
-	{
+	// i = 0;
+	// while (str[i] != '\0')
+	// {
 
-	}
+	// }
 	return (0);
 }

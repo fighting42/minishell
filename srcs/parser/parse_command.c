@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 01:35:22 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 15:47:57 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 int	cmd_or_str(t_parse	*parse, t_token *t_curr)
 {
 	char	*tmp;
-	char	*tmp1;
 	int		quote;
 
 	if (chk_whole_quote(parse->tmp[parse->i], 0) == 0) // 따옴표없거나 쌍으로 잘 있음

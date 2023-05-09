@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:11 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 11:14:33 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 14:20:59 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	check_pipe(t_parse *parse, t_token *t_curr)
 	if (parse->last_pipe == 1 && \
 		parse->cnt_pipe == parse->num_pipe)
 	{
-		append_token(parse->c_head->token, t_curr, "", COMMAND);		
+		append_token(parse->c_head->token, t_curr, "", COMMAND);
 		return (1);
 	}		
 	move_index_j(parse);

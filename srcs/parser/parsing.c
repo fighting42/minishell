@@ -6,21 +6,54 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 12:02:23 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 16:32:10 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 int	g_status = 0;
+
+int	parse_case(t_parse *parse, t_token *t_curr)
+{
+	if (parse->tmp[parse->i][parse->j] == '|')
+	{
+		if (check_pipe(parse, t_curr) == 1)
+			return (0);
+		return (3);
+	}
+	else if (parse->tmp[parse->i][parse->j] == '<')
+	{
+		if (redirection_stdin(parse) == 1)
+			return (1);
+		return (3);
+	}
+	else if (parse->tmp[parse->i][parse->j] == '>')
+	{
+		if (redirection_stdout(parse) == 1)
+			return (1);
+		return (3);
+	}
+	else if (parse->tmp[parse->i][parse->j] == ' ')
+	{
+		parse->j++;
+		return (3);
+	}
+	else
+	{
+		if (cmd_or_str(parse, t_curr) == 1)
+			return (1);
+		if (parse->tmp[parse->i + 1] != NULL)
+			return (2);
+		return (3);
+	}
+}
+
 t_cmdline	*parsing(char *str, t_env *env)
 {
 	t_token		*t_curr;
 	t_cmdline	*c_curr;
 	t_parse		*parse;
-
-	char		*cmd;
-	int			quote = 0;
-	int			cnt_dlr = 0;
+	int			ret;
 
 	if (error_quote(str) == 1)
 		return (0);
@@ -31,41 +64,21 @@ t_cmdline	*parsing(char *str, t_env *env)
 	init_parse(parse, str, env, c_curr);
 	if (error_case(str, parse) == 1)
 		return (0);
-
-	for (parse->i = 0; parse->tmp[parse->i] != NULL; parse->i++)
-		printf("split : %s\n", parse->tmp[parse->i]);
-		
-	parse->i = 0;
 	while (parse->tmp[parse->i] != NULL)
 	{
 		parse->j = 0;
 		while (parse->tmp[parse->i][parse->j] != '\0')
 		{
 			parse->quote = quote_status(parse->tmp[parse->i][parse->j], parse->quote);
-			if (parse->tmp[parse->i][parse->j] == '|')
-			{
-				if (check_pipe(parse, t_curr) == 1)
-					return (parse->c_head);
-			}
-			else if (parse->tmp[parse->i][parse->j] == '<')
-			{
-				if (redirection_stdin(parse) == 1)
-					return (0);
-			}
-			else if (parse->tmp[parse->i][parse->j] == '>')
-			{
-				if (redirection_stdout(parse) == 1)
-					return (0);
-			}
-			else if (parse->tmp[parse->i][parse->j] == ' ')
-				parse->j++;
+			ret = parse_case(parse, t_curr);
+			if (ret == 0)
+				return (parse->c_head);
+			else if (ret == 1)
+				return (0);
+			else if (ret == 2)
+				t_curr = create_token();
 			else
-			{
-				if (cmd_or_str(parse, t_curr) == 1)
-					return (0);
-				if (parse->tmp[parse->i + 1] != NULL)
-					t_curr = create_token();
-			}
+				continue ;
 		}
 		parse->i++;
 	}
@@ -82,7 +95,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	char *tmp = "echo $USER <<<";
+	char *tmp = "cat |";
 	printf("%s\n", tmp);
 	
 	g_status = 0;

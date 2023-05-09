@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parse_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/02 11:45:04 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/06 16:19:23 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/09 15:01:18 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	check_sep(char c, char *sep)
-{
-	int	i;
-
-	i = 0;
-	while (sep[i] != '\0')
-	{
-		if (sep[i] == c)
-			return (1);
-		i++;
-	}
-	return (0);
-}
 
 int	length_str(char *str, char *sep, int k, int flag)
 {
@@ -95,7 +81,7 @@ char	**parse_split(char *str, int count)
 	int		k;
 
 	i = 0;
-	k = 0;
+	k = -1;
 	tmp = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!tmp)
 		return (0);
@@ -104,19 +90,13 @@ char	**parse_split(char *str, int count)
 		while (str[i] != '\0' && check_sep(str[i], " |<>") == 1)
 			i++;
 		if (str[i] != '\0')
-		{
-			tmp[k] = make_str(str, " |<>", i, 0);//구분자 아닌 애들
-			k++;
-		}
+			tmp[++k] = make_str(str, " |<>", i, 0);
 		while (str[i] != '\0' && check_sep(str[i], " |<>") == 0)
 			i++;
 		if (str[i] != '\0')
-		{
-			tmp[k] = make_str(str, " |<>", i, 1); //구분자인 애들
-			k++;
-		}
+			tmp[++k] = make_str(str, " |<>", i, 1);
 	}
-	tmp[k] = NULL;
+	tmp[++k] = NULL;
 	return (tmp);
 }
 
@@ -129,7 +109,7 @@ int	is_not_ok_sep(char *str, char *sep)
 	while (str[i] != '\0')
 	{
 		j = 0;
-		while(sep[j] != '\0')
+		while (sep[j] != '\0')
 		{
 			if (str[i] == sep[j])
 				return (1);
