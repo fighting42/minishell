@@ -20,10 +20,11 @@ RLIB	=	-lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 
 SRCS_P	=	srcs/parser/parse_command.c \
 			srcs/parser/parse_dollar.c \
+			srcs/parser/parse_dollar_env.c \
 			srcs/parser/parse_error.c \
 			srcs/parser/parse_init.c \
 			srcs/parser/parse_quote.c \
-			srcs/parser/parse_dollar_env.c \
+			srcs/parser/parse_quote_utils.c \
 			srcs/parser/parse_redir_pipe.c \
 			srcs/parser/parse_split.c \
 			srcs/parser/parse_utils.c \

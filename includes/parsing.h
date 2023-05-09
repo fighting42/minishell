@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/09 23:13:30 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/10 02:10:23 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,16 +44,27 @@ typedef struct s_dollar_idx
 	int	j;
 }	t_dollar_idx;
 
+typedef	struct s_rmv_quote
+{
+	int	flag_q;
+	int	curr_q;
+	int	quote;
+}	t_rmv_quote;
+
+
 //parse_command.c
 int			cmd_or_str(t_parse	*parse, t_token *t_curr);
 void		make_token_value(t_parse *parse, char *str, t_token *t_curr);
 char		*valid_join(t_parse *parse, int quote);
 char		*env_to_str(t_parse *parse, char *str);
 int			len_env_to_str(t_parse *parse, char *str);
+void		make_env_ret(t_parse *parse, char *temp, char *ret);
+
 
 //parse_dollar_env.c
 t_envval	*chk_env(char *str, t_env *env);
 char		*trans_env(t_env *env, char *str, int start, int size);
+char		*make_env_str(t_env *env, int i, int size);
 
 //parse_dollar.c
 int			count_dollar(char *str);
@@ -67,19 +78,22 @@ void		dollar_case(char *str, t_envval *env_var, \
 int			error_quote(char *str);
 int			error_case(char *str, t_parse *parse);
 int			pipe_error(char *str);
-int			pipe_the_end(char *str, t_parse *parse);
+void		pipe_the_end(char *str, t_parse *parse);
+int			redirection_pipe_error(char *str, int i);
 
 //parse_init.c
 void		init_parse(t_parse	*parse, char *str, t_env *env, \
 						t_cmdline *c_curr);
+void		init_rmv(t_rmv_quote *rmv);
 
 //parse_quote.c
-int			quote_status(char c, int quote);
-int			chk_whole_quote(char *str, int k);
 char		*remove_quote(char *str);
 int			chk_str_len(char *str);
 void		make_ret_str(char *str, char *ret);
 
+//parse_quote_utils.c
+int			quote_status(char c, int quote);
+int			chk_whole_quote(char *str, int k);
 
 //parse_redir_pipe.c
 int			redirection_stdin(t_parse *parse);

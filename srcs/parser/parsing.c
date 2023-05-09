@@ -6,11 +6,13 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 23:13:17 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 23:45:42 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int	g_status = 0;
 
 int	parse_case(t_parse *parse, t_token *t_curr)
 {
@@ -89,31 +91,31 @@ t_cmdline	*parsing(char *str, t_env *env)
 	return (parse->c_head);
 }
 
-// int main(int argc, char **argv, char **envp)
-// {
-// 	t_cmdline	*str;
-// 	t_token		*prt;
-// 	t_env		temp;
+int main(int argc, char **argv, char **envp)
+{
+	t_cmdline	*str;
+	t_token		*prt;
+	t_env		temp;
 
-// 	temp.value = envp;
-// 	(void)argc;
-// 	(void)argv;
+	temp.value = envp;
+	(void)argc;
+	(void)argv;
 
-// 	char *tmp = "\"echo \"$aa\" \"$USER\" aaa\"";
-// 	printf("%s\n", tmp);
+	char *tmp = "echo \"$USER \"a\'a\'a\" | \"";
+	printf("%s\n", tmp);
 	
-// 	g_status = 0;
-// 	str = parsing(tmp, &temp);
-// 	if (str == NULL)
-// 	{
-// 		printf("error\n");
-// 		return (0);
-// 	}
-// 	prt = str->token;
-// 	while (prt != NULL)
-// 	{
-// 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
-// 		prt = prt->next;
-// 	}	
-// 	return (0);
-// }
+	g_status = 0;
+	str = parsing(tmp, &temp);
+	if (str == NULL)
+	{
+		printf("error\n");
+		return (0);
+	}
+	prt = str->token;
+	while (prt != NULL)
+	{
+		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
+		prt = prt->next;
+	}	
+	return (0);
+}

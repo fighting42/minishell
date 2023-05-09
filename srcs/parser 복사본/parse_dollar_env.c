@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:16:42 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/10 01:38:12 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 16:41:43 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,16 @@ t_envval	*chk_env(char *str, t_env *env)
 	return (env_var);
 }
 
-char	*make_env_str(t_env *env, int i, int size)
-{
-	char	*ret;
-	int		len;
-	int		j;
-
-	j = 0;
-	len = size + 1;
-	if (env->value[i] == 0)
-		return ("");
-	while (env->value[i][len] != '\0')
-		len++;
-	len = len - size + 1;
-	ret = malloc(sizeof(char) * (len + 1));
-	while (j < len + 1)
-	{
-		ret[j] = env->value[i][size + 1];
-		j++;
-		size++;
-	}
-	ret[j] = '\0';
-	return (ret);
-}
-
 char	*trans_env(t_env *env, char *str, int start, int size)
 {
 	int		i;
+	int		j;
 	char	*temp;
+	int		len;
 	char	*ret;
 
 	i = 0;
+	len = size + 1;
 	temp = malloc(sizeof(char) * (size + 1));
 	while (i < size)
 	{
@@ -84,6 +63,19 @@ char	*trans_env(t_env *env, char *str, int start, int size)
 		i++;
 	}
 	free(temp);
-	ret = make_env_str(env, i, size);
+	if (env->value[i] == 0)
+		return ("");
+	while (env->value[i][len] != '\0')
+		len++;
+	len = len - size + 1;
+	ret = malloc(sizeof(char) * (len + 1));
+	j = 0;
+	while (j < len + 1)
+	{
+		ret[j] = env->value[i][size + 1];
+		j++;
+		size++;
+	}
+	ret[j] = '\0';
 	return (ret);
 }
