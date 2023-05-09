@@ -40,6 +40,6 @@ void	print_error(char *errmsg, int flag, int status)
 
 	ft_putendl_fd(errmsg, STDERR_FILENO);
 	g_status = status;
-	if (flag == EXIT_Y)
+	if (flag == TRUE)
 		exit(status);
 }

@@ -28,10 +28,10 @@
 # include "parsing.h"
 # include "execute.h"
 # include "builtin.h"
-# include "errmsg.h"
 # include "utils.h"
 
-// # define NULL 0
+# define TRUE 1
+# define FALSE 0
 
 extern int	g_status;
 

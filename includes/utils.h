@@ -16,5 +16,7 @@
 # include "minishell.h"
 
 void    init_signal(void);
+void	print_error(char *errmsg, int flag, int status);
+char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg);
 
 #endif

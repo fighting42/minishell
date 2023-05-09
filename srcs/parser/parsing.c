@@ -12,8 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-int	g_status = 0;
-
 int	parse_case(t_parse *parse, t_token *t_curr)
 {
 	if (parse->tmp[parse->i][parse->j] == '|')
