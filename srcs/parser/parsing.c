@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 16:50:22 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 17:38:05 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ t_cmdline	*parsing(char *str, t_env *env)
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
 
-	for(int k = 0; parse->tmp[k] != NULL; k++)
-		printf("split = %s\n", parse->tmp[k]);
+	// for(int k = 0; parse->tmp[k] != NULL; k++)
+	// 	printf("split = %s\n", parse->tmp[k]);
 
 	if (error_case(str, parse) == 1)
 		return (0);
@@ -91,31 +91,31 @@ t_cmdline	*parsing(char *str, t_env *env)
 	return (parse->c_head);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	t_cmdline	*str;
-	t_token		*prt;
-	t_env		temp;
+// int main(int argc, char **argv, char **envp)
+// {
+// 	t_cmdline	*str;
+// 	t_token		*prt;
+// 	t_env		temp;
 
-	temp.value = envp;
-	(void)argc;
-	(void)argv;
+// 	temp.value = envp;
+// 	(void)argc;
+// 	(void)argv;
 
-	char *tmp = "<<end1<<end2<<end3";
-	printf("%s\n", tmp);
+// 	char *tmp = "<<end1<<end2<<end3 | echo \"asdf|asdf\"";
+// 	printf("%s\n", tmp);
 	
-	g_status = 0;
-	str = parsing(tmp, &temp);
-	if (str == NULL)
-	{
-		printf("error\n");
-		return (0);
-	}
-	prt = str->token;
-	while (prt != NULL)
-	{
-		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
-		prt = prt->next;
-	}	
-	return (0);
-}
+// 	g_status = 0;
+// 	str = parsing(tmp, &temp);
+// 	if (str == NULL)
+// 	{
+// 		printf("error\n");
+// 		return (0);
+// 	}
+// 	prt = str->token;
+// 	while (prt != NULL)
+// 	{
+// 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
+// 		prt = prt->next;
+// 	}	
+// 	return (0);
+// }
