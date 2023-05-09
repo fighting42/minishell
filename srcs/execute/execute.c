@@ -45,13 +45,13 @@ void	wait_procs(int cnt)
 		if (WTERMSIG(status) == 2)
 		{
 			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
-			ft_putstr_fd("\b\b\b\b\b\b\b\b\b\b\b", STDOUT_FILENO);
+			ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
 			ft_putendl_fd("^C", STDOUT_FILENO);
 		}
 		if (WTERMSIG(status) == 3) // 안됨..
 		{
 			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
-			ft_putstr_fd("\b\b\b\b\b\b\b\b\b\b\b", STDOUT_FILENO);
+			ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
 			ft_putendl_fd("^\\Quit: 3", STDOUT_FILENO);
 		}
 		i++;

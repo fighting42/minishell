@@ -31,9 +31,8 @@ SRCS_P	=	srcs/parser/parse_command.c \
 SRCS_E	=	srcs/execute/execute.c \
 			srcs/execute/init.c \
 			srcs/execute/pipe.c \
-			srcs/execute/redirection.c \
-			srcs/execute/utils.c
-	
+			srcs/execute/redirection.c 
+
 SRCS_B	=	srcs/builtin/builtin.c \
 			srcs/builtin/env_utils.c \
 			srcs/builtin/ft_echo.c \
@@ -44,7 +43,8 @@ SRCS_B	=	srcs/builtin/builtin.c \
 			srcs/builtin/ft_env.c \
 			srcs/builtin/ft_exit.c
 
-SRCS_U	=	srcs/utils/signal.c
+SRCS_U	=	srcs/utils/signal.c \
+			srcs/utils/error.c
 
 SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E) $(SRCS_B) $(SRCS_U)
 

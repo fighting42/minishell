@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/06 20:17:01 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/09 01:49:46 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ void	exec_cmd(int fds[2], t_exec *exec, int flag)
 {
 	t_pipeline	*pl;
 
+	signal(SIGQUIT, SIG_DFL); // 맞나?
 	pl = exec->pipeline;
 	close(fds[0]);
 	if (!flag)
