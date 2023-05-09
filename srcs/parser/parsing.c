@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 17:38:05 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 23:13:17 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 	(void)argc;
 // 	(void)argv;
 
-// 	char *tmp = "<<end1<<end2<<end3 | echo \"asdf|asdf\"";
+// 	char *tmp = "\"echo \"$aa\" \"$USER\" aaa\"";
 // 	printf("%s\n", tmp);
 	
 // 	g_status = 0;

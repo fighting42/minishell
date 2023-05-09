@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/09 16:20:33 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 23:13:30 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void		dollar_case(char *str, t_envval *env_var, \
 //parse_error.c
 int			error_quote(char *str);
 int			error_case(char *str, t_parse *parse);
+int			pipe_error(char *str);
+int			pipe_the_end(char *str, t_parse *parse);
 
 //parse_init.c
 void		init_parse(t_parse	*parse, char *str, t_env *env, \
@@ -75,6 +77,9 @@ void		init_parse(t_parse	*parse, char *str, t_env *env, \
 int			quote_status(char c, int quote);
 int			chk_whole_quote(char *str, int k);
 char		*remove_quote(char *str);
+int			chk_str_len(char *str);
+void		make_ret_str(char *str, char *ret);
+
 
 //parse_redir_pipe.c
 int			redirection_stdin(t_parse *parse);
