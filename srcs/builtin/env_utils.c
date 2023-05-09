@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 21:26:21 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/05 22:20:28 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/10 06:45:49 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,21 @@ void	free_env(t_env *env)
 	while (env->value[i])
 		free(env->value[i++]);
 	free(env->value);
+}
+
+int	update_env(t_exec *exec) // 미완성
+{
+	int		i;
+	char	**cmd;
+
+	if (exec->pipe_cnt > 0)
+		return (0);
+	i = 0;
+	cmd = exec->pipeline->cmd;
+	while (cmd[i])
+	{
+		add_env(exec->pipeline->env, cmd[i]);
+		i++;
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:18:29 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/06 17:35:20 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/10 06:10:04 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		check_builtin(t_exec *exec);
 int		check_builtin_fd(t_pipeline *pipeline, int fd);
 int		ft_echo(char **cmd, int fd);
 int		ft_cd(t_pipeline *pipeline);
-int		ft_pwd(void);
+int		ft_pwd(int fd);
 int		ft_export(t_pipeline *pipeline);
 int		ft_unset(t_pipeline *pipeline);
 int		ft_env(t_pipeline *pipeline, int fd);
@@ -32,6 +32,7 @@ char	*get_env(char **env, char *var);
 void	set_env(t_env *env, char *var, char *value);
 void	add_env(t_env *env, char *value);
 void	del_env(t_env *env, char *var);
+int	    update_env(t_exec *exec);
 void	free_env(t_env *env);
 char	*error_cmd(char *cmd);
 

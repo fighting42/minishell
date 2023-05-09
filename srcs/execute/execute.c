@@ -44,13 +44,13 @@ void	wait_procs(int cnt)
 	{
 		pid = waitpid(-1, &status, 0);
 		g_status = WEXITSTATUS(status);
-		if (WTERMSIG(status) == 2)
+		if (WTERMSIG(status) == 2 && WIFSIGNALED(status))
 		{
 			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
 			ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
 			ft_putendl_fd("^C", STDOUT_FILENO);
 		}
-		if (WTERMSIG(status) == 3) // 안됨..
+		if (WTERMSIG(status) == 3 && WIFSIGNALED(status))
 		{
 			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
 			ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
@@ -68,11 +68,13 @@ t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 	exec->pipeline = NULL;
 	exec->pipe_cnt = 0;
 	exec->heredoc_cnt = 0;
+	exec->stdin_ori = dup(STDIN_FILENO);
+	exec->stdout_ori = dup(STDOUT_FILENO);
 	check_cmdline(cmdline, env, exec);
 	return (exec);
 }
 
-void	exec_pipeline(t_cmdline *cmdline, t_env *env)
+void	execute(t_cmdline *cmdline, t_env *env)
 {
 	int		i;
 	int		last_flag;
@@ -93,16 +95,6 @@ void	exec_pipeline(t_cmdline *cmdline, t_env *env)
 	}
 	wait_procs(exec->pipe_cnt + 1);
 	free(exec);
-}
-
-void	execute(t_cmdline *cmdline, t_env *env)
-{
-	int		fd_in;
-	int		fd_out;
-
-	fd_in = dup(STDIN_FILENO);
-	fd_out = dup(STDOUT_FILENO);
-	exec_pipeline(cmdline, env);
-	dup2(fd_in, STDIN_FILENO);
-	dup2(fd_out, STDOUT_FILENO);
+	dup2(exec->stdin_ori, STDIN_FILENO);
+	dup2(exec->stdout_ori, STDOUT_FILENO);
 }

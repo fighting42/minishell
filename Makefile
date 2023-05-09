@@ -14,9 +14,9 @@ NAME	=	minishell
 
 CFLAGS	=	-Wall -Wextra -Werror -g
 
-RINCS	=	-I /Users/$(USER)/.brew/opt/readline/include
+RINC	=	-I /Users/$(USER)/.brew/opt/readline/include
 
-RLIBS	=	-lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+RLIB	=	-lreadline -L /Users/$(USER)/.brew/opt/readline/lib
 
 SRCS_P	=	srcs/parser/parse_command.c \
 			srcs/parser/parse_dollar.c \
@@ -57,14 +57,14 @@ LIBFT 	=	$(LDIR)/libft.a
 
 
 %.o		:	%.c
-			$(CC) $(CFLAGS) $(RINCS) -c $< -o $@
+			$(CC) $(CFLAGS) $(RINC) -c $< -o $@
 
 all 	:	
 			make -C $(LDIR) 
 			make $(NAME)
 
 $(NAME) :	$(OBJS)
-			$(CC) $(CFLAGS) $(RLIBS) $(OBJS) $(LIBFT) -o $(NAME) 
+			$(CC) $(CFLAGS) $(RLIB) $(OBJS) $(LIBFT) -o $(NAME) 
 
 clean   :	
 			make -C $(LDIR) clean

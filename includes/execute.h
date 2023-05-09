@@ -36,6 +36,8 @@ typedef struct s_exec
 	t_pipeline	*pipeline;
 	int			heredoc_cnt;
 	int			pipe_cnt;
+	int			stdin_ori;
+	int			stdout_ori;
 }	t_exec;
 
 void	execute(t_cmdline *cmdline, t_env *env);

@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:50:08 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/09 15:57:00 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/10 06:46:40 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,16 @@ int	check_status(char *cmd)
 int	ft_exit(t_exec *exec)
 {
 	char	**cmd;
+	extern int	g_status;
 
 	cmd = exec->pipeline->cmd;
 	if (!cmd[1])
-		cmd[1] = "0";
+		exit(g_status);
 	if (check_status(cmd[1]))
-		print_error(errmsg(1, "exit", cmd[1], "numeric argument required"), TRUE, 255);
+		print_error(errmsg(TRUE, "exit", cmd[1], "numeric argument required"), TRUE, 255);
 	if (cmd[2])
 	{
-		print_error(errmsg(1, "exit", cmd[1], "too many arguments"), FALSE, 1);
+		print_error(errmsg(TRUE, "exit", cmd[1], "too many arguments"), FALSE, 1);
 		return (0);
 	}
 	if (0 < exec->pipe_cnt)

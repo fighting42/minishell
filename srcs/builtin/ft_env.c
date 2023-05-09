@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:12:21 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/09 15:56:48 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/10 06:46:29 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,15 @@ int	ft_env(t_pipeline *pipeline, int fd)
 	i = 0;
 	env = pipeline->env->value;
 	if (pipeline->cmd[1])
-		print_error(errmsg(0, "env", pipeline->cmd[1], "No such file or directory"), TRUE, 127);
+		print_error(errmsg(FALSE, "env", pipeline->cmd[1], "No such file or directory"), TRUE, 127);
 	else
 	{
 		while (env[i])
-			ft_putendl_fd(env[i++], fd);
+		{
+			if (ft_strchr(env[i], '='))
+				ft_putendl_fd(env[i], fd);
+			i++;
+		}
 	}
 	return (0);
 }

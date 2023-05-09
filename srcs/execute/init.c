@@ -56,7 +56,7 @@ void	split_cmdline(t_token *token, t_pipeline *pipeline, int cnt)
 	i = 0;
 	while (i < cnt)
 	{
-		if ((token->type == COMMAND && !token->value) || token->type != COMMAND)
+		if ((token->type == COMMAND && !ft_strncmp(token->value, "", 1)) || token->type != COMMAND)
 		{
 			append_redirct(pipeline, token);
 			cnt--;

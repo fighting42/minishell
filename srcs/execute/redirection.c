@@ -72,7 +72,8 @@ int	fd_open(t_redirct *redirct, t_exec *exec)
 	}
 	if (redirct->type == COMMAND && exec->pipeline->cmd[0] == NULL)
 	{
-		str = readline("> ");
+		dup2(exec->stdin_ori, STDIN_FILENO);
+		str = readline("> "); // 환경변수 처리 추가, token 나눠야됨
 		exec->pipeline->cmd[0] = str;
 	}
 	return (0);
@@ -100,7 +101,7 @@ void	redirct(t_exec *exec)
 
 	cnt = exec->heredoc_cnt;
 	if (cnt > 16)
-		print_error("maximum here-document count exceeded", TRUE, 2);
+		print_error(errmsg(TRUE, NULL, NULL, "maximum here-document count exceeded"), TRUE, 2);
 	redirct = exec->pipeline->redirct;
 	while (redirct)
 	{

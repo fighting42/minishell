@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:25:38 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/09 15:57:10 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/10 05:58:08 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void	del_env(t_env *env, char *var)
 	int	i;
 
 	i = get_env_i(env->value, var);
+	if (i < 0)
+		return ;
 	while (env->value[i + 1])
 	{
 		env->value[i] = env->value[i + 1];
@@ -49,18 +51,10 @@ void	del_env(t_env *env, char *var)
 int	ft_unset(t_pipeline *pipeline)
 {
 	int	i;
-	int	j;
 
 	i = 1;
 	while (pipeline->cmd[i])
 	{
-		j = 0;
-		while (pipeline->cmd[i][j])
-		{
-			if (!(ft_isalnum(pipeline->cmd[i][j])))
-				print_error(errmsg(1, "unset", error_cmd(pipeline->cmd[i]), "not a valid identifier"), TRUE, 1);
-			j++;
-		}
 		del_env(pipeline->env, pipeline->cmd[i]);
 		i++;
 	}

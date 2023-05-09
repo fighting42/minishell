@@ -39,6 +39,12 @@ int main(int argc, char **argv, char **envp)
 		else
 		{
 			cmdline = parsing(str, &env);
+			// t_token *tmp=cmdline->token;
+			// while (tmp)
+			// {
+			// 	printf("value: %s, type: %d, pipe: %d\n", tmp->value, tmp->type, tmp->pipe_flag);
+			// 	tmp = tmp->next;
+			// }
 			execute(cmdline, &env);
 			add_history(str);
 			free(str);

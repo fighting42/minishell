@@ -23,6 +23,8 @@ int	check_builtin(t_exec *exec)
 			return (ft_cd(exec->pipeline));
 		else if (!ft_strncmp("export", cmd, ft_strlen(cmd)))
 			return (ft_export(exec->pipeline));
+		else if (ft_strchr(cmd, '='))
+			return (update_env(exec));
 		else if (!ft_strncmp("unset", cmd, ft_strlen(cmd)))
 			return (ft_unset(exec->pipeline));
 		else if (!ft_strncmp("exit", cmd, ft_strlen(cmd)))
@@ -41,7 +43,7 @@ int	check_builtin_fd(t_pipeline *pipeline, int fd)
 		if (!ft_strncmp("echo", cmd, ft_strlen(cmd)))
 			return (ft_echo(pipeline->cmd, fd));
 		else if (!ft_strncmp("pwd", cmd, ft_strlen(cmd)))
-			return (ft_pwd());
+			return (ft_pwd(fd));
 		else if (!ft_strncmp("env", cmd, ft_strlen(cmd)))
 			return (ft_env(pipeline, fd));
 	}
