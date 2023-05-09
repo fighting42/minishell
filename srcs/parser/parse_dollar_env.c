@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:16:42 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/09 15:49:43 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 16:41:43 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ t_envval	*chk_env(char *str, t_env *env)
 
 char	*trans_env(t_env *env, char *str, int start, int size)
 {
-	int	i, j;
-	char *temp;
-	int len;
-	char *ret;
+	int		i;
+	int		j;
+	char	*temp;
+	int		len;
+	char	*ret;
 
 	i = 0;
 	len = size + 1;

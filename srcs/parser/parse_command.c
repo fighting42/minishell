@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 15:47:57 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 16:41:13 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 int	len_env_to_str(t_parse *parse, char *str)
 {
-	int	k;
-	int	len;
-	int	quote;
-	int	chk;
+	int		k;
+	int		len;
+	int		quote;
+	int		chk;
 	char	*temp;
 
-	k = -1; 
+	k = -1;
 	quote = 0;
 	len = 0;
 	chk = 0;
@@ -31,14 +31,14 @@ int	len_env_to_str(t_parse *parse, char *str)
 	while (temp[++k] != '\0')
 	{
 		quote = quote_status(temp[k], quote);
-		if ((quote == 2 && temp[k] == '$') ||\
+		if ((quote == 2 && temp[k] == '$') || \
 			(quote == 0 && temp[k] == '$'))
 		{
 			len += parse->env_var[parse->dollar_index].size_v;
 			if (ft_strlen(parse->env_var[parse->dollar_index].ori) != 0)
 				k += ft_strlen(parse->env_var[parse->dollar_index].ori);
 			else
-				k += 1;			
+				k += 1;
 			parse->dollar_index++;
 			chk++;
 		}
@@ -72,11 +72,11 @@ char	*env_to_str(t_parse *parse, char *str)
 	while (temp[k] != '\0')
 	{
 		quote = quote_status(temp[k], quote);
-		if ((quote == 2 && temp[k] == '$') ||\
+		if ((quote == 2 && temp[k] == '$') || \
 			(quote == 0 && temp[k] == '$'))
 		{
 			m = 0;
-			while(parse->env_var[parse->dollar_index].value[m] != '\0')
+			while (parse->env_var[parse->dollar_index].value[m] != '\0')
 			{
 				ret[n] = parse->env_var[parse->dollar_index].value[m];
 				n++;
@@ -111,7 +111,7 @@ char	*valid_join(t_parse *parse, int quote)
 	while (parse->tmp[parse->i] != NULL)
 	{
 		parse->j = 0;
-		while(parse->tmp[parse->i][parse->j] != '\0')
+		while (parse->tmp[parse->i][parse->j] != '\0')
 		{
 			curr_q = quote_status(parse->tmp[parse->i][parse->j], curr_q);
 			if (curr_q == quote)
@@ -121,13 +121,13 @@ char	*valid_join(t_parse *parse, int quote)
 				if (curr_q == 0)
 				{
 					ret = ft_strjoin(ret, parse->tmp[parse->i]);
-					break;
+					break ;
 				}
 				else
 				{
 					flag = 2;
-					ret_add = valid_join(parse, curr_q); 
-					break;
+					ret_add = valid_join(parse, curr_q);
+					break ;
 				}
 			}
 			parse->j++;
@@ -162,8 +162,8 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 		}
 		else
 		{
-			tmp1 = env_to_str(parse, NULL); //환경변수 바꾸고
-			tmp = remove_quote(tmp1); // 따옴표 제거
+			tmp1 = env_to_str(parse, NULL);
+			tmp = remove_quote(tmp1);
 			append_token(parse->c_head->token, t_curr, tmp, parse->type);
 		}
 	}
@@ -176,8 +176,8 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 		}
 		else
 		{
-			tmp1 = env_to_str(parse, str); //환경변수 바꾸고
-			tmp = remove_quote(tmp1); // 따옴표 제거
+			tmp1 = env_to_str(parse, str);
+			tmp = remove_quote(tmp1);
 			append_token(parse->c_head->token, t_curr, tmp, parse->type);
 		}
 	}
@@ -188,15 +188,15 @@ int	cmd_or_str(t_parse	*parse, t_token *t_curr)
 	char	*tmp;
 	int		quote;
 
-	if (chk_whole_quote(parse->tmp[parse->i], 0) == 0) // 따옴표없거나 쌍으로 잘 있음
+	if (chk_whole_quote(parse->tmp[parse->i], 0) == 0)
 		make_token_value(parse, NULL, t_curr);
-	else // 따옴표 세트 나올때까지 strjoin -> 그 str을 위의 if에다가 넣어
+	else
 	{
 		quote = chk_whole_quote(parse->tmp[parse->i], 0);
 		tmp = valid_join(parse, quote);
 		if (tmp == NULL)
 			return (1);
-		make_token_value(parse, tmp, t_curr); 
+		make_token_value(parse, tmp, t_curr);
 	}
 	move_index_j(parse);
 	parse->type = 0;

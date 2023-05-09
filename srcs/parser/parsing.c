@@ -6,11 +6,12 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 16:32:10 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 16:43:23 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
 int	g_status = 0;
 
 int	parse_case(t_parse *parse, t_token *t_curr)
@@ -69,7 +70,8 @@ t_cmdline	*parsing(char *str, t_env *env)
 		parse->j = 0;
 		while (parse->tmp[parse->i][parse->j] != '\0')
 		{
-			parse->quote = quote_status(parse->tmp[parse->i][parse->j], parse->quote);
+			parse->quote = quote_status(parse->tmp[parse->i][parse->j], \
+									parse->quote);
 			ret = parse_case(parse, t_curr);
 			if (ret == 0)
 				return (parse->c_head);
@@ -87,9 +89,9 @@ t_cmdline	*parsing(char *str, t_env *env)
 
 int main(int argc, char **argv, char **envp)
 {
-	t_cmdline *str;
-	t_token *prt;
-	t_env temp;
+	t_cmdline	*str;
+	t_token		*prt;
+	t_env		temp;
 
 	temp.value = envp;
 	(void)argc;

@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:32:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 16:33:09 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 16:40:49 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	error_quote(char *str)
 {
 	if (chk_whole_quote(str, 0) == 1)
 	{
-		printf("%s", "ERROR: quote error\n"); //따옴표 한 개일 경우
+		printf("%s", "ERROR: quote error\n");
 		return (1);
 	}
 	return (0);
 }
 
-int error_case(char *str, t_parse *parse)
+int	error_case(char *str, t_parse *parse)
 {
 	int	i;
 	int	cnt;
@@ -40,47 +40,41 @@ int error_case(char *str, t_parse *parse)
 		if (str[i] == '|')
 			return (1);
 		else
-			break;
+			break ;
 	}
 	i = 0;
 	// 2. 말도 안되는 명령어들 -> 에러
-	while(str[i] != '\0')
+	while (str[i] != '\0')
 	{
 		while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 			i++;
 		if (check_sep(str[i], "<") == 1)
 		{
-			if (check_sep(str[i + 1],  "<") == 1)
+			if (check_sep(str[i + 1], "<") == 1)
 				i = i + 1;
 			i++;
 			while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 				i++;
-			if (check_sep(str[i], "><|") == 1){
-				printf("< error\n");
+			if (check_sep(str[i], "><|") == 1)
 				return (1);
-			}
 		}
 		if (check_sep(str[i], ">") == 1)
 		{
-			if (check_sep(str[i + 1],  ">") == 1)
+			if (check_sep(str[i + 1], ">") == 1)
 				i = i + 1;
 			i++;
 			while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 				i++;
-			if (check_sep(str[i], "><|") == 1){
-				printf("> error\n");
+			if (check_sep(str[i], "><|") == 1)
 				return (1);
-			}
 		}
 		if (check_sep(str[i], "|") == 1)
 		{
 			i++;
 			while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 				i++;
-			if (check_sep(str[i], "><|") == 1){
-				printf("| error\n");
+			if (check_sep(str[i], "><|") == 1)
 				return (1);
-			}
 		}
 		i++;
 	}
@@ -108,7 +102,6 @@ int error_case(char *str, t_parse *parse)
 	// i = 0;
 	// while (str[i] != '\0')
 	// {
-
 	// }
 	return (0);
 }
