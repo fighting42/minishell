@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 11:38:15 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 12:02:23 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 	init_parse(parse, str, env, c_curr);
 	if (error_case(str, parse) == 1)
 		return (0);
-	for (int k = 0; parse->env_var[k].value != NULL; k++)
-		printf("환경변수 :: %s, %d\n", parse->env_var[k].value, parse->env_var[k].size_v);
 
 	for (parse->i = 0; parse->tmp[parse->i] != NULL; parse->i++)
 		printf("split : %s\n", parse->tmp[parse->i]);
@@ -84,7 +82,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	char *tmp = "   | echo $aa | a |";
+	char *tmp = "echo $USER <<<";
 	printf("%s\n", tmp);
 	
 	g_status = 0;

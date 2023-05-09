@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 02:05:17 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 11:53:25 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ t_envval	*chk_env(char *str, t_env *env)
 			count = i + 1;
 			if (str[count] == '?')
 				trans_question_mark(env_var, str, count + 1, j);
-			else if (str[count] == ' ')
+			else if (str[count] == ' ' || str[count] == '\0')
 			{
 				env_var[j].value = "$";
 				env_var[j].size_v = 1;
