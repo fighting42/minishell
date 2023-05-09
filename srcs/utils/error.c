@@ -36,9 +36,10 @@ char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg)
 
 void	print_error(char *errmsg, int flag, int status)
 {
+	extern int	g_status;
+
 	ft_putendl_fd(errmsg, STDERR_FILENO);
 	g_status = status;
-	write(2, ft_itoa(g_status), 3); write(2, "\n", 1); // exit_status test !
 	if (flag == EXIT_Y)
-		exit(EXIT_FAILURE);
+		exit(status);
 }

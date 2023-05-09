@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:25:38 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/06 17:05:59 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/09 15:57:10 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	ft_unset(t_pipeline *pipeline)
 		while (pipeline->cmd[i][j])
 		{
 			if (!(ft_isalnum(pipeline->cmd[i][j])))
-				print_error(errmsg(1, "unset", error_cmd(pipeline->cmd[i]), NOT_VALID_ERR), EXIT_Y, 1);
+				print_error(errmsg(1, "unset", error_cmd(pipeline->cmd[i]), "not a valid identifier"), TRUE, 1);
 			j++;
 		}
 		del_env(pipeline->env, pipeline->cmd[i]);

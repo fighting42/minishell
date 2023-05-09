@@ -100,7 +100,7 @@ void	redirct(t_exec *exec)
 
 	cnt = exec->heredoc_cnt;
 	if (cnt > 16)
-		print_error(HEREDOC_ERR, EXIT_Y, 2);
+		print_error("maximum here-document count exceeded", TRUE, 2);
 	redirct = exec->pipeline->redirct;
 	while (redirct)
 	{

@@ -68,7 +68,7 @@ int	ft_export(t_pipeline *pipeline)
 		while (pipeline->cmd[i][j])
 		{
 			if (!(ft_isalnum(pipeline->cmd[i][j]) || (i != 0 && pipeline->cmd[i][j] == '=')))
-				print_error(errmsg(1, "export", error_cmd(pipeline->cmd[i]), NOT_VALID_ERR), EXIT_Y, 1);
+				print_error(errmsg(1, "export", error_cmd(pipeline->cmd[i]), "not a valid identifier"), TRUE, 1);
 			j++;
 		}
 		add_env(pipeline->env, pipeline->cmd[i]);

@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/09 01:49:46 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/09 15:57:29 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	**pars_envp(char **envp)
 		i++;
 	}
 	if (!envp[i])
-		print_error(NO_FILE_ERR, EXIT_Y, 127);
+		print_error("No such file or directory", TRUE, 127);
 	path = ft_split(envp[i] + 5, ':');
 	return (path);
 }
@@ -71,7 +71,7 @@ void	exec_cmd(int fds[2], t_exec *exec, int flag)
 	pl->path = find_path(pl->cmd, pars_envp(pl->env->value));
 	g_status = 0;
 	if (execve(pl->path, pl->cmd, pl->env->value) == -1)
-		print_error(errmsg(1, pl->cmd[0], NULL, CMD_ERR), EXIT_Y, 127);
+		print_error(errmsg(1, pl->cmd[0], NULL, "command not found"), TRUE, 127);
 }
 
 void	exec_fork(t_exec *exec, int flag)

@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:50:08 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/06 20:03:59 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/09 15:57:00 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ long	ft_atol(char *str)
 		result = result * 10 + (str[i++] - '0');
 		if (result * sign < (long long)-9223372036854775808ULL || \
 				result * sign > (long long)9223372036854775807)
-			print_error(errmsg(1, "exit", str, NUMERIC_ERR), EXIT_Y, 255);
+			print_error(errmsg(1, "exit", str, "numeric argument required"), TRUE, 255);
 	}
 	return ((long)result * sign);
 }
@@ -60,9 +60,12 @@ int	ft_exit(t_exec *exec)
 	if (!cmd[1])
 		cmd[1] = "0";
 	if (check_status(cmd[1]))
-		print_error(errmsg(1, "exit", cmd[1], NUMERIC_ERR), EXIT_Y, 255);
+		print_error(errmsg(1, "exit", cmd[1], "numeric argument required"), TRUE, 255);
 	if (cmd[2])
-		print_error(errmsg(1, "exit", cmd[1], MANY_ARGS_ERR), EXIT_N, 1);
+	{
+		print_error(errmsg(1, "exit", cmd[1], "too many arguments"), FALSE, 1);
+		return (0);
+	}
 	if (0 < exec->pipe_cnt)
 		return (0);
 	ft_putendl_fd("exit", STDOUT_FILENO);

@@ -34,14 +34,16 @@ t_pipeline	*next_pipeline(t_pipeline *pipeline)
 
 void	wait_procs(int cnt)
 {
-	int		i;
-	int		status;
-	pid_t	pid;
+	int			i;
+	int			status;
+	pid_t		pid;
+	extern int	g_status;
 
 	i = 0;
 	while (i < cnt)
 	{
 		pid = waitpid(-1, &status, 0);
+		g_status = WEXITSTATUS(status);
 		if (WTERMSIG(status) == 2)
 		{
 			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
