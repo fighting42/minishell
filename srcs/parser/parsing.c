@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 02:04:08 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/09 11:38:15 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ t_cmdline	*parsing(char *str, t_env *env)
 	c_curr = malloc(sizeof(t_cmdline));
 	t_curr = create_token();
 	c_curr->token = t_curr;
-
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
-
+	if (error_case(str, parse) == 1)
+		return (0);
 	for (int k = 0; parse->env_var[k].value != NULL; k++)
 		printf("환경변수 :: %s, %d\n", parse->env_var[k].value, parse->env_var[k].size_v);
 
@@ -45,7 +45,10 @@ t_cmdline	*parsing(char *str, t_env *env)
 		{
 			parse->quote = quote_status(parse->tmp[parse->i][parse->j], parse->quote);
 			if (parse->tmp[parse->i][parse->j] == '|')
-				check_pipe(parse, t_curr);
+			{
+				if (check_pipe(parse, t_curr) == 1)
+					return (parse->c_head);
+			}
 			else if (parse->tmp[parse->i][parse->j] == '<')
 			{
 				if (redirection_stdin(parse) == 1)
@@ -81,11 +84,16 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 
-	char *tmp = "echo $aa aaaa";
+	char *tmp = "   | echo $aa | a |";
 	printf("%s\n", tmp);
 	
 	g_status = 0;
 	str = parsing(tmp, &temp);
+	if (str == NULL)
+	{
+		printf("error\n");
+		return (0);
+	}
 	prt = str->token;
 	while (prt != NULL)
 	{

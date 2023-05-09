@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir_pipe.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:11 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/06 21:57:11 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/09 11:14:33 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,32 @@ int	redirection_stdout(t_parse *parse)
 	return (0);
 }
 
-void	check_pipe(t_parse *parse, t_token *t_curr)
+int	check_pipe(t_parse *parse, t_token *t_curr)
 {
 	t_curr->pipe_flag = 1;
+	parse->cnt_pipe++;
+	if (parse->last_pipe == 1 && \
+		parse->cnt_pipe == parse->num_pipe)
+	{
+		append_token(parse->c_head->token, t_curr, "", COMMAND);		
+		return (1);
+	}		
 	move_index_j(parse);
+	return (0);
+}
+
+void	count_pipe(char *str, t_parse *parse)
+{
+	int	i;
+	int	quote;
+
+	i = 0;
+	quote = 0;
+	while (str[i] != '\0')
+	{
+		quote = quote_status(str[i], quote);
+		if (str[i] == '|' && quote == 0)
+			parse->num_pipe++;
+		i++;
+	}
 }
