@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/10 12:03:24 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/10 14:20:36 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	main(int argc, char **argv, char **envp)
 	temp.value = envp;
 	(void)argc;
 	(void)argv;
-	tmp = "echo \"$USER \"a\'a\'a\" | \"";
+	tmp = "<<end<<end<<end|<<end<<end<<end";
 	printf ("%s\n", tmp);
 	g_status = 0;
 	str = parsing(tmp, &temp);
