@@ -31,11 +31,14 @@ char	*do_heredoc(t_redirct *redirct, t_exec *exec)
 {
 	char		*line;
 	int			fd;
+	int			tmp_stdin;
 	char		*file;
 
 	file = ft_strjoin(".heredoc/.tmp", ft_itoa(exec->heredoc_cnt));
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	exec->heredoc_cnt--;
+	tmp_stdin = dup(STDIN_FILENO);
+	dup2(exec->stdin_ori, STDIN_FILENO);
 	while (1)
 	{
 		line = readline("> ");
@@ -46,47 +49,29 @@ char	*do_heredoc(t_redirct *redirct, t_exec *exec)
 		write(fd, "\n", 1);
 		free(line);
 	}
+	dup2(tmp_stdin, STDIN_FILENO);
 	free(line);
 	close(fd);
 	return (file);
 }
 
-int	fd_open(t_redirct *redirct, t_exec *exec)
+int	fd_open(t_redirct *redirct)
 {
-	char	*file;
-	char	*str;
-	int		fd;
-
-	if (redirct->type == STDIN)
+	if (redirct->type == STDIN || redirct->type == HEREDOC)
 		return (open(redirct->value, O_RDONLY));
 	else if (redirct->type == STDOUT)
 		return (open(redirct->value, O_RDWR | O_CREAT | O_TRUNC, 0644));
 	else if (redirct->type == APPEND)
 		return (open(redirct->value, O_RDWR | O_CREAT | O_APPEND, 0644));
-	else if (redirct->type == HEREDOC)
-	{
-		file = do_heredoc(redirct, exec);
-		fd = open(file, O_RDONLY); // heredoc 환경변수 처리 추가 !
-		free(file);
-		return (fd);
-	}
-	if (redirct->type == COMMAND && exec->pipeline->cmd[0] == NULL)
-	{
-		dup2(exec->stdin_ori, STDIN_FILENO);
-		str = readline("> "); // 환경변수 처리 추가, token 나눠야됨
-		exec->pipeline->cmd[0] = str;
-	}
 	return (0);
 }
 
-void	do_redirct(t_redirct *redirct, t_exec *exec, int flag)
+void	do_redirct(t_redirct *redirct)
 {
 	int	fd;
 
-	fd = fd_open(redirct, exec);
-	if (redirct->type == STDIN)
-		dup2(fd, STDIN_FILENO);
-	else if (redirct->type == HEREDOC && flag)
+	fd = fd_open(redirct);
+	if (redirct->type == STDIN || redirct->type == HEREDOC)
 		dup2(fd, STDIN_FILENO);
 	else if (redirct->type == STDOUT || redirct->type == APPEND)
 		dup2(fd, STDOUT_FILENO);
@@ -96,21 +81,11 @@ void	do_redirct(t_redirct *redirct, t_exec *exec, int flag)
 void	redirct(t_exec *exec)
 {
 	t_redirct	*redirct;
-	int			cnt;
-	int			flag;
 
-	cnt = exec->heredoc_cnt;
-	if (cnt > 16)
-		print_error(errmsg(TRUE, NULL, NULL, "maximum here-document count exceeded"), TRUE, 2);
 	redirct = exec->pipeline->redirct;
 	while (redirct)
 	{
-		if (1 == exec->heredoc_cnt)
-			flag = 1;
-		else
-			flag = 0;
-		do_redirct(redirct, exec, flag);
+		do_redirct(redirct);
 		redirct = redirct->next;
 	}
-	unlink_heredoc(cnt);
 }

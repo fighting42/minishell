@@ -49,17 +49,23 @@ void	append_redirct(t_pipeline *pipeline, t_token *token)
 
 void	split_cmdline(t_token *token, t_pipeline *pipeline, int cnt)
 {
-	int	i;
+	char	*str;
+	int		i;
 
 	pipeline->cmd = malloc(sizeof(char *) * (cnt + 1));
 	pipeline->redirct = NULL;
 	i = 0;
 	while (i < cnt)
 	{
-		if ((token->type == COMMAND && !ft_strncmp(token->value, "", 1)) || token->type != COMMAND)
+		if (token->type != COMMAND)
 		{
 			append_redirct(pipeline, token);
 			cnt--;
+		}
+		else if (token->type == COMMAND && !ft_strncmp(token->value, "", 1))
+		{
+			str = readline("> "); // 환경변수 처리 추가, token 나눠야됨
+			pipeline->cmd[i++] = str;
 		}
 		else
 			pipeline->cmd[i++] = token->value;

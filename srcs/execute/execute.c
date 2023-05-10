@@ -73,26 +73,48 @@ t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 	return (exec);
 }
 
+void	check_heredoc(t_exec *exec)
+{
+	t_redirct	*tmp;
+
+	tmp = exec->pipeline->redirct;
+	if (tmp)
+	{
+		while (tmp)
+		{
+			if (tmp->type == HEREDOC)
+				tmp->value = do_heredoc(tmp, exec);
+			tmp = tmp->next;
+		}
+	}
+}
+
 void	execute(t_cmdline *cmdline, t_env *env)
 {
 	int		i;
 	int		last_flag;
+	int		heredoc_cnt;
 	t_exec	*exec;
 
 	i = 0;
 	last_flag = 0;
 	exec = init_exec(cmdline, env);
+	heredoc_cnt = exec->heredoc_cnt;
+	if (heredoc_cnt > 16)
+		print_error(errmsg(TRUE, NULL, NULL, "maximum here-document count exceeded"), TRUE, 2);
 	while (i < exec->pipe_cnt + 1)
 	{
 		if (!check_builtin(exec))
 			break ;
 		if (i == exec->pipe_cnt)
 			last_flag = 1;
+		check_heredoc(exec);
 		exec_fork(exec, last_flag);
 		exec->pipeline = next_pipeline(exec->pipeline);
 		i++;
 	}
 	wait_procs(exec->pipe_cnt + 1);
+	unlink_heredoc(heredoc_cnt);
 	free(exec);
 	dup2(exec->stdin_ori, STDIN_FILENO);
 	dup2(exec->stdout_ori, STDOUT_FILENO);

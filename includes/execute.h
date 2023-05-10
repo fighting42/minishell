@@ -47,5 +47,6 @@ void	redirct(t_exec *exec);
 void	unlink_heredoc(int cnt);
 t_exec	*init_exec(t_cmdline *cmdline, t_env *env);
 void	check_cmdline(t_cmdline *cmdline, t_env *env, t_exec *exec);
+char	*do_heredoc(t_redirct *redirct, t_exec *exec);
 
 #endif
