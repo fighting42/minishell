@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:06:54 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/06 17:05:23 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/11 05:39:33 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,14 @@ void	add_env(t_env *env, char *value)
 			}
 			i++;
 		}
+	}
+	i = 0;
+	while (env->value[i])
+	{
+		if (!ft_strncmp(value, env->value[i], ft_strlen(value)) && \
+			!ft_strncmp(value, env->value[i], ft_strlen(env->value[i])))
+				return ;
+		i++;
 	}
 	new_env = init_add_env(env->value);
 	i = 0;
