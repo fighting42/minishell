@@ -12,31 +12,29 @@
 
 #include "../../includes/minishell.h"
 
-void	unlink_heredoc(int cnt)
+void	unlink_heredoc(void)
 {
 	char	*file;
 	int		i;
 
 	i = 1;
-	while (i <= cnt)
+	while (i <= 16)
 	{
 		file = ft_strjoin(".heredoc/.tmp", ft_itoa(i));
-		unlink(file);
+		if (!access(file, F_OK))
+			unlink(file);
 		free(file);
 		i++;
 	}
 }
 
-char	*do_heredoc(t_redirct *redirct, t_exec *exec)
+void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file)
 {
 	char		*line;
 	int			fd;
 	int			tmp_stdin;
-	char		*file;
 
-	file = ft_strjoin(".heredoc/.tmp", ft_itoa(exec->heredoc_cnt));
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	exec->heredoc_cnt--;
 	tmp_stdin = dup(STDIN_FILENO);
 	dup2(exec->stdin_ori, STDIN_FILENO);
 	while (1)
@@ -52,7 +50,32 @@ char	*do_heredoc(t_redirct *redirct, t_exec *exec)
 	dup2(tmp_stdin, STDIN_FILENO);
 	free(line);
 	close(fd);
-	return (file);
+}
+
+char	*fork_heredoc(t_redirct *redirct, t_exec *exec)
+{
+	pid_t	pid;
+	int		status;
+	char		*file;
+
+	file = ft_strjoin(".heredoc/.tmp", ft_itoa(exec->heredoc_cnt));
+	pid = fork();
+	if (pid == 0)
+	{
+		signal(SIGINT, sigint_handler_heredoc);
+		do_heredoc(redirct, exec, file);
+		exit(0);
+	}
+	else
+	{
+		wait(&status);
+		exec->heredoc_cnt--;
+		if (WEXITSTATUS(status) == 130)
+			unlink_heredoc();
+		else if (WIFEXITED(status))
+			return (file);
+		return (NULL);
+	}
 }
 
 int	fd_open(t_redirct *redirct)

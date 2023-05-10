@@ -46,7 +46,8 @@ SRCS_B	=	srcs/builtin/builtin.c \
 			srcs/builtin/ft_exit.c
 
 SRCS_U	=	srcs/utils/signal.c \
-			srcs/utils/error.c
+			srcs/utils/error.c \
+			srcs/utils/gnl.c
 
 SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E) $(SRCS_B) $(SRCS_U)
 

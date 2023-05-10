@@ -59,7 +59,6 @@ void	exec_cmd(int fds[2], t_exec *exec, int flag)
 {
 	t_pipeline	*pl;
 
-	signal(SIGQUIT, SIG_DFL); // 맞나?
 	pl = exec->pipeline;
 	close(fds[0]);
 	if (!flag)

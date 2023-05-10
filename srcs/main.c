@@ -16,7 +16,7 @@ int	g_status = 0;
 
 int main(int argc, char **argv, char **envp)
 {
-    char		*str;
+    char		*line;
 	t_cmdline	*cmdline;
 	t_env		env;
 
@@ -26,19 +26,19 @@ int main(int argc, char **argv, char **envp)
 	init_signal();
 	while(1)
     {
-        str = readline("minishell$ ");
-		if (!str)
+        line = readline("minishell$ ");
+		if (!line)
 		{
 			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
 			ft_putstr_fd("\033[11C", STDOUT_FILENO);
 			ft_putendl_fd("exit", STDOUT_FILENO);
 			exit(0);
 		}
-		else if (!ft_strncmp(str, "", 1))
+		else if (!ft_strncmp(line, "", 1))
 			continue ;
 		else
 		{
-			cmdline = parsing(str, &env);
+			cmdline = parsing(line, &env);
 			// t_token *tmp=cmdline->token;
 			// while (tmp)
 			// {
@@ -46,8 +46,8 @@ int main(int argc, char **argv, char **envp)
 			// 	tmp = tmp->next;
 			// }
 			execute(cmdline, &env);
-			add_history(str);
-			free(str);
+			add_history(line);
+			free(line);
 		}
 	}
 	free_env(&env);

@@ -49,7 +49,6 @@ void	append_redirct(t_pipeline *pipeline, t_token *token)
 
 void	split_cmdline(t_token *token, t_pipeline *pipeline, int cnt)
 {
-	char	*str;
 	int		i;
 
 	pipeline->cmd = malloc(sizeof(char *) * (cnt + 1));
@@ -63,10 +62,7 @@ void	split_cmdline(t_token *token, t_pipeline *pipeline, int cnt)
 			cnt--;
 		}
 		else if (token->type == COMMAND && !ft_strncmp(token->value, "", 1))
-		{
-			str = readline("> "); // 환경변수 처리 추가, token 나눠야됨
-			pipeline->cmd[i++] = str;
-		}
+			pipeline->cmd[i++] = fork_pipe_input(); // 환경변수 처리 추가, token 나누기, history 변경
 		else
 			pipeline->cmd[i++] = token->value;
 		token = token->next;

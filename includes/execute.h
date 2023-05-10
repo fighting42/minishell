@@ -44,9 +44,11 @@ void	execute(t_cmdline *cmdline, t_env *env);
 void	exec_fork(t_exec *exec, int flag);
 char	*find_path(char **cmd, char **envp_path);
 void	redirct(t_exec *exec);
-void	unlink_heredoc(int cnt);
+void	unlink_heredoc(void);
 t_exec	*init_exec(t_cmdline *cmdline, t_env *env);
 void	check_cmdline(t_cmdline *cmdline, t_env *env, t_exec *exec);
-char	*do_heredoc(t_redirct *redirct, t_exec *exec);
+void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file);
+char	*fork_heredoc(t_redirct *redirct, t_exec *exec);
+char	*fork_pipe_input(void);
 
 #endif

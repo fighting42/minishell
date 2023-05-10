@@ -21,6 +21,30 @@ void    set_termios(void)
     tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
+void    sigint_handler_input(int sig)
+{
+    extern int g_status;
+
+    if (sig == SIGINT)
+    {
+        g_status = 130;
+        exit(g_status);
+    }
+}
+
+void    sigint_handler_heredoc(int sig)
+{
+    extern int g_status;
+
+    if (sig == SIGINT)
+    {
+        //ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
+        ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
+        g_status = 130;
+        exit(g_status);
+    }
+}
+
 void	sigint_handler(int sig)
 {
     if (sig == SIGINT)
