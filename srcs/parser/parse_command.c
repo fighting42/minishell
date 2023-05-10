@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 16:41:13 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/10 10:56:35 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,38 +148,26 @@ char	*valid_join(t_parse *parse, int quote)
 
 void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 {
-	char	*tmp;
-	char	*tmp1;
+	char	*temp;
+	char	*ret_str1;
+	char	*ret_str;
 
 	if (parse->type == 0)
 		parse->type = COMMAND;
 	if (str == NULL)
+		temp = parse->tmp[parse->i];
+	else
+		temp = str;
+	if (count_dollar(temp) == 0)
 	{
-		if (count_dollar(parse->tmp[parse->i]) == 0)
-		{
-			tmp = remove_quote(parse->tmp[parse->i]);
-			append_token(parse->c_head->token, t_curr, tmp, parse->type);
-		}
-		else
-		{
-			tmp1 = env_to_str(parse, NULL);
-			tmp = remove_quote(tmp1);
-			append_token(parse->c_head->token, t_curr, tmp, parse->type);
-		}
+		ret_str = remove_quote(temp);
+		append_token(parse->c_head->token, t_curr, ret_str, parse->type);
 	}
 	else
 	{
-		if (count_dollar(str) == 0)
-		{
-			tmp = remove_quote(str);
-			append_token(parse->c_head->token, t_curr, tmp, parse->type);
-		}
-		else
-		{
-			tmp1 = env_to_str(parse, str);
-			tmp = remove_quote(tmp1);
-			append_token(parse->c_head->token, t_curr, tmp, parse->type);
-		}
+		ret_str1 = env_to_str(parse, str);
+		ret_str = remove_quote(ret_str1);
+		append_token(parse->c_head->token, t_curr, ret_str, parse->type);
 	}
 }
 
