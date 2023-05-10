@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:32:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/10 14:22:44 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 02:31:31 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,15 @@ void	pipe_the_end(char *str, t_parse *parse)
 	return ;
 }
 
-int	redirection_pipe_error(char *str, int i)
+int	consecutive_pipe_error(char *str, int i)
 {
 	int	flag;
 
 	flag = 0;
-	if (check_sep(str[i], "<") == 1)
-	{
-		if (check_sep(str[i + 1], "<") == 1)
-			i = i + 1;
-		i++;
-		flag = 1;
-	}
-	if (check_sep(str[i], ">") == 1)
-	{
-		if (check_sep(str[i + 1], ">") == 1)
-			i = i + 1;
-		i++;
-		flag = 1;
-	}
 	if (check_sep(str[i], "|") == 1)
 		i++;
 	while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 		i++;
-	if (check_sep(str[i], "><") == 1 && flag == 1)
-		return (-1);
 	if (check_sep(str[i], "|") == 1 && flag == 0)
 		return (-1);
 	return (i);
@@ -109,7 +93,7 @@ int	error_case(char *str, t_parse *parse)
 	{
 		while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 			i++;
-		ret = redirection_pipe_error(str, i);
+		ret = consecutive_pipe_error(str, i);
 		if (ret == -1)
 			return (1);
 		else

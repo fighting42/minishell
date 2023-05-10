@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/10 14:20:36 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 02:33:36 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,15 @@
 
 int	parse_case(t_parse *parse, t_token *t_curr)
 {
+	int	ret;
+
 	if (parse->tmp[parse->i][parse->j] == '|')
 	{
-		if (check_pipe(parse, t_curr) == 1)
+		ret = check_pipe(parse, t_curr);
+		if (ret == 1)
 			return (0);
+		if (ret == -1)
+			return (1);
 	}
 	else if (parse->tmp[parse->i][parse->j] == '<')
 	{
@@ -103,7 +108,7 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 	temp.value = envp;
 // 	(void)argc;
 // 	(void)argv;
-// 	tmp = "<<end<<end<<end|<<end<<end<<end";
+// 	tmp = "c\"$test aa\"";
 // 	printf ("%s\n", tmp);
 // 	g_status = 0;
 // 	str = parsing(tmp, &temp);
