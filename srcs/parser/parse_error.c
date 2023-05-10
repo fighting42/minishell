@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:32:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 23:36:11 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/10 10:45:21 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	error_quote(char *str)
 {
-	if (chk_whole_quote(str, 0) == 1)
+	if (chk_whole_quote(str, 0) != 0)
 	{
 		printf("%s", "ERROR: quote error\n");
 		return (1);
