@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int	g_status = 0;
+// int	g_status = 0;
 
 int	parse_case(t_parse *parse, t_token *t_curr)
 {
@@ -93,31 +93,30 @@ t_cmdline	*parsing(char *str, t_env *env)
 		return (parse->c_head);
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_cmdline	*str;
-	t_token		*prt;
-	t_env		temp;
-	char		*tmp;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_cmdline	*str;
+// 	t_token		*prt;
+// 	t_env		temp;
+// 	char		*tmp;
 
-	temp.value = envp;
-	(void)argc;
-	(void)argv;
-	tmp = "<<end<<end<<end|<<end<<end<<end";
-	printf ("%s\n", tmp);
-	g_status = 0;
-	str = parsing(tmp, &temp);
-	if (str == NULL)
-	{
-		printf("error\n");
-		return (0);
-	}
-	prt = str->token;
-	while (prt != NULL)
-	{
-		printf("value: %s / type: %d / pipe_flag: %d\n", \
-		prt->value, prt->type, prt->pipe_flag);
-		prt = prt->next;
-	}
-	return (0);
-}
+// 	temp.value = envp;
+// 	(void)argc;
+// 	(void)argv;
+// 	tmp = "<<end<<end<<end|<<end<<end<<end";
+// 	printf ("%s\n", tmp);
+// 	g_status = 0;
+// 	str = parsing(tmp, &temp);
+// 	if (str == NULL)
+// 	{
+// 		printf("error\n");
+// 		return (0);
+// 	}
+// 	prt = str->token;
+// 	while (prt != NULL)
+// 	{
+// 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
+// 		prt = prt->next;
+// 	}
+// 	return (0);
+// }

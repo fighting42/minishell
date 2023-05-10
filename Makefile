@@ -16,7 +16,7 @@ CFLAGS	=	-Wall -Wextra -Werror -g
 
 RINC	=	-I /Users/$(USER)/.brew/opt/readline/include
 
-RLIB	=	-lreadline -L /Users/$(USER)/.brew/opt/readline/lib
+RLIB	=	-L /Users/$(USER)/.brew/opt/readline/lib
 
 SRCS_P	=	srcs/parser/parse_command.c \
 			srcs/parser/parse_dollar.c \
@@ -65,7 +65,7 @@ all 	:
 			make $(NAME)
 
 $(NAME) :	$(OBJS)
-			$(CC) $(CFLAGS) $(RLIB) $(OBJS) $(LIBFT) -o $(NAME) 
+			$(CC) $(CFLAGS) $(RLIB) $(OBJS) $(LIBFT) -o $(NAME) -lreadline 
 
 clean   :	
 			make -C $(LDIR) clean

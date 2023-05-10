@@ -36,13 +36,12 @@ void	wait_procs(int cnt)
 {
 	int			i;
 	int			status;
-	pid_t		pid;
 	extern int	g_status;
 
 	i = 0;
 	while (i < cnt)
 	{
-		pid = waitpid(-1, &status, 0);
+		waitpid(-1, &status, 0);
 		g_status = WEXITSTATUS(status);
 		if (WTERMSIG(status) == 2 && WIFSIGNALED(status))
 		{
