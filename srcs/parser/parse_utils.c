@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:55:09 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 16:32:17 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 01:35:13 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,8 @@ void	append_token(t_token *head, t_token *curr, char *value, int type)
 {
 	t_token	*tmp;
 
-	curr->value = value;
-	if (type != -1)
-		make_type(curr, type);
+	curr->value = value;	
+	make_type(curr, type);
 	tmp = head;
 	if (head == curr)
 		head = curr;

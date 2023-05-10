@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/10 10:56:35 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 01:31:27 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 	char	*ret_str1;
 	char	*ret_str;
 
-	if (parse->type == 0)
+	if (parse->type == -1)
 		parse->type = COMMAND;
 	if (str == NULL)
 		temp = parse->tmp[parse->i];
@@ -187,6 +187,6 @@ int	cmd_or_str(t_parse	*parse, t_token *t_curr)
 		make_token_value(parse, tmp, t_curr);
 	}
 	move_index_j(parse);
-	parse->type = 0;
+	parse->type = -1;
 	return (0);
 }

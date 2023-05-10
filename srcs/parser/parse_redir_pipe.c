@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:11 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 14:20:59 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 01:28:21 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,44 @@
 
 int	redirection_stdin(t_parse *parse)
 {
+	printf("stdin %d\n", STDIN);
 	if (parse->tmp[parse->i][parse->j + 1] == '<')
+	{
 		parse->type = HEREDOC;
+		parse->j++;
+	}
 	else
 		parse->type = STDIN;
-	while (check_sep(parse->tmp[parse->i + 1][0], " |<>") == 1)
+	parse->j++;
+	while (parse->tmp[parse->i][parse->j] != '\0')
 	{
-		if ((is_not_ok_sep(parse->tmp[parse->i + 1], "|><")) == 1)
+		while (parse->tmp[parse->i][parse->j] == ' ' && \
+		parse->tmp[parse->i][parse->j] != '\0')
+			parse->j++;
+		if ((check_sep(parse->tmp[parse->i][parse->j], "><")) == 1)
 			return (1);
 	}
-	move_index_j(parse);
 	return (0);
 }
 
 int	redirection_stdout(t_parse *parse)
 {
 	if (parse->tmp[parse->i][parse->j + 1] == '>')
+	{
 		parse->type = APPEND;
+		parse->j++;
+	}
 	else
 		parse->type = STDOUT;
-	while (check_sep(parse->tmp[parse->i + 1][0], " |<>") == 1)
+	parse->j++;
+	while (parse->tmp[parse->i][parse->j] != '\0')
 	{
-		if ((is_not_ok_sep(parse->tmp[parse->i + 1], "|><")) == 1)
+		while (parse->tmp[parse->i][parse->j] == ' ' && \
+		parse->tmp[parse->i][parse->j] != '\0')
+			parse->j++;
+		if ((check_sep(parse->tmp[parse->i][parse->j], "><")) == 1)
 			return (1);
 	}
-	move_index_j(parse);
 	return (0);
 }
 
@@ -51,7 +64,21 @@ int	check_pipe(t_parse *parse, t_token *t_curr)
 	{
 		append_token(parse->c_head->token, t_curr, "", COMMAND);
 		return (1);
-	}		
+	}
+	parse->j++;
+	while (parse->tmp[parse->i][parse->j] == ' ' && \
+		parse->tmp[parse->i][parse->j] != '\0')
+		parse->j++;
+	if (parse->tmp[parse->i][parse->j] == '<')
+	{
+		if (redirection_stdin(parse) == 1)
+			return (-1);
+	}
+	if (parse->tmp[parse->i][parse->j] == '>')
+	{
+		if (redirection_stdout(parse) == 1)
+			return (-1);
+	}
 	move_index_j(parse);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:04:02 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 23:54:30 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 01:30:38 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	init_parse(t_parse	*parse, char *str, t_env *env, t_cmdline *c_curr)
 	parse->i = 0;
 	parse->j = 0;
 	parse->dollar_index = 0;
-	parse->type = 0;
+	parse->type = -1;
 	parse->last_pipe = 0;
 	parse->cnt_pipe = 0;
 	parse->num_pipe = 0;
