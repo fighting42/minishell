@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 01:31:27 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 02:32:29 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,7 @@ char	*env_to_str(t_parse *parse, char *str)
 	while (temp[k] != '\0')
 	{
 		quote = quote_status(temp[k], quote);
-		if ((quote == 2 && temp[k] == '$') || \
-			(quote == 0 && temp[k] == '$'))
+		if ((quote == 2 && temp[k] == '$'))
 		{
 			m = 0;
 			while (parse->env_var[parse->dollar_index].value[m] != '\0')
@@ -85,6 +84,20 @@ char	*env_to_str(t_parse *parse, char *str)
 			k += ft_strlen(parse->env_var[parse->dollar_index].ori);
 			k += 1;
 			parse->dollar_index++;
+		}
+		else if ((quote == 0 && temp[k] == '$'))
+		{
+			m = 0;
+			while (parse->env_var[parse->dollar_index].value[m] != '\0')
+			{
+				ret[n] = parse->env_var[parse->dollar_index].value[m];
+				n++;
+				m++;
+			}
+			k += ft_strlen(parse->env_var[parse->dollar_index].ori);
+			k += 1;
+			parse->dollar_index++;
+			parse->env_flag = 1;
 		}
 		else
 		{
@@ -151,7 +164,10 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 	char	*temp;
 	char	*ret_str1;
 	char	*ret_str;
+	char	**split;
+	int		i;
 
+	i = -1;
 	if (parse->type == -1)
 		parse->type = COMMAND;
 	if (str == NULL)
@@ -159,16 +175,25 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 	else
 		temp = str;
 	if (count_dollar(temp) == 0)
-	{
 		ret_str = remove_quote(temp);
-		append_token(parse->c_head->token, t_curr, ret_str, parse->type);
-	}
 	else
 	{
 		ret_str1 = env_to_str(parse, str);
 		ret_str = remove_quote(ret_str1);
-		append_token(parse->c_head->token, t_curr, ret_str, parse->type);
+		if (parse->env_flag == 1)
+		{
+			split = ft_split(ret_str, ' ');
+			while (split[++i] != NULL)
+			{
+				append_token(parse, t_curr, split[i]);
+				if (split[i + 1] != NULL)
+					t_curr = create_token();
+			}
+			parse->env_flag = 0;
+			return ;
+		}
 	}
+	append_token(parse, t_curr, ret_str);
 }
 
 int	cmd_or_str(t_parse	*parse, t_token *t_curr)

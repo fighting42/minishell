@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:55:09 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 01:35:13 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 02:31:04 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ void	make_type(t_token *curr, int type)
 		curr->type = COMMAND;
 }
 
-void	append_token(t_token *head, t_token *curr, char *value, int type)
+void	append_token(t_parse *parse, t_token *curr, char *value)
 {
 	t_token	*tmp;
 
-	curr->value = value;	
-	make_type(curr, type);
-	tmp = head;
-	if (head == curr)
-		head = curr;
+	curr->value = value;
+	make_type(curr, parse->type);
+	tmp = parse->c_head->token;
+	if (parse->c_head->token == curr)
+		parse->c_head->token = curr;
 	else
 	{
 		while (tmp->next)

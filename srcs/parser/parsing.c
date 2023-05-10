@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 01:38:34 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 02:33:36 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 	c_curr->token = t_curr;
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
-
-	for (int k = 0; parse->tmp[k] != NULL ;k++)
-		printf("split: %s\n", parse->tmp[k]);
 	if (error_case(str, parse) == 1)
 		return (0);
 	ret = parse_loop(parse, t_curr);
@@ -111,7 +108,7 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 	temp.value = envp;
 // 	(void)argc;
 // 	(void)argv;
-// 	tmp = "<end";
+// 	tmp = "c\"$test aa\"";
 // 	printf ("%s\n", tmp);
 // 	g_status = 0;
 // 	str = parsing(tmp, &temp);

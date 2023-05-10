@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:04:02 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 01:30:38 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 02:07:22 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	init_parse(t_parse	*parse, char *str, t_env *env, t_cmdline *c_curr)
 	parse->last_pipe = 0;
 	parse->cnt_pipe = 0;
 	parse->num_pipe = 0;
+	parse->env_flag = 0;
 	parse->c_head = c_curr;
 	parse->env_var = chk_env(str, env);
 	cnt_split = count_str(str, " |<>");
