@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:11 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 02:22:13 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 10:52:04 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	check_pipe(t_parse *parse, t_token *t_curr)
 	{
 		parse->type = COMMAND;
 		append_token(parse, t_curr, "");
-		return (1);
+		return (0);
 	}
 	parse->j++;
 	while (parse->tmp[parse->i][parse->j] == ' ' && \
@@ -73,15 +73,15 @@ int	check_pipe(t_parse *parse, t_token *t_curr)
 	if (parse->tmp[parse->i][parse->j] == '<')
 	{
 		if (redirection_stdin(parse) == 1)
-			return (-1);
+			return (1);
 	}
 	if (parse->tmp[parse->i][parse->j] == '>')
 	{
 		if (redirection_stdout(parse) == 1)
-			return (-1);
+			return (1);
 	}
 	move_index_j(parse);
-	return (0);
+	return (2);
 }
 
 void	count_pipe(char *str, t_parse *parse)

@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/10 02:10:23 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 11:34:26 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_parse
 	int			j;
 	int			quote;
 	int			type;
+	int			env_flag;
 	int			dollar_index;
 	int			last_pipe;
 	int			num_pipe;
@@ -51,15 +52,27 @@ typedef	struct s_rmv_quote
 	int	quote;
 }	t_rmv_quote;
 
+typedef struct s_command
+{
+	int		r;
+	int		t;
+	int		e;
+	char	*temp;
+	
+}	t_command;
+
 
 //parse_command.c
 int			cmd_or_str(t_parse	*parse, t_token *t_curr);
 void		make_token_value(t_parse *parse, char *str, t_token *t_curr);
 char		*valid_join(t_parse *parse, int quote);
-char		*env_to_str(t_parse *parse, char *str);
 int			len_env_to_str(t_parse *parse, char *str);
-void		make_env_ret(t_parse *parse, char *temp, char *ret);
 
+//parse_command_env.c
+void		add_env_val(t_command *com, t_parse *parse, char *ret);
+void		change_env_var(t_command *com, t_parse *parse, char *ret);
+void		env_split(t_parse *parse, t_token *t_curr, char *ret_str);
+char		*env_to_str(t_parse *parse, char *str);
 
 //parse_dollar_env.c
 t_envval	*chk_env(char *str, t_env *env);
@@ -79,12 +92,13 @@ int			error_quote(char *str);
 int			error_case(char *str, t_parse *parse);
 int			pipe_error(char *str);
 void		pipe_the_end(char *str, t_parse *parse);
-int			redirection_pipe_error(char *str, int i);
+int			consecutive_pipe_error(char *str, int i);
 
 //parse_init.c
 void		init_parse(t_parse	*parse, char *str, t_env *env, \
 						t_cmdline *c_curr);
 void		init_rmv(t_rmv_quote *rmv);
+void		init_t_command(t_command *com);
 
 //parse_quote.c
 char		*remove_quote(char *str);
@@ -111,11 +125,13 @@ int			is_not_ok_sep(char *str, char *sep);
 //parse_utils.c
 int			check_sep(char c, char *sep);
 t_token		*create_token(void);
-void		append_token(t_token *head, t_token *curr, char *value, int type);
+void		append_token(t_parse *parse, t_token *curr, char *value);
 void		move_index_j(t_parse *parse);
 
 //parsing.c
 t_cmdline	*parsing(char *str, t_env *env);
 int			parse_case(t_parse *parse, t_token *t_curr);
+int			redirection_case(t_parse *parse);
+int			parse_loop(t_parse *parse, t_token *t_curr);
 
 #endif

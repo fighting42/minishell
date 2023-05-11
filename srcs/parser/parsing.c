@@ -6,13 +6,28 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 02:33:36 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 11:36:11 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // int	g_status = 0;
+
+int	redirection_case(t_parse *parse)
+{
+	if (parse->tmp[parse->i][parse->j] == '<')
+	{
+		if (redirection_stdin(parse) == 1)
+			return (1);
+	}
+	else if (parse->tmp[parse->i][parse->j] == '>')
+	{
+		if (redirection_stdout(parse) == 1)
+			return (1);
+	}
+	return (0);
+}
 
 int	parse_case(t_parse *parse, t_token *t_curr)
 {
@@ -21,19 +36,13 @@ int	parse_case(t_parse *parse, t_token *t_curr)
 	if (parse->tmp[parse->i][parse->j] == '|')
 	{
 		ret = check_pipe(parse, t_curr);
-		if (ret == 1)
-			return (0);
-		if (ret == -1)
-			return (1);
+		if (ret != 2)
+			return (ret);
 	}
-	else if (parse->tmp[parse->i][parse->j] == '<')
+	else if (parse->tmp[parse->i][parse->j] == '<' || \
+			parse->tmp[parse->i][parse->j] == '>')
 	{
-		if (redirection_stdin(parse) == 1)
-			return (1);
-	}
-	else if (parse->tmp[parse->i][parse->j] == '>')
-	{
-		if (redirection_stdout(parse) == 1)
+		if (redirection_case(parse) == 1)
 			return (1);
 	}
 	else if (parse->tmp[parse->i][parse->j] == ' ')
@@ -108,7 +117,7 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 	temp.value = envp;
 // 	(void)argc;
 // 	(void)argv;
-// 	tmp = "c\"$test aa\"";
+// 	tmp = "c$test aa | aa | $USER";
 // 	printf ("%s\n", tmp);
 // 	g_status = 0;
 // 	str = parsing(tmp, &temp);

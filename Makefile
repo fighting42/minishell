@@ -18,7 +18,12 @@ RINC	=	-I /Users/$(USER)/.brew/opt/readline/include
 
 RLIB	=	-L /Users/$(USER)/.brew/opt/readline/lib
 
+# RINC	=	-I/opt/homebrew/opt/readline/include
+
+# RLIB	=	-L/opt/homebrew/opt/readline/lib
+
 SRCS_P	=	srcs/parser/parse_command.c \
+			srcs/parser/parse_command_env.c \
 			srcs/parser/parse_dollar.c \
 			srcs/parser/parse_dollar_env.c \
 			srcs/parser/parse_error.c \
