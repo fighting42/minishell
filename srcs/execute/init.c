@@ -61,8 +61,6 @@ void	split_cmdline(t_token *token, t_pipeline *pipeline, int cnt)
 			append_redirct(pipeline, token);
 			cnt--;
 		}
-		else if (token->type == COMMAND && !ft_strncmp(token->value, "", 1))
-			pipeline->cmd[i++] = fork_pipe_input(); // 환경변수 처리 추가, token 나누기, history 변경
 		else
 			pipeline->cmd[i++] = token->value;
 		token = token->next;

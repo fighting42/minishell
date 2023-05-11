@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:50:08 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/10 06:46:40 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/11 21:29:14 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ long	ft_atol(char *str)
 		result = result * 10 + (str[i++] - '0');
 		if (result * sign < (long long)-9223372036854775808ULL || \
 				result * sign > (long long)9223372036854775807)
-			print_error(errmsg(1, "exit", str, "numeric argument required"), TRUE, 255);
+			print_error(errmsg(1, "exit", str, \
+				"numeric argument required"), TRUE, 255);
 	}
 	return ((long)result * sign);
 }
@@ -54,17 +55,19 @@ int	check_status(char *cmd)
 
 int	ft_exit(t_exec *exec)
 {
-	char	**cmd;
+	char		**cmd;
 	extern int	g_status;
 
 	cmd = exec->pipeline->cmd;
 	if (!cmd[1])
 		exit(g_status);
 	if (check_status(cmd[1]))
-		print_error(errmsg(TRUE, "exit", cmd[1], "numeric argument required"), TRUE, 255);
+		print_error(errmsg(TRUE, "exit", cmd[1], \
+			"numeric argument required"), TRUE, 255);
 	if (cmd[2])
 	{
-		print_error(errmsg(TRUE, "exit", cmd[1], "too many arguments"), FALSE, 1);
+		print_error(errmsg(TRUE, "exit", cmd[1], \
+			"too many arguments"), FALSE, 1);
 		return (0);
 	}
 	if (0 < exec->pipe_cnt)
