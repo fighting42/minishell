@@ -46,7 +46,7 @@ t_exec		*init_exec(t_cmdline *cmdline, t_env *env);
 void		wait_procs(int cnt);
 t_pipeline	*next_pipeline(t_pipeline *pipeline);
 // heredoc.c
-void		check_heredoc(t_exec *exec);
+int			check_heredoc(t_exec *exec);
 char		*fork_heredoc(t_redirct *redirct, t_exec *exec);
 void		do_heredoc(t_redirct *redirct, t_exec *exec, char *file);
 void		unlink_heredoc(void);

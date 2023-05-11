@@ -45,6 +45,7 @@ void	wait_procs(int cnt)
 		g_status = WEXITSTATUS(status);
 		if (WTERMSIG(status) == 2 && WIFSIGNALED(status))
 		{
+			g_status = 130;
 			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
 			ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
 			ft_putendl_fd("^C", STDOUT_FILENO);
@@ -75,12 +76,14 @@ t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 
 void	execute(t_cmdline *cmdline, t_env *env)
 {
-	int		i;
-	int		last_flag;
-	t_exec	*exec;
+	int			i;
+	int			last_flag;
+	t_exec		*exec;
+	extern int	g_status;
 
 	i = -1;
 	last_flag = 0;
+	g_status = 0;
 	exec = init_exec(cmdline, env);
 	if (exec->heredoc_cnt > 16)
 		print_error(errmsg(TRUE, NULL, NULL, \
@@ -91,7 +94,8 @@ void	execute(t_cmdline *cmdline, t_env *env)
 			break ;
 		if (i == exec->pipe_cnt)
 			last_flag = 1;
-		check_heredoc(exec);
+		if (check_heredoc(exec))
+			break ;
 		exec_fork(exec, last_flag);
 		exec->pipeline = next_pipeline(exec->pipeline);
 	}

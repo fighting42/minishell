@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:12:39 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 22:46:48 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/11 23:52:38 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,10 @@ void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file)
 
 char	*fork_heredoc(t_redirct *redirct, t_exec *exec)
 {
-	pid_t	pid;
-	int		status;
-	char	*file;
+	pid_t		pid;
+	int			status;
+	char		*file;
+	extern int	g_status;
 
 	file = ft_strjoin(".heredoc/.tmp", ft_itoa(exec->heredoc_cnt));
 	pid = fork();
@@ -70,15 +71,14 @@ char	*fork_heredoc(t_redirct *redirct, t_exec *exec)
 	{
 		wait(&status);
 		exec->heredoc_cnt--;
-		if (WEXITSTATUS(status) == 130)
-			unlink_heredoc();
-		else if (WIFEXITED(status))
+		g_status = WEXITSTATUS(status);
+		if (!g_status)
 			return (file);
 		return (NULL);
 	}
 }
 
-void	check_heredoc(t_exec *exec)
+int	check_heredoc(t_exec *exec)
 {
 	t_redirct	*tmp;
 
@@ -93,10 +93,11 @@ void	check_heredoc(t_exec *exec)
 				if (!tmp->value)
 				{
 					rl_replace_line("", 0);
-					return ;
+					return (1);
 				}
 			}
 			tmp = tmp->next;
 		}
 	}
+	return (0);
 }

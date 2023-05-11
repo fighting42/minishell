@@ -27,17 +27,18 @@ void	sigint_handler_heredoc(int sig)
 
 	if (sig == SIGINT)
 	{
-		ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
 		ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
-		g_status = 130;
-		exit(g_status);
+		exit(1);
 	}
 }
 
 void	sigint_handler(int sig)
 {
+	extern int	g_status;
+
 	if (sig == SIGINT)
 	{
+		g_status = 1;
 		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_replace_line("", 0);
 		rl_on_new_line();

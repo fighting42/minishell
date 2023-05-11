@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 21:12:01 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/11 23:43:06 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	exec_cmd(int fds[2], t_exec *exec, int flag)
 	if (!check_builtin_fd(pl, STDOUT_FILENO))
 		exit(0);
 	pl->path = find_path(pl->cmd, pars_envp(pl->env->value));
-	g_status = 0;
 	if (execve(pl->path, pl->cmd, pl->env->value) == -1)
 		print_error(errmsg(TRUE, pl->cmd[0], NULL, \
 			"command not found"), TRUE, 127);
