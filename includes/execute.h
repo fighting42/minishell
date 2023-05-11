@@ -40,15 +40,30 @@ typedef struct s_exec
 	int			stdout_ori;
 }	t_exec;
 
-void	execute(t_cmdline *cmdline, t_env *env);
-void	exec_fork(t_exec *exec, int flag);
-char	*find_path(char **cmd, char **envp_path);
-void	redirct(t_exec *exec);
-void	unlink_heredoc(void);
-t_exec	*init_exec(t_cmdline *cmdline, t_env *env);
-void	check_cmdline(t_cmdline *cmdline, t_env *env, t_exec *exec);
-void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file);
-char	*fork_heredoc(t_redirct *redirct, t_exec *exec);
-char	*fork_pipe_input(void);
+// execute.c
+void		execute(t_cmdline *cmdline, t_env *env);
+t_exec		*init_exec(t_cmdline *cmdline, t_env *env);
+void		wait_procs(int cnt);
+t_pipeline	*next_pipeline(t_pipeline *pipeline);
+// heredoc.c
+void		check_heredoc(t_exec *exec);
+char		*fork_heredoc(t_redirct *redirct, t_exec *exec);
+void		do_heredoc(t_redirct *redirct, t_exec *exec, char *file);
+void		unlink_heredoc(void);
+// init.c
+void		check_cmdline(t_cmdline *cmdline, t_env *env, t_exec *exec);
+t_pipeline	*create_pipeline(t_cmdline *cmdline, int i, int prev, t_env *env);
+void		split_cmdline(t_token *token, t_pipeline *pipeline, int cnt);
+void		append_redirct(t_pipeline *pipeline, t_token *token);
+void		append_pipeline(t_exec *exec, t_pipeline *pipeline);
+// pipe.c
+void		exec_fork(t_exec *exec, int flag);
+void		exec_cmd(int fds[2], t_exec *exec, int flag);
+char		*find_path(char **cmd, char **envp_path);
+char		**pars_envp(char **envp);
+// redirection.c
+void		redirct(t_exec *exec);
+void		do_redirct(t_redirct *redirct);
+int			fd_open(t_redirct *redirct);
 
 #endif

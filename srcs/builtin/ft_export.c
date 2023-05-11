@@ -6,66 +6,11 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:06:54 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 05:39:33 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/11 22:15:39 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	**init_add_env(char **env)
-{
-	int		i;
-	char	**tmp;
-
-	i = 0;
-	while (env[i])
-		i++;
-	tmp = malloc(sizeof(char *) * (i + 2));
-	i = -1;
-	while (env[++i])
-		tmp[i] = ft_strdup(env[i]);
-	tmp[i++] = NULL;
-	tmp[i] = NULL;
-	return (tmp);
-}
-
-void	add_env(t_env *env, char *value)
-{
-	int		i;
-	char	**ret;
-	char	**new_env;
-
-	if (ft_strchr(value, '='))
-	{
-		ret = ft_split(value, '=');
-		i = 0;
-		while (env->value[i])
-		{
-			if (!ft_strncmp(env->value[i], ft_strjoin(ret[0], "="), ft_strlen(ret[0]) + 1) || \
-				!ft_strncmp(env->value[i], ret[0], ft_strlen(env->value[i])))
-			{
-				env->value[i] = value;
-				return ;
-			}
-			i++;
-		}
-	}
-	i = 0;
-	while (env->value[i])
-	{
-		if (!ft_strncmp(value, env->value[i], ft_strlen(value)) && \
-			!ft_strncmp(value, env->value[i], ft_strlen(env->value[i])))
-				return ;
-		i++;
-	}
-	new_env = init_add_env(env->value);
-	i = 0;
-	while (new_env[i])
-		free(env->value[i++]);
-	new_env[i] = ft_strdup(value);
-	free(env->value);
-	env->value = new_env;
-}
 
 char	*error_cmd(char *cmd)
 {
@@ -80,60 +25,62 @@ char	*error_cmd(char *cmd)
 	return (tmp2);
 }
 
+void	print_env_value(char **env_tmp, int i)
+{
+	int	j;
+
+	j = 0;
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
+	while (env_tmp[i][j])
+	{
+		if (j > 1 && env_tmp[i][j - 1] == '=')
+			ft_putchar_fd('\"', STDOUT_FILENO);
+		ft_putchar_fd(env_tmp[i][j], STDOUT_FILENO);
+		j++;
+	}
+	if (j > 1 && env_tmp[i][j - 1] == '=')
+		ft_putchar_fd('\"', STDOUT_FILENO);
+	if (ft_strchr(env_tmp[i], '='))
+		ft_putchar_fd('\"', STDOUT_FILENO);
+	ft_putchar_fd('\n', STDOUT_FILENO);
+}
+
 void	print_env(char **env)
 {
 	int		cnt;
 	int		i;
-	int		j;
-	char	*tmp;
-	char	**sort_env;
+	char	**env_tmp;
 
 	cnt = 0;
 	while (env[cnt])
 		cnt++;
-	sort_env = malloc(sizeof(char *) * (cnt + 1));
-	i = -1;
-	while (env[++i])
-		sort_env[i] = env[i];
-	
-	i = 0;
-	while (i < cnt - 1)
-	{
-		j = i + 1;
-		while (j < cnt)
-		{
-			if (ft_strncmp(sort_env[i], sort_env[j], ft_strlen(sort_env[i])) > 0)
-			{
-				tmp = sort_env[i];
-				sort_env[i] = sort_env[j];
-				sort_env[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-
+	env_tmp = sort_env(env, cnt);
 	i = -1;
 	while (++i < cnt)
 	{
-		if (sort_env[i][0] == '_' && sort_env[i][1] == '=')
+		if (env_tmp[i][0] == '_' && env_tmp[i][1] == '=')
 			continue ;
-		ft_putstr_fd("declare -x ", STDOUT_FILENO);
-		j = 0;
-		while (sort_env[i][j])
-		{
-			if (j > 1 && sort_env[i][j - 1] == '=')
-				ft_putchar_fd('\"', STDOUT_FILENO);
-			ft_putchar_fd(sort_env[i][j], STDOUT_FILENO);
-			j++;
-		}
-		if (j > 1 && sort_env[i][j - 1] == '=')
-			ft_putchar_fd('\"', STDOUT_FILENO);
-		if (ft_strchr(sort_env[i], '='))
-			ft_putchar_fd('\"', STDOUT_FILENO);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		print_env_value(env_tmp, i);
 	}
-	free(sort_env);
+	free(env_tmp);
+}
+
+int	check_value(char **cmd, int i, int j)
+{
+	while (cmd[i][j])
+	{
+		if (!(ft_isalnum(cmd[i][j]) || (j != 0 && cmd[i][j] == '=') || \
+			cmd[i][j] == '_') || ft_isdigit(cmd[i][0]))
+		{
+			print_error(errmsg(TRUE, "export", error_cmd(cmd[i]), \
+				"not a valid identifier"), FALSE, 1);
+			return (1);
+		}
+		j++;
+		if (cmd[i][j] == '=')
+			break ;
+	}
+	return (0);
 }
 
 int	ft_export(t_pipeline *pipeline)
@@ -147,18 +94,8 @@ int	ft_export(t_pipeline *pipeline)
 	while (pipeline->cmd[i])
 	{
 		j = 0;
-		while (pipeline->cmd[i][j])
-		{
-			if (!(ft_isalnum(pipeline->cmd[i][j]) || (j != 0 && pipeline->cmd[i][j] == '=') || \
-				pipeline->cmd[i][j] == '_') || ft_isdigit(pipeline->cmd[i][0]))
-			{
-				print_error(errmsg(TRUE, "export", error_cmd(pipeline->cmd[i]), "not a valid identifier"), FALSE, 1);
-				return (0);
-			}
-			j++;
-			if (pipeline->cmd[i][j] == '=')
-				break ;
-		}
+		if (check_value(pipeline->cmd, i, j))
+			return (0);
 		add_env(pipeline->env, pipeline->cmd[i]);
 		i++;
 	}

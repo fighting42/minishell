@@ -59,45 +59,6 @@ void	wait_procs(int cnt)
 	}
 }
 
-char	*fork_pipe_input(void)
-{
-	int		fd;
-	pid_t	pid;
-	int		status;
-	char	*line;
-	char	*ret;
-
-	pid = fork();
-	ret = NULL;
-	if (pid == 0)
-	{
-		signal(SIGINT, sigint_handler_input);
-		fd = open(".heredoc/tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		while (1)
-		{
-			line = readline("> ");
-			if (line && ft_strncmp(line, "", 1))
-			{
-				write(fd, line, ft_strlen(line));
-				break ;
-			}
-		}
-		close(fd);
-		exit(0);
-	}
-	else
-	{
-		wait(&status);
-		if (WIFEXITED(status))
-		{
-			fd = open(".heredoc/tmp", O_RDONLY);
-			ret = get_next_line(fd); // 환경변수 처리 추가, token 나누기, history 변경
-		}
-		unlink(".heredoc/tmp");
-		return (ret);
-	}
-}
-
 t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 {
 	t_exec	*exec;
@@ -112,41 +73,19 @@ t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 	return (exec);
 }
 
-void	check_heredoc(t_exec *exec)
-{
-	t_redirct	*tmp;
-
-	tmp = exec->pipeline->redirct;
-	if (tmp)
-	{
-		while (tmp)
-		{
-			if (tmp->type == HEREDOC)
-			{
-				tmp->value = fork_heredoc(tmp, exec);
-				if (!tmp->value)
-				{
-					rl_replace_line("", 0);
-					return ;
-				}
-			}
-			tmp = tmp->next;
-		}
-	}
-}
-
 void	execute(t_cmdline *cmdline, t_env *env)
 {
 	int		i;
 	int		last_flag;
 	t_exec	*exec;
 
-	i = 0;
+	i = -1;
 	last_flag = 0;
 	exec = init_exec(cmdline, env);
 	if (exec->heredoc_cnt > 16)
-		print_error(errmsg(TRUE, NULL, NULL, "maximum here-document count exceeded"), TRUE, 2);
-	while (i < exec->pipe_cnt + 1)
+		print_error(errmsg(TRUE, NULL, NULL, \
+			"maximum here-document count exceeded"), TRUE, 2);
+	while (++i < exec->pipe_cnt + 1)
 	{
 		if (!check_builtin(exec))
 			break ;
@@ -155,7 +94,6 @@ void	execute(t_cmdline *cmdline, t_env *env)
 		check_heredoc(exec);
 		exec_fork(exec, last_flag);
 		exec->pipeline = next_pipeline(exec->pipeline);
-		i++;
 	}
 	wait_procs(exec->pipe_cnt + 1);
 	unlink_heredoc();

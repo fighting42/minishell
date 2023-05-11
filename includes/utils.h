@@ -17,12 +17,16 @@
 
 # define BUFFER_SIZE 1
 
-void    init_signal(void);
-void	sigint_handler(int sig);
-void    sigint_handler_input(int sig);
-void    sigint_handler_heredoc(int sig);
+// error.c
 void	print_error(char *errmsg, int flag, int status);
 char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg);
+// gnl.c
 char	*get_next_line(int fd);
+// signal.c
+void	init_signal(void);
+void	signal_ctrl_d(void);
+void	sigint_handler(int sig);
+void	sigint_handler_heredoc(int sig);
+void	set_termios(void);
 
 #endif
