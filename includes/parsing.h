@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 11:34:26 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 12:00:27 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,5 +133,9 @@ t_cmdline	*parsing(char *str, t_env *env);
 int			parse_case(t_parse *parse, t_token *t_curr);
 int			redirection_case(t_parse *parse);
 int			parse_loop(t_parse *parse, t_token *t_curr);
+
+//parse_free.c
+void		free_parse(t_parse *parse);
+
 
 #endif

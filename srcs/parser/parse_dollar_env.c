@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:16:42 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/11 11:24:13 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 12:05:50 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_envval	*chk_env(char *str, t_env *env)
 			dollar_i->i++;
 	}
 	env_var[dollar_i->j].value = NULL;
+	free(dollar_i);
 	return (env_var);
 }
 

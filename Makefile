@@ -27,6 +27,7 @@ SRCS_P	=	srcs/parser/parse_command.c \
 			srcs/parser/parse_dollar.c \
 			srcs/parser/parse_dollar_env.c \
 			srcs/parser/parse_error.c \
+			srcs/parser/parse_free.c \
 			srcs/parser/parse_init.c \
 			srcs/parser/parse_quote.c \
 			srcs/parser/parse_quote_utils.c \
