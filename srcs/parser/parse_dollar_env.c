@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:16:42 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/11 14:21:29 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 22:53:41 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,27 @@ t_envval	*chk_env(char *str, t_env *env, t_parse *parse)
 	env_var[dollar_i->j].value = NULL;
 	free(dollar_i);
 	return (env_var);
+}
+
+char	*strdup_ori(char *str, int start, int end)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = start;
+	j = 0;
+	tmp = (char *)malloc(sizeof(char) * (end - start + 2));
+	if (!tmp)
+		return (0);
+	while (i <= end)
+	{
+		tmp[j] = str[i];
+		i++;
+		j++;
+	}
+	tmp[j] = '\0';
+	return (tmp);
 }
 
 char	*make_env_str(t_env *env, int i, int size)

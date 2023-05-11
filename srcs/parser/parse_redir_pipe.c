@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir_pipe.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:11 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 10:52:04 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 20:55:20 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	redirection_stdin(t_parse *parse)
 {
-	printf("stdin %d\n", STDIN);
 	if (parse->tmp[parse->i][parse->j + 1] == '<')
 	{
 		parse->type = HEREDOC;
@@ -28,7 +27,7 @@ int	redirection_stdin(t_parse *parse)
 		while (parse->tmp[parse->i][parse->j] == ' ' && \
 		parse->tmp[parse->i][parse->j] != '\0')
 			parse->j++;
-		if ((check_sep(parse->tmp[parse->i][parse->j], "><")) == 1)
+		if ((check_sep(parse->tmp[parse->i][parse->j], ">|<")) == 1)
 			return (1);
 	}
 	return (0);
@@ -49,7 +48,7 @@ int	redirection_stdout(t_parse *parse)
 		while (parse->tmp[parse->i][parse->j] == ' ' && \
 		parse->tmp[parse->i][parse->j] != '\0')
 			parse->j++;
-		if ((check_sep(parse->tmp[parse->i][parse->j], "><")) == 1)
+		if ((check_sep(parse->tmp[parse->i][parse->j], ">|<")) == 1)
 			return (1);
 	}
 	return (0);
@@ -59,13 +58,6 @@ int	check_pipe(t_parse *parse, t_token *t_curr)
 {
 	t_curr->pipe_flag = 1;
 	parse->cnt_pipe++;
-	if (parse->last_pipe == 1 && \
-		parse->cnt_pipe == parse->num_pipe)
-	{
-		parse->type = COMMAND;
-		append_token(parse, t_curr, "");
-		return (0);
-	}
 	parse->j++;
 	while (parse->tmp[parse->i][parse->j] == ' ' && \
 		parse->tmp[parse->i][parse->j] != '\0')

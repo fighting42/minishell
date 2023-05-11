@@ -1,33 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_free.c                                       :+:      :+:    :+:   */
+/*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/11 11:55:56 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/11 23:33:55 by dapark           ###   ########.fr       */
+/*   Created: 2023/05/11 23:17:00 by dapark            #+#    #+#             */
+/*   Updated: 2023/05/11 23:23:52 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_parse(t_parse *parse)
+char	*ft_strjoin_free(char *s1, char *s2)
 {
-	int	i;
+	size_t	i;
+	size_t	len1;
+	size_t	len2;
+	char	*tmp;
 
 	i = -1;
-	while (parse->tmp[++i])
+	if (!s1 || !s2)
+		return (0);
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	tmp = (char *)malloc(sizeof(char) * (len1 + len2 + 1));
+	if (!tmp)
+		return (0);
+	while (++i < len1)
+		tmp[i] = s1[i];
+	while (i - len1 < len2)
 	{
-		printf("free tmp %s\n", parse->tmp[i]);
-		free (parse->tmp[i]);
+		tmp[i] = s2[i - len1];
+		i++;
 	}
-	free (parse->tmp);
-	while (parse->dollar_cnt >= 0)
-	{
-		free (parse->env_var[parse->dollar_cnt].ori);
-		free (parse->env_var[parse->dollar_cnt].value);
-		parse->dollar_cnt--;
-	}
-	free (parse->env_var);
+	tmp[i] = '\0';
+	free(s1);
+	free(s2);
+	return (tmp);
 }

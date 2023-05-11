@@ -28,5 +28,7 @@ void	signal_ctrl_d(void);
 void	sigint_handler(int sig);
 void	sigint_handler_heredoc(int sig);
 void	set_termios(void);
+//ft_strjoin_free.c
+char	*ft_strjoin_free(char *s1, char *s2);
 
 #endif
