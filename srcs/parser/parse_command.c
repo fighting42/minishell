@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 13:51:45 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 15:05:44 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 		temp = parse->tmp[parse->i];
 	else
 		temp = str;
-	if (count_dollar(temp) == 0)
+	if (count_dollar(temp, parse, 0) == 0)
 		ret_str = remove_quote(temp);
 	else
 	{

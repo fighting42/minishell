@@ -6,20 +6,20 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:16:42 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/11 12:05:50 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 14:21:29 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_envval	*chk_env(char *str, t_env *env)
+t_envval	*chk_env(char *str, t_env *env, t_parse *parse)
 {
 	t_envval		*env_var;
 	t_dollar_idx	*dollar_i;	
 	int				quote;
 
 	quote = 0;
-	env_var = malloc(sizeof(t_envval) * (count_dollar(str) + 1));
+	env_var = malloc(sizeof(t_envval) * (count_dollar(str, parse, 1) + 1));
 	dollar_i = malloc(sizeof(t_dollar_idx) * 1);
 	dollar_i->i = 0;
 	dollar_i->j = 0;

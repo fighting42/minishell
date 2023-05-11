@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 13:27:03 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 14:21:08 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_parse
 	int			quote;
 	int			type;
 	int			env_flag;
+	int			dollar_cnt;
 	int			dollar_index;
 	int			last_pipe;
 	int			num_pipe;
@@ -76,12 +77,12 @@ void		env_split(t_parse *parse, t_token *t_curr, char *ret_str);
 char		*env_to_str(t_parse *parse, char *str);
 
 //parse_dollar_env.c
-t_envval	*chk_env(char *str, t_env *env);
+t_envval	*chk_env(char *str, t_env *env, t_parse *parse);
 char		*trans_env(t_env *env, char *str, int start, int size);
 char		*make_env_str(t_env *env, int i, int size);
 
 //parse_dollar.c
-int			count_dollar(char *str);
+int			count_dollar(char *str, t_parse *parse, int flag);
 char		*strdup_ori(char *str, int start, int end);
 void		question_mark_str(char *str, t_envval *env_var, int j, int start);
 void		trans_question_mark(t_envval *env_var, char *str, int start, int j);

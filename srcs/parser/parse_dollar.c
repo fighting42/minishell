@@ -6,13 +6,13 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 12:02:53 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 14:21:42 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	count_dollar(char *str)
+int	count_dollar(char *str, t_parse *parse, int flag)
 {
 	int	cnt_dollar;
 	int	i;
@@ -29,6 +29,8 @@ int	count_dollar(char *str)
 			cnt_dollar++;
 		i++;
 	}
+	if (flag == 1)
+		parse->dollar_cnt = cnt_dollar;
 	return (cnt_dollar);
 }
 
