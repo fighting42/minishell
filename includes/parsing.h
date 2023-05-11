@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 23:42:06 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 02:52:26 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,21 @@ typedef struct s_len_env
 	int		len;
 }	t_len_env;
 
+typedef struct s_join
+{
+	int		flag;
+	int		curr_q;
+	char	*ret;
+	char	*ret_add;
+}	t_join;
+
+
 //parse_command.c
 int			cmd_or_str(t_parse	*parse, t_token *t_curr);
 void		make_token_value(t_parse *parse, char *str, t_token *t_curr);
-char		*valid_join(t_parse *parse, int quote);
+char		*valid_join(t_parse *parse, int quote, t_join *join);
 void		env_split(t_parse *parse, t_token *t_curr, char *ret_str);
+int			valid_join_utils(t_parse *parse, t_join *join, int quote);
 
 //parse_command_env.c
 int			len_env_to_str(t_parse *parse, char *str);
@@ -82,9 +92,6 @@ void		env_index(t_parse *parse, t_len_env *len_env);
 void		add_env_val(t_command *com, t_parse *parse, char *ret);
 void		change_env_var(t_command *com, t_parse *parse, char *ret);
 char		*env_to_str(t_parse *parse, char *str);
-
-//parse_command_utils.c
-
 
 //parse_dollar_env.c
 t_envval	*chk_env(char *str, t_env *env, t_parse *parse);
@@ -114,6 +121,7 @@ void		init_parse(t_parse	*parse, char *str, t_env *env, \
 void		init_rmv(t_rmv_quote *rmv);
 void		init_t_command(t_command *com);
 void		init_len_env(t_len_env *len_env);
+void		init_join(t_join *join, t_parse *parse);
 
 //parse_quote.c
 char		*remove_quote(char *str);
