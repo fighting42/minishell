@@ -24,5 +24,6 @@ void    sigint_handler_heredoc(int sig);
 void	print_error(char *errmsg, int flag, int status);
 char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg);
 char	*get_next_line(int fd);
+char	*ft_strjoin_free(char *s1, char *s2);
 
 #endif

@@ -3,16 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 15:41:17 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 23:52:36 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 // int	g_status = 0;
+
+int	error_case(char *str, t_parse *parse)
+{
+	int	i;
+	int	ret_pipe;
+
+	i = -1;
+	count_pipe(str, parse);
+	if (pipe_error(str) == 1 || redirection_error(str) == 1)
+		return (1);
+	while (str[++i] != '\0')
+	{
+		while (check_sep(str[i], " ") == 1 && str[i] != '\0')
+			i++;
+		ret_pipe = consecutive_pipe_error(str, i);
+		if (ret_pipe == -1)
+			return (1);
+		else
+			i = ret_pipe;
+	}
+	if (pipe_the_end(str, parse) == 1)
+		return (1);
+	return (0);
+}
 
 int	redirection_case(t_parse *parse)
 {
@@ -92,20 +116,24 @@ t_cmdline	*parsing(char *str, t_env *env)
 	int			ret;
 
 	if (error_quote(str) == 1)
-		return (0);
+		return (0); //print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
 	c_curr = malloc(sizeof(t_cmdline));
 	t_curr = create_token();
 	c_curr->token = t_curr;
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
 	if (error_case(str, parse) == 1)
-		return (0);
+		return (0); //print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
 	ret = parse_loop(parse, t_curr);
 	if (ret != 0)
-		return (0);
-	else
+	{
+		free_parse(parse);
+		return (0); //print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
+	}
+	else{
+		//free_parse(parse);
 		return (parse->c_head);
-	free_parse(parse);
+	}
 }
 
 // int	main(int argc, char **argv, char **envp)
@@ -114,12 +142,11 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 	t_token		*prt;
 // 	t_env		temp;
 // 	char		*tmp;
-// 	int			count = 0;
 
 // 	temp.value = envp;
 // 	(void)argc;
 // 	(void)argv;
-// 	tmp = "c$test aa | aa | $USER";
+// 	tmp = "echo c$test aasd \'s d f\'e aa";
 // 	printf ("%s\n", tmp);
 // 	g_status = 0;
 // 	str = parsing(tmp, &temp);
@@ -133,8 +160,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 	{
 // 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
 // 		prt = prt->next;
-// 		count++;
 // 	}
-// 	system("leaks a.out");
 // 	return (0);
 // }

@@ -3,50 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 15:05:44 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 23:51:30 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	len_env_to_str(t_parse *parse, char *str)
+void	env_split(t_parse *parse, t_token *t_curr, char *ret_str)
 {
-	int		k;
-	int		len;
-	int		quote;
-	int		chk;
-	char	*temp;
+	char	**split;
+	int		i;
+	char	*tmp;
 
-	k = -1;
-	quote = 0;
-	len = 0;
-	chk = 0;
-	if (str == NULL)
-		temp = parse->tmp[parse->i];
-	else
-		temp = str;
-	while (temp[++k] != '\0')
+	i = -1;
+	split = ft_split(ret_str, ' ');
+	free(ret_str);
+	while (split[++i] != NULL)
 	{
-		quote = quote_status(temp[k], quote);
-		if ((quote == 2 && temp[k] == '$') || \
-			(quote == 0 && temp[k] == '$'))
-		{
-			len += parse->env_var[parse->dollar_index].size_v;
-			if (ft_strlen(parse->env_var[parse->dollar_index].ori) != 0)
-				k += ft_strlen(parse->env_var[parse->dollar_index].ori);
-			else
-				k += 1;
-			parse->dollar_index++;
-			chk++;
-		}
-		else
-			len++;
+		tmp = ft_strdup(split[i]);
+		append_token(parse, t_curr, tmp);
+		if (split[i + 1] != NULL)
+			t_curr = create_token();
 	}
-	parse->dollar_index = parse->dollar_index - chk;
-	return (len);
+	parse->env_flag = 0;
+	i = -1;
+	while (split[++i] != NULL)
+		free(split[i]);
+	free(split);
 }
 
 char	*valid_join(t_parse *parse, int quote)
@@ -72,7 +58,7 @@ char	*valid_join(t_parse *parse, int quote)
 				curr_q = chk_whole_quote(parse->tmp[parse->i], parse->j + 1);
 				if (curr_q == 0)
 				{
-					ret = ft_strjoin(ret, parse->tmp[parse->i]);
+					ret = ft_strjoin_free(ret, parse->tmp[parse->i]);
 					break ;
 				}
 				else
@@ -85,12 +71,12 @@ char	*valid_join(t_parse *parse, int quote)
 			parse->j++;
 		}
 		if (flag != 1 && flag != 2)
-			ret = ft_strjoin(ret, parse->tmp[parse->i]);
+			ret = ft_strjoin_free(ret, parse->tmp[parse->i]);
 		if (flag == 1)
 			return (ret);
 		if (flag == 2)
 		{
-			ret = ft_strjoin(ret, ret_add);
+			ret = ft_strjoin_free(ret, ret_add);
 			return (ret);
 		}
 		parse->i++;
@@ -107,7 +93,7 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 	if (parse->type == -1)
 		parse->type = COMMAND;
 	if (str == NULL)
-		temp = parse->tmp[parse->i];
+		temp = ft_strdup(parse->tmp[parse->i]);
 	else
 		temp = str;
 	if (count_dollar(temp, parse, 0) == 0)
@@ -122,6 +108,8 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 			return ;
 		}
 	}
+	// if (str == NULL)
+	// 	free(temp);
 	append_token(parse, t_curr, ret_str);
 }
 
