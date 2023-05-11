@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 13:23:58 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 13:55:59 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
 // 		prt = prt->next;
 // 	}
-// 	system("leaks a.out");
+// 	//system("leaks a.out");
 // 	return (0);
 // }

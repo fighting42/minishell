@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:45 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/09 23:55:25 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 13:47:00 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,18 +39,16 @@ int	chk_str_len(char *str)
 void	make_ret_str(char *str, char *ret)
 {
 	int			i;
-	int			j;
 	t_rmv_quote	*rmv;
 
 	i = -1;
-	j = -1;
 	rmv = malloc(sizeof(t_rmv_quote));
 	init_rmv(rmv);
 	while (str[++i] != '\0')
 	{
 		rmv->quote = quote_status(str[i], rmv->quote);
 		if (rmv->curr_q == rmv->quote)
-			ret[++j] = str[i];
+			ret[++rmv->j] = str[i];
 		if (rmv->quote != 0)
 		{
 			rmv->flag_q = 1;
@@ -62,7 +60,8 @@ void	make_ret_str(char *str, char *ret)
 			rmv->flag_q = 0;
 		}
 	}
-	ret[++j] = '\0';
+	ret[++rmv->j] = '\0';
+	free(rmv);
 }
 
 char	*remove_quote(char *str)

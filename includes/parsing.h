@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 12:00:27 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 13:27:03 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ typedef	struct s_rmv_quote
 	int	flag_q;
 	int	curr_q;
 	int	quote;
+	int	j;
 }	t_rmv_quote;
 
 typedef struct s_command

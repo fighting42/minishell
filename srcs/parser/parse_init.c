@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:04:02 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 11:12:18 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/11 13:53:19 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	init_rmv(t_rmv_quote *rmv)
 	rmv->curr_q = 0;
 	rmv->flag_q = 0;
 	rmv->quote = 0;
+	rmv->j = -1;
 }
 
 void	init_t_command(t_command *com)
