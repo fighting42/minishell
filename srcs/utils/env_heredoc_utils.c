@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 20:04:07 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 20:08:57 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 21:32:52 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	dollar_case_heredoc(char *str, t_envval *env_var, \
 	}
 	else
 	{
-		while (check_sep(str[count], " |<>$") != 1 && str[count] != '\0')
+		while (check_sep(str[count], " |<>\'\"$") != 1 && str[count] != '\0')
 			count++;
 		env_var[dollar_i->j].value = trans_env(env, str, dollar_i->i + 1, \
 									count - dollar_i->i - 1);

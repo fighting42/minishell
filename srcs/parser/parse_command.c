@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 17:45:41 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 21:23:37 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,7 @@ int	valid_join_utils(t_parse *parse, t_join *join, int quote)
 {
 	while (parse->tmp[parse->i][parse->j] != '\0')
 	{
-		join->curr_q = quote_status(parse->tmp[parse->i][parse->j], \
-									join->curr_q);
+		join->curr_q = quote_status(parse->tmp[parse->i][parse->j], 0);
 		if (join->curr_q == quote)
 		{
 			join->flag = 1;

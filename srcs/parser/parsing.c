@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 20:14:03 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 21:23:47 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 	temp.value = envp;
 // 	(void)argc;
 // 	(void)argv;
-// 	tmp = "echo asd\"asd\'f hh d\'h\"";
+// 	tmp = "asd\"asd\'f hh d\'h\"";
 // 	printf ("%s\n", tmp);
 // 	g_status = 0;
 // 	str = parsing(tmp, &temp);
