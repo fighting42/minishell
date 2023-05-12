@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:45 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 13:47:00 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/12 23:34:45 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ char	*remove_quote(char *str)
 	len = strlen(str);
 	cnt_q = chk_str_len(str);
 	if (cnt_q == 0)
-		return (str);
+	{
+		ret = ft_strdup(str);
+		return (ret);
+	}
 	ret = (char *)malloc(sizeof(char) * (len - (2 * cnt_q) + 1));
 	make_ret_str(str, ret);
 	return (ret);

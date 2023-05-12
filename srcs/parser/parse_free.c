@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:55:56 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/11 23:33:55 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 23:27:06 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	free_parse(t_parse *parse)
 		free (parse->tmp[i]);
 	}
 	free (parse->tmp);
-	while (parse->dollar_cnt >= 0)
-	{
-		free (parse->env_var[parse->dollar_cnt].ori);
-		free (parse->env_var[parse->dollar_cnt].value);
-		parse->dollar_cnt--;
-	}
-	free (parse->env_var);
+	// while (parse->dollar_cnt >= 0)
+	// {
+	// 	free (parse->env_var[parse->dollar_cnt].ori);
+	// 	free (parse->env_var[parse->dollar_cnt].value);
+	// 	parse->dollar_cnt--;
+	// }
+	// free (parse->env_var);
 }

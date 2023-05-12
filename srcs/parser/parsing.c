@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 21:23:47 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 23:41:35 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	parse_case(t_parse *parse, t_token *t_curr)
 		parse->j++;
 	else
 	{
-		if (cmd_or_str(parse, t_curr) == 1)
+		if (cmd_or_str(parse, t_curr) == 1) // leaks
 			return (1);
 		if (parse->tmp[parse->i + 1] != NULL)
 			return (2);
@@ -127,7 +127,7 @@ t_cmdline	*parsing(char *str, t_env *env)
 	ret = parse_loop(parse, t_curr);
 	if (ret != 0)
 	{
-		free_parse(parse);
+		//free_parse(parse);
 		return (0); //print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
 	}
 	else{
@@ -146,7 +146,8 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 	temp.value = envp;
 // 	(void)argc;
 // 	(void)argv;
-// 	tmp = "asd\"asd\'f hh d\'h\"";
+// 	//tmp = "asd\"asd\'f hh d\'h\" > $USER <<end<<end<<end|<<end<<$USER $a $? $$$ $USERaa aa$USER";
+// 	tmp = "$USER";
 // 	printf ("%s\n", tmp);
 // 	g_status = 0;
 // 	str = parsing(tmp, &temp);
