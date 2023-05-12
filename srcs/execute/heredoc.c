@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:12:39 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 23:52:38 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/12 18:12:38 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,10 @@ void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file)
 {
 	char		*line;
 	int			fd;
-	int			tmp_stdin;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	tmp_stdin = dup(STDIN_FILENO);
 	dup2(exec->stdin_ori, STDIN_FILENO);
+	dup2(exec->stdout_ori, STDOUT_FILENO);
 	while (1)
 	{
 		line = readline("> ");
@@ -47,7 +46,6 @@ void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file)
 		write(fd, "\n", 1);
 		free(line);
 	}
-	dup2(tmp_stdin, STDIN_FILENO);
 	free(line);
 	close(fd);
 }

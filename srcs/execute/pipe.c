@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 23:43:06 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/12 18:08:37 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ void	exec_fork(t_exec *exec, int flag)
 	int			fds[2];
 	pid_t		pid;
 
+	signal(SIGQUIT, SIG_DFL);
 	pipe(fds);
 	pid = fork();
 	if (pid == 0)
@@ -89,4 +90,5 @@ void	exec_fork(t_exec *exec, int flag)
 		dup2(fds[0], STDIN_FILENO);
 		close(fds[0]);
 	}
+	signal(SIGQUIT, SIG_IGN);
 }

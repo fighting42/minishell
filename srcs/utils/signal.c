@@ -57,4 +57,5 @@ void	init_signal(void)
 	set_termios();
 	signal(SIGINT, sigint_handler);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGTERM, SIG_DFL);
 }

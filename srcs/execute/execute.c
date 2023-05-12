@@ -52,7 +52,7 @@ void	wait_procs(int cnt)
 		}
 		if (WTERMSIG(status) == 3 && WIFSIGNALED(status))
 		{
-			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
+			g_status = 131;
 			ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
 			ft_putendl_fd("^\\Quit: 3", STDOUT_FILENO);
 		}
@@ -74,6 +74,14 @@ t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 	exec->stdout_ori = dup(STDOUT_FILENO);
 	check_cmdline(cmdline, env, exec);
 	return (exec);
+}
+
+void	execute_end(t_exec *exec)
+{
+	unlink_heredoc();
+	dup2(exec->stdin_ori, STDIN_FILENO);
+	dup2(exec->stdout_ori, STDOUT_FILENO);
+	free(exec);
 }
 
 void	execute(t_cmdline *cmdline, t_env *env)
@@ -100,8 +108,5 @@ void	execute(t_cmdline *cmdline, t_env *env)
 		exec->pipeline = next_pipeline(exec->pipeline);
 	}
 	wait_procs(exec->pipe_cnt + 1);
-	unlink_heredoc();
-	free(exec);
-	dup2(exec->stdin_ori, STDIN_FILENO);
-	dup2(exec->stdout_ori, STDOUT_FILENO);
+	execute_end(exec);
 }
