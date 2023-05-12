@@ -42,6 +42,7 @@ typedef struct s_exec
 
 // execute.c
 void		execute(t_cmdline *cmdline, t_env *env);
+void		execute_end(t_exec *exec);
 t_exec		*init_exec(t_cmdline *cmdline, t_env *env);
 void		wait_procs(int cnt);
 t_pipeline	*next_pipeline(t_pipeline *pipeline);
