@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:04:02 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 23:09:08 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 01:59:48 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,14 @@ void	init_len_env(t_len_env *len_env)
 	len_env->k = -1;
 	len_env->quote = 0;
 	len_env->len = 0;
+}
+
+void	init_join(t_join *join, t_parse *parse)
+{
+	char	*tmp;
+
+	tmp = ft_strdup(parse->tmp[parse->i]);
+	join->curr_q = 0;
+	join->flag = 0;
+	join->ret = tmp;
 }

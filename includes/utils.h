@@ -29,7 +29,7 @@ void	sigint_handler(int sig);
 void	sigint_handler_heredoc(int sig);
 void	set_termios(void);
 //ft_strjoin_free.c
-char	*ft_strjoin_free(char *s1, char *s2);
+char	*ft_strjoin_free_all(char *s1, char *s2);
 char	*ft_strjoin_free_front(char *s1, char *s2);
 char	*ft_strjoin_free_back(char *s1, char *s2);
 

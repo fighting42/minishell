@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 23:51:30 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 02:56:47 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,53 +35,57 @@ void	env_split(t_parse *parse, t_token *t_curr, char *ret_str)
 	free(split);
 }
 
-char	*valid_join(t_parse *parse, int quote)
+int	valid_join_utils(t_parse *parse, t_join *join, int quote)
 {
-	int		curr_q;
-	int		flag;
-	char	*ret;
-	char	*ret_add;
+	while (parse->tmp[parse->i][parse->j] != '\0')
+	{
+		join->curr_q = quote_status(parse->tmp[parse->i][parse->j], \
+									join->curr_q);
+		if (join->curr_q == quote)
+		{
+			join->flag = 1;
+			join->curr_q = chk_whole_quote(parse->tmp[parse->i], parse->j + 1);
+			if (join->curr_q == 0)
+			{
+				join->ret = ft_strjoin_free_front(join->ret, \
+							parse->tmp[parse->i]);
+				return (join->flag);
+			}
+			else
+			{
+				join->flag = 2;
+				join->ret_add = valid_join(parse, join->curr_q, join);
+				return (join->flag);
+			}
+		}
+		parse->j++;
+	}
+	return (join->flag);
+}
 
-	curr_q = 0;
-	flag = 0;
-	ret = parse->tmp[parse->i];
+char	*valid_join(t_parse *parse, int quote, t_join *join)
+{
 	parse->i++;
 	while (parse->tmp[parse->i] != NULL)
 	{
 		parse->j = 0;
-		while (parse->tmp[parse->i][parse->j] != '\0')
+		valid_join_utils(parse, join, quote);
+		if (join->flag != 1 && join->flag != 2)
+			join->ret = ft_strjoin_free_front(join->ret, parse->tmp[parse->i]);
+		if (join->flag == 1)
 		{
-			curr_q = quote_status(parse->tmp[parse->i][parse->j], curr_q);
-			if (curr_q == quote)
-			{
-				flag = 1;
-				curr_q = chk_whole_quote(parse->tmp[parse->i], parse->j + 1);
-				if (curr_q == 0)
-				{
-					ret = ft_strjoin_free(ret, parse->tmp[parse->i]);
-					break ;
-				}
-				else
-				{
-					flag = 2;
-					ret_add = valid_join(parse, curr_q);
-					break ;
-				}
-			}
-			parse->j++;
+			free(join);
+			return (join->ret);
 		}
-		if (flag != 1 && flag != 2)
-			ret = ft_strjoin_free(ret, parse->tmp[parse->i]);
-		if (flag == 1)
-			return (ret);
-		if (flag == 2)
+		if (join->flag == 2)
 		{
-			ret = ft_strjoin_free(ret, ret_add);
-			return (ret);
+			join->ret = ft_strjoin_free_all(join->ret, join->ret_add);
+			free(join);
+			return (join->ret);
 		}
 		parse->i++;
 	}
-	return (ret);
+	return (join->ret);
 }
 
 void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
@@ -108,8 +112,6 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 			return ;
 		}
 	}
-	// if (str == NULL)
-	// 	free(temp);
 	append_token(parse, t_curr, ret_str);
 }
 
@@ -117,18 +119,25 @@ int	cmd_or_str(t_parse	*parse, t_token *t_curr)
 {
 	char	*tmp;
 	int		quote;
+	t_join	*join;
 
+	join = malloc(sizeof(t_join));
+	init_join(join, parse);
 	if (chk_whole_quote(parse->tmp[parse->i], 0) == 0)
 		make_token_value(parse, NULL, t_curr);
 	else
 	{
 		quote = chk_whole_quote(parse->tmp[parse->i], 0);
-		tmp = valid_join(parse, quote);
+		tmp = valid_join(parse, quote, join);
 		if (tmp == NULL)
 			return (1);
 		make_token_value(parse, tmp, t_curr);
+		free(tmp);
 	}
 	move_index_j(parse);
 	parse->type = -1;
+	//free(join->ret);
+	// if (!join->ret_add)
+	// 	free(join->ret_add);
 	return (0);
 }
