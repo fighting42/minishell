@@ -6,13 +6,13 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 17:38:41 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 20:14:03 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	g_status = 0;
+// int	g_status = 0;
 
 int	error_case(char *str, t_parse *parse)
 {
@@ -136,30 +136,30 @@ t_cmdline	*parsing(char *str, t_env *env)
 	}
 }
 
-int	main(int argc, char **argv, char **envp)
-{
-	t_cmdline	*str;
-	t_token		*prt;
-	t_env		temp;
-	char		*tmp;
+// int	main(int argc, char **argv, char **envp)
+// {
+// 	t_cmdline	*str;
+// 	t_token		*prt;
+// 	t_env		temp;
+// 	char		*tmp;
 
-	temp.value = envp;
-	(void)argc;
-	(void)argv;
-	tmp = "a";
-	printf ("%s\n", tmp);
-	g_status = 0;
-	str = parsing(tmp, &temp);
-	if (str == NULL)
-	{
-		printf("error\n");
-		return (0);
-	}
-	prt = str->token;
-	while (prt != NULL)
-	{
-		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
-		prt = prt->next;
-	}
-	return (0);
-}
+// 	temp.value = envp;
+// 	(void)argc;
+// 	(void)argv;
+// 	tmp = "echo asd\"asd\'f hh d\'h\"";
+// 	printf ("%s\n", tmp);
+// 	g_status = 0;
+// 	str = parsing(tmp, &temp);
+// 	if (str == NULL)
+// 	{
+// 		printf("error\n");
+// 		return (0);
+// 	}
+// 	prt = str->token;
+// 	while (prt != NULL)
+// 	{
+// 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
+// 		prt = prt->next;
+// 	}
+// 	return (0);
+// }

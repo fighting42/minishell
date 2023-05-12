@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 23:46:49 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/12 19:24:08 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	count_dollar(char *str, t_parse *parse, int flag)
 			cnt_dollar++;
 		i++;
 	}
-	if (flag == 1)
+	if (flag == 1 && parse != NULL)
 		parse->dollar_cnt = cnt_dollar;
 	return (cnt_dollar);
 }
