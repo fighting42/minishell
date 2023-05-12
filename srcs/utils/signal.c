@@ -23,8 +23,6 @@ void	set_termios(void)
 
 void	sigint_handler_heredoc(int sig)
 {
-	extern int	g_status;
-
 	if (sig == SIGINT)
 	{
 		ft_putstr_fd("\x1B[11D", STDOUT_FILENO);

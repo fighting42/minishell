@@ -18,7 +18,10 @@ void	add_env(t_env *env, char *value)
 	char	**new_env;
 
 	if (ft_strchr(value, '='))
-		update_env(env, value);
+	{
+		if (update_env(env, value))
+			return ;
+	}
 	else
 	{
 		if (check_env(env, value))
@@ -33,7 +36,7 @@ void	add_env(t_env *env, char *value)
 	env->value = new_env;
 }
 
-void	update_env(t_env *env, char *value)
+int	update_env(t_env *env, char *value)
 {
 	int		i;
 	char	**tmp;
@@ -49,12 +52,15 @@ void	update_env(t_env *env, char *value)
 			!ft_strncmp(env->value[i], name, ft_strlen(env->value[i])))
 		{
 			env->value[i] = value;
-			return ;
+			free(name);
+			free(tmp);
+			return (1);
 		}
 		i++;
 	}
 	free(name);
 	free(tmp);
+	return (0);
 }
 
 int	check_env(t_env *env, char *value)
@@ -78,13 +84,13 @@ int	check_env(t_env *env, char *value)
 	return (0);
 }
 
-void	swap_env(char *env1, char *env2)
+void	swap_env(char **env_tmp, int i, int j)
 {
 	char	*tmp;
 
-	tmp = env1;
-	env1 = env2;
-	env2 = tmp;
+	tmp = env_tmp[i];
+	env_tmp[i] = env_tmp[j];
+	env_tmp[j] = tmp;
 }
 
 char	**sort_env(char **env, int cnt)
@@ -97,6 +103,7 @@ char	**sort_env(char **env, int cnt)
 	i = -1;
 	while (env[++i])
 		env_tmp[i] = env[i];
+	env_tmp[cnt] = NULL;
 	i = 0;
 	while (i < cnt - 1)
 	{
@@ -104,7 +111,7 @@ char	**sort_env(char **env, int cnt)
 		while (j < cnt)
 		{
 			if (ft_strncmp(env_tmp[i], env_tmp[j], ft_strlen(env_tmp[i])) > 0)
-				swap_env(env_tmp[i], env_tmp[j]);
+				swap_env(env_tmp, i, j);
 			j++;
 		}
 		i++;

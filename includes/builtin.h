@@ -26,9 +26,9 @@ void	set_env(t_env *env, char *var, char *value);
 void	free_env(t_env *env);
 // env_utils2.c
 void	add_env(t_env *env, char *value);
-void	update_env(t_env *env, char *value);
+int 	update_env(t_env *env, char *value);
 int		check_env(t_env *env, char *value);
-void	swap_env(char *env1, char *env2);
+void	swap_env(char **env_tmp, int i, int j);
 char	**sort_env(char **env, int cnt);
 // ft_cd.c
 int		ft_cd(t_pipeline *pipeline);
