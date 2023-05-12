@@ -16,21 +16,22 @@ char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg)
 {
 	char	*tmp;
 
-	tmp = "";
+	tmp = malloc(sizeof(char) * 1);
+	tmp[0] = '\0';
 	if (flag)
-		tmp = ft_strjoin(tmp, "minishell: ");
+		tmp = ft_strjoin_free_front(tmp, "minishell: ");
 	if (cmd1)
 	{
-		tmp = ft_strjoin(tmp, cmd1);
-		tmp = ft_strjoin(tmp, ": ");
+		tmp = ft_strjoin_free_front(tmp, cmd1);
+		tmp = ft_strjoin_free_front(tmp, ": ");
 	}
 	if (cmd2)
 	{
-		tmp = ft_strjoin(tmp, cmd2);
-		tmp = ft_strjoin(tmp, ": ");
+		tmp = ft_strjoin_free_front(tmp, cmd2);
+		tmp = ft_strjoin_free_front(tmp, ": ");
 	}
 	if (msg)
-		tmp = ft_strjoin(tmp, msg);
+		tmp = ft_strjoin_free_front(tmp, msg);
 	return (tmp);
 }
 
@@ -40,6 +41,7 @@ void	print_error(char *errmsg, int flag, int status)
 
 	ft_putendl_fd(errmsg, STDERR_FILENO);
 	g_status = status;
+	free(errmsg);
 	if (flag == TRUE)
 		exit(status);
 }

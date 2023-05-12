@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 21:26:21 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 22:56:43 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/12 21:04:52 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,11 @@ void	set_env(t_env *env, char *var, char *value)
 	{
 		if (!ft_strncmp("OLDPWD=", var, len))
 			add_env(env, ft_strjoin(var, getcwd(NULL, 0)));
+		free(var);
 		return ;
 	}
-	env->value[i] = ft_strjoin(var, value);
+	free(env->value[i]);
+	env->value[i] = ft_strjoin_free_front(var, value);
 }
 
 void	free_env(t_env *env)
