@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:32:44 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 22:57:50 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/12 21:04:57 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,18 @@ int	update_env(t_env *env, char *value)
 		{
 			env->value[i] = value;
 			free(name);
+			i = 0;
+			while (tmp[i])
+				free(tmp[i++]);
 			free(tmp);
 			return (1);
 		}
 		i++;
 	}
 	free(name);
+	i = 0;
+	while (tmp[i])
+		free(tmp[i++]);
 	free(tmp);
 	return (0);
 }

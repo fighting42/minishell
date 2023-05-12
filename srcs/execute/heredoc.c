@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:12:39 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/12 18:12:38 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/12 19:17:07 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,17 @@ void	unlink_heredoc(void)
 {
 	char	*file;
 	int		i;
+	char	*num;
 
 	i = 1;
 	while (i <= 16)
 	{
-		file = ft_strjoin(".heredoc/.tmp", ft_itoa(i));
+		num = ft_itoa(i);
+		file = ft_strjoin(".heredoc/.tmp", num);
 		if (!access(file, F_OK))
 			unlink(file);
 		free(file);
+		free(num);
 		i++;
 	}
 }
