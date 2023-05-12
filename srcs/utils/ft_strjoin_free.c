@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin_free.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 23:17:00 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 01:32:41 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/12 18:59:01 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,6 @@ char	*ft_strjoin_free_back(char *s1, char *s2)
 		i++;
 	}
 	tmp[i] = '\0';
-	free(s1);
+	free(s2);
 	return (tmp);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 02:56:47 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/12 17:45:41 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,8 +136,5 @@ int	cmd_or_str(t_parse	*parse, t_token *t_curr)
 	}
 	move_index_j(parse);
 	parse->type = -1;
-	//free(join->ret);
-	// if (!join->ret_add)
-	// 	free(join->ret_add);
 	return (0);
 }
