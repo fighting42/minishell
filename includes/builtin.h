@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:18:29 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 22:58:06 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/12 15:21:34 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	set_env(t_env *env, char *var, char *value);
 void	free_env(t_env *env);
 // env_utils2.c
 void	add_env(t_env *env, char *value);
-int 	update_env(t_env *env, char *value);
+int		update_env(t_env *env, char *value);
 int		check_env(t_env *env, char *value);
 void	swap_env(char **env_tmp, int i, int j);
 char	**sort_env(char **env, int cnt);

@@ -62,8 +62,10 @@ void	wait_procs(int cnt)
 
 t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 {
-	t_exec	*exec;
+	t_exec		*exec;
+	extern int	g_status;
 
+	g_status = 0;
 	exec = malloc(sizeof(t_exec));
 	exec->pipeline = NULL;
 	exec->pipe_cnt = 0;
@@ -79,11 +81,9 @@ void	execute(t_cmdline *cmdline, t_env *env)
 	int			i;
 	int			last_flag;
 	t_exec		*exec;
-	extern int	g_status;
 
 	i = -1;
 	last_flag = 0;
-	g_status = 0;
 	exec = init_exec(cmdline, env);
 	if (exec->heredoc_cnt > 16)
 		print_error(errmsg(TRUE, NULL, NULL, \
