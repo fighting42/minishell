@@ -43,7 +43,12 @@ char	*find_path(char **cmd, char **envp_path)
 	if (S_ISDIR(st.st_mode))
 		print_error(errmsg(TRUE, cmd[0], NULL, "Is a directory"), TRUE, 126);
 	else if (ft_strchr(cmd[0], '/'))
-		return (cmd[0]);
+	{
+		if (access(cmd[0], X_OK) == 0)
+			return (cmd[0]);
+		else
+			print_error(errmsg(TRUE, cmd[0], NULL, "No such file or directory"), TRUE, 127);
+	}
 	else
 	{
 		while (envp_path[i])

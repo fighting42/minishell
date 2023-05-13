@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:18:29 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/12 15:21:34 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/14 05:18:10 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int		ft_cd(t_pipeline *pipeline);
 char	*set_path(char *cmd, char **env);
 // ft_echo.c
 int		ft_echo(char **cmd, int fd);
+void	print_cmd(char **cmd, int i, int flag, int fd);
 // ft_env.c
 int		ft_env(t_pipeline *pipeline, int fd);
 // ft_exit.c
