@@ -18,8 +18,6 @@ t_pipeline	*next_pipeline(t_pipeline *pipeline)
 	t_redirct	*tmp;
 
 	next = pipeline->next;
-	if (pipeline->cmd)
-		free_split(pipeline->cmd);
 	if (pipeline->path)
 		free(pipeline->path);
 	tmp = pipeline->redirct;
@@ -29,6 +27,7 @@ t_pipeline	*next_pipeline(t_pipeline *pipeline)
 		free(pipeline->redirct);
 		pipeline->redirct = tmp;
 	}
+	free(pipeline);
 	return (next);
 }
 
