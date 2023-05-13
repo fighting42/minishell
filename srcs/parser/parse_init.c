@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:04:02 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 23:04:23 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 03:51:30 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_parse(t_parse	*parse, char *str, t_env *env, t_cmdline *c_curr)
 	int		cnt_split;
 
 	parse->quote = 0;
-	parse->i = 0;
+	parse->i = -1;
 	parse->j = 0;
 	parse->dollar_index = 0;
 	parse->dollar_cnt = 0;

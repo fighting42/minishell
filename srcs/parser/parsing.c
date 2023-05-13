@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/13 22:04:58 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 04:38:43 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,7 @@ int	parse_loop(t_parse *parse, t_token *t_curr)
 {
 	int	ret;
 
-	ret = 0;
-	while (parse->tmp[parse->i] != NULL)
+	while (parse->tmp[++parse->i] != NULL)
 	{
 		parse->j = 0;
 		while (parse->tmp[parse->i][parse->j] != '\0')
@@ -92,16 +91,18 @@ int	parse_loop(t_parse *parse, t_token *t_curr)
 			parse->quote = quote_status(parse->tmp[parse->i][parse->j], \
 									parse->quote);
 			ret = parse_case(parse, t_curr);
-			if (ret == 0)
-				return (0);
-			else if (ret == 1)
-				return (1);
+			if (ret == 0 || ret == 1)
+				return (ret);
 			else if (ret == 2)
+			{
+				if (parse->tmp[parse->i + 1][0] == ' ' \
+					&& parse->tmp[parse->i + 2] == NULL)
+					return (0);
 				t_curr = create_token();
+			}
 			else
 				continue ;
 		}
-		parse->i++;
 	}
 	return (0);
 }
