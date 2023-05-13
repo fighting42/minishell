@@ -34,9 +34,11 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			cmdline = parsing(line, &env);
-			execute(cmdline, &env);
+			if (cmdline	!= NULL)
+				execute(cmdline, &env);
 			add_history(line);
 			free(line);
+			free_cmdline(cmdline);
 		}
 	}
 	free_env(&env);

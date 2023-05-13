@@ -52,5 +52,5 @@ void		dollar_case_heredoc(char *str, t_envval *env_var, \
 int			len_env_to_str_heredoc(char *str, t_env_h *env_h);
 // free_utils.c
 void		free_split(char **arr);
-
+void		free_cmdline(t_cmdline *cmdline);
 #endif

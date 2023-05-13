@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/13 15:28:53 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 21:44:43 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,18 +116,27 @@ t_cmdline	*parsing(char *str, t_env *env)
 	int			ret;
 
 	if (error_quote(str) == 1)
-		return (0); //print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
+	{
+		print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
+		return (NULL);
+	}
 	c_curr = malloc(sizeof(t_cmdline));
 	t_curr = create_token();
 	c_curr->token = t_curr;
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
 	if (error_case(str, parse) == 1)
-		return (0); //print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
+	{
+		print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
+		return (NULL);
+	}
 	ret = parse_loop(parse, t_curr);
 	c_curr = parse->c_head;
 	if (ret != 0)
-		c_curr = NULL;//print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
+	{
+		print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
+		return (NULL);
+	}
 	free_parse(parse);
 	return (c_curr);
 }

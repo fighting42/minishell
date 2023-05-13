@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:16:42 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/12 19:02:20 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 20:51:24 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*make_env_str(t_env *env, int i, int size)
 	j = 0;
 	len = size + 1;
 	if (env->value[i] == 0)
-		return ("");
+		return (NULL);
 	while (env->value[i][len] != '\0')
 		len++;
 	len = len - size + 1;

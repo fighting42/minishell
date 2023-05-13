@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/13 15:28:11 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 20:50:53 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	trans_question_mark(t_envval *env_var, char *str, int start, int j)
 	{
 		env_var[j].value = ft_itoa(g_status);
 		env_var[j].size_v = 1;
-		env_var[j].ori = ft_strdup("?");
+		env_var[j].ori = NULL;
 		return ;
 	}
 	else
@@ -97,7 +97,7 @@ int	dollar_dollar(char *str, t_envval *env_var, \
 	tmp[cnt] = '\0';
 	while (cnt-- >= 0)
 		tmp[cnt] = '$';
-	env_var[dollar_i->j].value = "";
+	env_var[dollar_i->j].value = NULL;
 	env_var[dollar_i->j].size_v = 0;
 	env_var[dollar_i->j].ori = tmp;
 	return (count);
@@ -117,7 +117,7 @@ void	dollar_case(char *str, t_envval *env_var, \
 	{
 		env_var[dollar_i->j].value = ft_strdup("$");
 		env_var[dollar_i->j].size_v = 1;
-		env_var[dollar_i->j].ori = "";
+		env_var[dollar_i->j].ori = NULL;
 	}
 	else
 	{
