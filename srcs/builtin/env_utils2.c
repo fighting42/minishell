@@ -50,7 +50,8 @@ int	update_env(t_env *env, char *value)
 		if (!ft_strncmp(env->value[i], tmp2, ft_strlen(tmp2)) || \
 			!ft_strncmp(env->value[i], tmp[0], ft_strlen(env->value[i])))
 		{
-			env->value[i] = value;
+			free(env->value[i]);
+			env->value[i] = ft_strdup(value);
 			free_split(tmp);
 			free(tmp2);
 			return (1);

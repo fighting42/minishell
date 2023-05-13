@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 16:11:45 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/05 19:36:48 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/14 01:37:36 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_echo(char **cmd, int fd)
 	i = 1;
 	j = 0;
 	flag = 0;
-	if (cmd[i][j++] == '-')
+	if (cmd[i] && cmd[i][j++] == '-')
 	{
 		while (cmd[i][j] == 'n')
 			j++;
@@ -29,10 +29,13 @@ int	ft_echo(char **cmd, int fd)
 			flag = 1;
 		i++;
 	}
+	if (!cmd[i] && !flag)
+		ft_putstr_fd("\n", fd);
 	while (cmd[i + 1])
 	{
-		ft_putstr_fd(cmd[i++], fd);
+		ft_putstr_fd(cmd[i + 1], fd);
 		ft_putstr_fd(" ", fd);
+		i++;
 	}
 	if (flag)
 		ft_putstr_fd(cmd[i], fd);
