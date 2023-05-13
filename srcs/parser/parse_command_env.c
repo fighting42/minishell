@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:56:08 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/13 14:09:27 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 23:10:29 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,12 @@
 
 void	add_env_val(t_command *com, t_parse *parse, char *ret)
 {
+	if (parse->env_var[parse->dollar_index].value == NULL)
+	{
+		com->t += ft_strlen(parse->env_var[parse->dollar_index].ori);
+		com->t += 1;
+		return ;
+	}
 	while (parse->env_var[parse->dollar_index].value[com->e] != '\0')
 	{
 		ret[com->r] = parse->env_var[parse->dollar_index].value[com->e];

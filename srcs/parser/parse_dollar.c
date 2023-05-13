@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/13 20:50:53 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 23:01:17 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,17 @@ void	question_mark_str(char *str, t_envval *env_var, int j, int start)
 	int		i;
 
 	l = start;
-	i = 0;
+	i = -1;
 	g_str = ft_itoa(g_status);
+	while (!(check_sep(str[l], " ><|") == 1 || str[l] == '\0'))
+		l++;
 	tmp = malloc(sizeof(char) * l - start + 1);
 	while (start < l)
 	{
-		tmp[i] = str[start];
-		i++;
+		tmp[++i] = str[start];
 		start++;
 	}
-	tmp[i] = '\0';
+	tmp[++i] = '\0';
 	ret = ft_strdup(g_str);
 	free(g_str);
 	ret = ft_strjoin(ret, tmp);
@@ -77,7 +78,7 @@ void	trans_question_mark(t_envval *env_var, char *str, int start, int j)
 	{
 		env_var[j].value = ft_itoa(g_status);
 		env_var[j].size_v = 1;
-		env_var[j].ori = NULL;
+		env_var[j].ori = ft_strdup("?");
 		return ;
 	}
 	else
@@ -90,13 +91,16 @@ int	dollar_dollar(char *str, t_envval *env_var, \
 	int		cnt;
 	char	*tmp;
 
-	cnt = 1;
-	while (str[count++] == '$')
+	cnt = 2;
+	while (str[count++] == '$' && str[count] != '\0')
 		cnt++;
 	tmp = malloc(sizeof(char) * cnt + 1);
-	tmp[cnt] = '\0';
-	while (cnt-- >= 0)
+	tmp[cnt--] = '\0';
+	while (cnt >= 0)
+	{
 		tmp[cnt] = '$';
+		cnt--;
+	}
 	env_var[dollar_i->j].value = NULL;
 	env_var[dollar_i->j].size_v = 0;
 	env_var[dollar_i->j].ori = tmp;
@@ -117,7 +121,7 @@ void	dollar_case(char *str, t_envval *env_var, \
 	{
 		env_var[dollar_i->j].value = ft_strdup("$");
 		env_var[dollar_i->j].size_v = 1;
-		env_var[dollar_i->j].ori = NULL;
+		env_var[dollar_i->j].ori = ft_strdup("$");
 	}
 	else
 	{
