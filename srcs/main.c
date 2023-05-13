@@ -14,8 +14,10 @@
 
 int	g_status = 0;
 
-void	parsing_execute(t_cmdline *cmdline, char *line, t_env *env)
+void	parsing_execute(char *line, t_env *env)
 {
+	t_cmdline	*cmdline;
+
 	cmdline = parsing(line, env);
 	if (cmdline)
 		execute(cmdline, env);
@@ -28,7 +30,6 @@ void	parsing_execute(t_cmdline *cmdline, char *line, t_env *env)
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
-	t_cmdline	*cmdline;
 	t_env		env;
 
 	(void)argc;
@@ -46,7 +47,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		else
-			parsing_execute(cmdline, line, &env);
+			parsing_execute(line, &env);
 	}
 	free_env(&env);
 	return (0);
