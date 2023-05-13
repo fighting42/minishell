@@ -83,6 +83,8 @@ void	execute_end(t_exec *exec)
 	dup2(exec->stdout_ori, STDOUT_FILENO);
 	close(exec->stdin_ori);
 	close(exec->stdout_ori);
+	if (exec->pipeline)
+		next_pipeline(exec->pipeline);
 	free(exec);
 }
 
