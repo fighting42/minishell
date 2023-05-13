@@ -49,6 +49,7 @@ void	del_env(t_env *env, char *var)
 		i++;
 	}
 	free(env->value[i]);
+	env->value[i] = NULL;
 }
 
 int	ft_unset(t_pipeline *pipeline)
