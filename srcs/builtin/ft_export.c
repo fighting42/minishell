@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:06:54 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 22:15:39 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/13 16:45:14 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,12 @@
 
 char	*error_cmd(char *cmd)
 {
-	char	*tmp1;
-	char	*tmp2;
+	char	*tmp;
 
-	tmp1 = "";
-	tmp2 = "";
-	tmp1 = ft_strjoin("`", cmd);
-	tmp2 = ft_strjoin(tmp1, "\'");
-	free(tmp1);
-	return (tmp2);
+	tmp = "";
+	tmp = ft_strjoin("`", cmd);
+	tmp = ft_strjoin_free_front(tmp, "\'");
+	return (tmp);
 }
 
 void	print_env_value(char **env_tmp, int i)

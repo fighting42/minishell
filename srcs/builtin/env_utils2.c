@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:32:44 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/12 21:04:57 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/13 17:04:49 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	add_env(t_env *env, char *value)
 	}
 	new_env = init_add_env(env->value);
 	i = 0;
-	while (new_env[i])
+	while (env->value[i])
 		free(env->value[i++]);
-	new_env[i] = ft_strdup(value);
 	free(env->value);
+	new_env[i] = ft_strdup(value);
 	env->value = new_env;
 }
 
@@ -40,28 +40,27 @@ int	update_env(t_env *env, char *value)
 {
 	int		i;
 	char	**tmp;
-	char	*name;
+	char	*tmp2;
 
 	tmp = ft_split(value, '=');
-	name = ft_strdup(tmp[0]);
 	i = 0;
 	while (env->value[i])
 	{
-		if (!ft_strncmp(env->value[i], ft_strjoin(name, "="), \
-			ft_strlen(name) + 1) || \
-			!ft_strncmp(env->value[i], name, ft_strlen(env->value[i])))
+		tmp2 = ft_strjoin(tmp[0], "=");
+		if (!ft_strncmp(env->value[i], tmp2, ft_strlen(tmp2)) || \
+			!ft_strncmp(env->value[i], tmp[0], ft_strlen(env->value[i])))
 		{
 			env->value[i] = value;
-			free(name);
 			i = 0;
 			while (tmp[i])
 				free(tmp[i++]);
 			free(tmp);
+			free(tmp2);
 			return (1);
 		}
+		free(tmp2);
 		i++;
 	}
-	free(name);
 	i = 0;
 	while (tmp[i])
 		free(tmp[i++]);
@@ -72,20 +71,30 @@ int	update_env(t_env *env, char *value)
 int	check_env(t_env *env, char *value)
 {
 	int		i;
+	int		j;
 	char	**tmp;
 	char	*name;
 
 	i = 0;
 	while (env->value[i])
 	{
+		j = 0;
 		tmp = ft_split(env->value[i], '=');
 		name = ft_strdup(tmp[0]);
 		if (!ft_strncmp(value, name, ft_strlen(name)) && \
 			!ft_strncmp(value, name, ft_strlen(value)))
+		{
+			while (tmp[j])
+				free(tmp[j++]);
+			free(tmp);
+			free(name);
 			return (1);
+		}
 		i++;
-		free(name);
+		while (tmp[j])
+			free(tmp[j++]);
 		free(tmp);
+		free(name);
 	}
 	return (0);
 }

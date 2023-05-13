@@ -81,6 +81,8 @@ void	execute_end(t_exec *exec)
 	unlink_heredoc();
 	dup2(exec->stdin_ori, STDIN_FILENO);
 	dup2(exec->stdout_ori, STDOUT_FILENO);
+	close(exec->stdin_ori);
+	close(exec->stdout_ori);
 	free(exec);
 }
 
