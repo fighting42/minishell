@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:16:42 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/13 20:51:24 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 02:55:48 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,33 @@ char	*make_env_str(t_env *env, int i, int size)
 	return (ret);
 }
 
+int	env_strcmp(char *env_str, char *temp)
+{
+	int		i;
+	int		tmp;
+	int		size;
+	char	*str;
+
+	tmp = 0;
+	i = -1;
+	while (env_str[++i] != '=')
+		tmp++;
+	str = malloc(sizeof(char) * tmp + 1);
+	i = -1;
+	while (env_str[++i] != '=')
+		str[i] = env_str[i];
+	str[i] = '\0';
+	size = tmp;
+	if ((int)strlen(temp) > tmp)
+		size = strlen(temp);
+	if (ft_strncmp(str, temp, size) == 0)
+		tmp = 0;
+	else
+		tmp = 1;
+	free(str);
+	return (tmp);
+}
+
 char	*trans_env(t_env *env, char *str, int start, int size)
 {
 	int		i;
@@ -98,12 +125,14 @@ char	*trans_env(t_env *env, char *str, int start, int size)
 		start++;
 	}
 	temp[i] = '\0';
-	i = 0;
-	while (env->value[i] != 0)
+	i = -1;
+	while (env->value[++i] != 0)
 	{
-		if (ft_strncmp(env->value[i], temp, size) == 0)
-			break ;
-		i++;
+		if (env->value[i][0] == temp[0])
+		{
+			if (env_strcmp(env->value[i], temp) == 0)
+				break ;
+		}
 	}
 	free(temp);
 	ret = make_env_str(env, i, size);

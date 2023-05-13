@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:45 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/13 14:13:01 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 01:41:00 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	*remove_quote(char *str)
 	char	*ret;
 	int		len;
 
+	if (str == NULL)
+		return (NULL);
 	len = strlen(str);
 	cnt_q = chk_str_len(str);
 	if (cnt_q == 0)
