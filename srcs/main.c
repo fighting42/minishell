@@ -38,7 +38,8 @@ int	main(int argc, char **argv, char **envp)
 				execute(cmdline, &env);
 			add_history(line);
 			free(line);
-			free_cmdline(cmdline);
+			if (cmdline != NULL)
+				free_cmdline(cmdline);
 		}
 	}
 	free_env(&env);
