@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:44:23 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/13 21:37:14 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 21:52:30 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,8 @@ void	free_cmdline(t_cmdline *cmdline)
 	{
 		token_f = token_n;
 		token_n = token_f->next;
-		if (ft_strncmp(token_f->value, "", 1) != 0){
-			printf("token free : %s\n", token_f->value);
+		if (token_f->value != NULL)
 			free(token_f->value);
-		}
 		free(token_f);
 	}
 	free(cmdline);
