@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/13 23:01:17 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 03:18:38 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	question_mark_str(char *str, t_envval *env_var, int j, int start)
 	tmp[++i] = '\0';
 	ret = ft_strdup(g_str);
 	free(g_str);
-	ret = ft_strjoin(ret, tmp);
+	ret = ft_strjoin_free_front(ret, tmp);
 	env_var[j].value = ret;
 	env_var[j].size_v = ft_strlen(ret);
 	env_var[j].ori = ft_strjoin("$?", tmp);
@@ -103,7 +103,8 @@ int	dollar_dollar(char *str, t_envval *env_var, \
 	}
 	env_var[dollar_i->j].value = NULL;
 	env_var[dollar_i->j].size_v = 0;
-	env_var[dollar_i->j].ori = tmp;
+	env_var[dollar_i->j].ori = ft_strdup(tmp);
+	free(tmp);
 	return (count);
 }
 
@@ -130,7 +131,8 @@ void	dollar_case(char *str, t_envval *env_var, \
 		env_var[dollar_i->j].value = trans_env(env, str, dollar_i->i + 1, \
 									count - dollar_i->i - 1);
 		env_var[dollar_i->j].ori = strdup_ori(str, dollar_i->i + 1, count - 1);
-		env_var[dollar_i->j].size_v = ft_strlen(env_var[dollar_i->j].value);
+		if (env_var[dollar_i->j].value != NULL)
+			env_var[dollar_i->j].size_v = ft_strlen(env_var[dollar_i->j].value);
 	}
 	dollar_i->j++;
 	dollar_i->i = count;

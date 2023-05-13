@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_env.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:56:08 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/13 23:10:29 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 02:00:20 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	add_env_val(t_command *com, t_parse *parse, char *ret)
 	{
 		com->t += ft_strlen(parse->env_var[parse->dollar_index].ori);
 		com->t += 1;
+		ret = NULL;
 		return ;
 	}
 	while (parse->env_var[parse->dollar_index].value[com->e] != '\0')
@@ -46,6 +47,8 @@ void	change_env_var(t_command *com, t_parse *parse, char *ret)
 			parse->dollar_index++;
 			if (quote == 0)
 				parse->env_flag = 1;
+			if (ret == NULL)
+				return ;
 		}
 		else
 		{
@@ -108,9 +111,14 @@ char	*env_to_str(t_parse *parse, char *str)
 	else
 		com->temp = ft_strdup(str);
 	len = len_env_to_str(parse, str);
-	ret = (char *)malloc(sizeof(char) * len + 1);
+	if (len == 0)
+		ret = NULL;
+	else
+		ret = (char *)malloc(sizeof(char) * len + 1);
 	change_env_var(com, parse, ret);
 	free(com->temp);
 	free(com);
+	if (ret == NULL)
+		return (NULL);
 	return (ret);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/13 22:53:42 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/14 02:26:52 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ t_envval	*chk_env(char *str, t_env *env, t_parse *parse);
 char		*trans_env(t_env *env, char *str, int start, int size);
 char		*make_env_str(t_env *env, int i, int size);
 char		*strdup_ori(char *str, int start, int end);
+int			env_strcmp(char *env_str, char *temp);
 
 //parse_dollar.c
 int			count_dollar(char *str, t_parse *parse, int flag);

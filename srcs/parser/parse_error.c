@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:32:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 17:44:40 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 03:30:23 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,22 @@
 
 int	error_quote(char *str)
 {
+	int	i;
+	int	quote;
+
+	i = -1;
+	quote = 0;
 	if (chk_whole_quote(str, 0) != 0)
 		return (1);
+	while (str[++i] != '\0')
+	{
+		quote = quote_status(str[i], quote);
+		if (quote == 0)
+		{
+			if (check_sep(str[i], ",;:!\\&+*^#@") == 1)
+				return (1);
+		}
+	}
 	return (0);
 }
 
