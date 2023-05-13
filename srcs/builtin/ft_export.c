@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/22 17:06:54 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/13 16:45:14 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/13 20:37:54 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	print_env_value(char **env_tmp, int i)
 		ft_putchar_fd(env_tmp[i][j], STDOUT_FILENO);
 		j++;
 	}
-	if (j > 1 && env_tmp[i][j - 1] == '=')
+	if (j > 1 && (env_tmp[i][j - 1] == '=' && env_tmp[i][j - 2] != '='))
 		ft_putchar_fd('\"', STDOUT_FILENO);
 	if (ft_strchr(env_tmp[i], '='))
 		ft_putchar_fd('\"', STDOUT_FILENO);
