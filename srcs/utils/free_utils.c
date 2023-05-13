@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:44:23 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/13 21:52:30 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 22:09:10 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,12 @@ void	free_split(char **arr)
 	while (arr[i])
 		free(arr[i++]);
 	free(arr);
+}
+
+void	free_join(t_join *join)
+{
+	free(join->ret);
+	free(join);
 }
 
 void	free_cmdline(t_cmdline *cmdline)

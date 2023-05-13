@@ -35,7 +35,7 @@ char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg)
 	return (tmp);
 }
 
-void	print_error(char *errmsg, int flag, int status)
+void	*print_error(char *errmsg, int flag, int status)
 {
 	extern int	g_status;
 
@@ -44,4 +44,5 @@ void	print_error(char *errmsg, int flag, int status)
 	free(errmsg);
 	if (flag == TRUE)
 		exit(status);
+	return (NULL);
 }

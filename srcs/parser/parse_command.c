@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/13 15:28:32 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 22:09:39 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,7 @@ char	*valid_join(t_parse *parse, int quote, t_join *join)
 {
 	char	*tmp;
 
-	parse->i++;
-	while (parse->tmp[parse->i] != NULL)
+	while (parse->tmp[++parse->i] != NULL)
 	{
 		parse->j = 0;
 		valid_join_utils(parse, join, quote);
@@ -76,19 +75,16 @@ char	*valid_join(t_parse *parse, int quote, t_join *join)
 		if (join->flag == 1)
 		{
 			tmp = ft_strdup(join->ret);
-			free(join->ret);
-			free(join);
+			free_join(join);
 			return (tmp);
 		}
 		if (join->flag == 2)
 		{
 			join->ret = ft_strjoin_free_all(join->ret, join->ret_add);
 			tmp = ft_strdup(join->ret);
-			free(join->ret);
-			free(join);
+			free_join(join);
 			return (tmp);
 		}
-		parse->i++;
 	}
 	tmp = ft_strdup(join->ret);
 	return (tmp);

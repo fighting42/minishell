@@ -6,13 +6,11 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/13 21:44:43 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 22:04:58 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// int	g_status = 0;
 
 int	error_case(char *str, t_parse *parse)
 {
@@ -116,57 +114,21 @@ t_cmdline	*parsing(char *str, t_env *env)
 	int			ret;
 
 	if (error_quote(str) == 1)
-	{
-		print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
-		return (NULL);
-	}
+		return (print_error(errmsg(TRUE, NULL, NULL, \
+		"syntax error"), FALSE, 258));
 	c_curr = malloc(sizeof(t_cmdline));
 	t_curr = create_token();
 	c_curr->token = t_curr;
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
 	if (error_case(str, parse) == 1)
-	{
-		print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
-		return (NULL);
-	}
+		return (print_error(errmsg(TRUE, NULL, NULL, \
+		"syntax error"), FALSE, 258));
 	ret = parse_loop(parse, t_curr);
 	c_curr = parse->c_head;
 	if (ret != 0)
-	{
-		print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
-		return (NULL);
-	}
+		return (print_error(errmsg(TRUE, NULL, NULL, \
+		"syntax error"), FALSE, 258));
 	free_parse(parse);
 	return (c_curr);
 }
-
-// int	main(int argc, char **argv, char **envp)
-// {
-// 	t_cmdline	*str;
-// 	t_token		*prt;
-// 	t_env		temp;
-// 	char		*tmp;
-
-// 	temp.value = envp;
-// 	(void)argc;
-// 	(void)argv;
-// 	tmp = "$a $? $$$ $USERaa aa$USER";
-// 	//tmp = "$a";
-// 	printf ("%s\n", tmp);
-// 	g_status = 0;
-// 	str = parsing(tmp, &temp);
-// 	if (str == NULL)
-// 	{
-// 		printf("error\n");
-// 		return (0);
-// 	}
-// 	prt = str->token;
-// 	while (prt != NULL)
-// 	{
-// 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
-// 		prt = prt->next;
-// 	}
-// 	system("leaks a.out");
-// 	return (0);
-// }

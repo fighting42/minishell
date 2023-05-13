@@ -24,7 +24,7 @@ typedef struct s_env_h
 }	t_env_h;
 
 // error.c
-void		print_error(char *errmsg, int flag, int status);
+void		*print_error(char *errmsg, int flag, int status);
 char		*errmsg(int flag, char *cmd1, char *cmd2, char *msg);
 // gnl.c
 char		*get_next_line(int fd);
@@ -53,4 +53,5 @@ int			len_env_to_str_heredoc(char *str, t_env_h *env_h);
 // free_utils.c
 void		free_split(char **arr);
 void		free_cmdline(t_cmdline *cmdline);
+void		free_join(t_join *join);
 #endif
