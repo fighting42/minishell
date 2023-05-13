@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:25:38 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 22:54:09 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/13 15:54:07 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 int	get_env_i(char **env, char *var)
 {
-	int	i;
-	int	len;
+	int		i;
+	int		len;
+	char	*tmp;
 
 	i = 0;
-	var = ft_strjoin(var, "=");
+	tmp = ft_strjoin(var, "=");
 	len = ft_strlen(var);
 	while (env[i])
 	{
-		if (!ft_strncmp(env[i], var, len))
+		if (!ft_strncmp(env[i], tmp, len))
 			break ;
 		i++;
 	}
 	if (!env[i])
 		return (-1);
-	free(var);
+	free(tmp);
 	return (i);
 }
 
