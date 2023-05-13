@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:06:52 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 21:33:33 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 04:33:10 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,15 @@
 t_envval	*chk_env_heredoc(char *str, t_env *env)
 {
 	t_envval		*env_var;
-	t_dollar_idx	*dollar_i;	
+	t_dollar_idx	*dollar_i;
+	int				i;	
+	int				cnt;
 
-	env_var = malloc(sizeof(t_envval) * (count_dollar_heredoc(str) + 1));
+	i = -1;
+	cnt = count_dollar_heredoc(str);
+	while (++i < cnt)
+		env_var[i].size_v = 0;
+	env_var = malloc(sizeof(t_envval) * cnt);
 	dollar_i = malloc(sizeof(t_dollar_idx) * 1);
 	dollar_i->i = 0;
 	dollar_i->j = 0;
@@ -35,6 +41,13 @@ t_envval	*chk_env_heredoc(char *str, t_env *env)
 
 void	add_env_val_heredoc(t_command *com, t_env_h *env_h, char *ret)
 {
+	if (env_h->env_var[env_h->dollar_index].value == NULL)
+	{
+		com->t += ft_strlen(env_h->env_var[env_h->dollar_index].ori);
+		com->t += 1;
+		ret = NULL;
+		return ;
+	}
 	while (env_h->env_var[env_h->dollar_index].value[com->e] != '\0')
 	{
 		ret[com->r] = env_h->env_var[env_h->dollar_index].value[com->e];
@@ -54,6 +67,8 @@ void	change_env_var_heredoc(t_command *com, t_env_h *env_h, char *ret)
 			com->e = 0;
 			add_env_val_heredoc(com, env_h, ret);
 			env_h->dollar_index++;
+			if (ret == NULL)
+				return ;
 		}
 		else
 		{
@@ -73,11 +88,17 @@ char	*env_to_str_heredoc(char *str, t_env_h *env_h)
 
 	com = malloc(sizeof(t_command));
 	init_t_command(com);
-	com->temp = str;
+	com->temp = ft_strdup(str);
 	len = len_env_to_str_heredoc(str, env_h);
-	ret = (char *)malloc(sizeof(char) * len + 1);
+	if (len == 0)
+		ret = NULL;
+	else
+		ret = (char *)malloc(sizeof(char) * len + 1);
 	change_env_var_heredoc(com, env_h, ret);
+	free(com->temp);
 	free(com);
+	if (ret == NULL)
+		return (NULL);
 	return (ret);
 }
 

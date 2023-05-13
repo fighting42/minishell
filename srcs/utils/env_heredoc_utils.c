@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_heredoc_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 20:04:07 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 21:32:52 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 04:37:27 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ int	count_dollar_heredoc(char *str)
 	while (str[i] != '\0')
 	{
 		if (str[i] == '$')
+		{
 			cnt_dollar++;
+			while (str[i + 1] == '$')
+				i++;
+		}
 		i++;
 	}
 	return (cnt_dollar);
@@ -58,7 +62,7 @@ void	dollar_case_heredoc(char *str, t_envval *env_var, \
 	{
 		env_var[dollar_i->j].value = ft_strdup("$");
 		env_var[dollar_i->j].size_v = 1;
-		env_var[dollar_i->j].ori = "";
+		env_var[dollar_i->j].ori = ft_strdup("$");
 	}
 	else
 	{
@@ -67,7 +71,8 @@ void	dollar_case_heredoc(char *str, t_envval *env_var, \
 		env_var[dollar_i->j].value = trans_env(env, str, dollar_i->i + 1, \
 									count - dollar_i->i - 1);
 		env_var[dollar_i->j].ori = strdup_ori(str, dollar_i->i + 1, count - 1);
-		env_var[dollar_i->j].size_v = ft_strlen(env_var[dollar_i->j].value);
+		if (env_var[dollar_i->j].value != NULL)
+			env_var[dollar_i->j].size_v = ft_strlen(env_var[dollar_i->j].value);
 	}
 	dollar_i->j++;
 	dollar_i->i = count;
@@ -80,11 +85,12 @@ int	len_env_to_str_heredoc(char *str, t_env_h *env_h)
 
 	len_env = malloc(sizeof(t_len_env));
 	init_len_env(len_env);
-	len_env->temp = str;
+	len_env->temp = ft_strdup(str);
 	while (len_env->temp[++len_env->k] != '\0')
 		env_index_heredoc(env_h, len_env);
 	env_h->dollar_index = env_h->dollar_index - len_env->chk;
 	ret = len_env->len;
+	free(len_env->temp);
 	free(len_env);
 	return (ret);
 }
