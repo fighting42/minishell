@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 23:41:35 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 15:28:53 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	parse_case(t_parse *parse, t_token *t_curr)
 		parse->j++;
 	else
 	{
-		if (cmd_or_str(parse, t_curr) == 1) // leaks
+		if (cmd_or_str(parse, t_curr) == 1)
 			return (1);
 		if (parse->tmp[parse->i + 1] != NULL)
 			return (2);
@@ -125,15 +125,11 @@ t_cmdline	*parsing(char *str, t_env *env)
 	if (error_case(str, parse) == 1)
 		return (0); //print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
 	ret = parse_loop(parse, t_curr);
+	c_curr = parse->c_head;
 	if (ret != 0)
-	{
-		//free_parse(parse);
-		return (0); //print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
-	}
-	else{
-		//free_parse(parse);
-		return (parse->c_head);
-	}
+		c_curr = NULL;//print_error(errmsg(TRUE, NULL, NULL, "syntax error"), FALSE, 258);
+	free_parse(parse);
+	return (c_curr);
 }
 
 // int	main(int argc, char **argv, char **envp)
@@ -146,8 +142,8 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 	temp.value = envp;
 // 	(void)argc;
 // 	(void)argv;
-// 	//tmp = "asd\"asd\'f hh d\'h\" > $USER <<end<<end<<end|<<end<<$USER $a $? $$$ $USERaa aa$USER";
-// 	tmp = "$USER";
+// 	tmp = "$a $? $$$ $USERaa aa$USER";
+// 	//tmp = "$a";
 // 	printf ("%s\n", tmp);
 // 	g_status = 0;
 // 	str = parsing(tmp, &temp);
@@ -162,5 +158,6 @@ t_cmdline	*parsing(char *str, t_env *env)
 // 		printf("value: %s / type: %d / pipe_flag: %d\n", prt->value, prt->type, prt->pipe_flag);
 // 		prt = prt->next;
 // 	}
+// 	system("leaks a.out");
 // 	return (0);
 // }

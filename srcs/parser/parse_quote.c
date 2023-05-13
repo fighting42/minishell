@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:45 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 23:34:45 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 14:13:01 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,11 @@ char	*remove_quote(char *str)
 	if (cnt_q == 0)
 	{
 		ret = ft_strdup(str);
+		free (str);
 		return (ret);
 	}
 	ret = (char *)malloc(sizeof(char) * (len - (2 * cnt_q) + 1));
 	make_ret_str(str, ret);
+	free(str);
 	return (ret);
 }

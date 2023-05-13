@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/12 19:24:08 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 15:28:11 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,11 @@ int	count_dollar(char *str, t_parse *parse, int flag)
 		quote = quote_status(str[i], quote);
 		if ((quote == 2 && str[i] == '$') || \
 			(quote == 0 && str[i] == '$'))
+		{
 			cnt_dollar++;
+			while (str[i + 1] == '$')
+				i++;
+		}
 		i++;
 	}
 	if (flag == 1 && parse != NULL)

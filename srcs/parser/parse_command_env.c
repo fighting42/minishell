@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:56:08 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/11 23:13:22 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 14:09:27 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,14 @@ int	len_env_to_str(t_parse *parse, char *str)
 	len_env = malloc(sizeof(t_len_env));
 	init_len_env(len_env);
 	if (str == NULL)
-		len_env->temp = parse->tmp[parse->i];
+		len_env->temp = ft_strdup(parse->tmp[parse->i]);
 	else
-		len_env->temp = str;
+		len_env->temp = ft_strdup(str);
 	while (len_env->temp[++len_env->k] != '\0')
 		env_index(parse, len_env);
 	parse->dollar_index = parse->dollar_index - len_env->chk;
 	ret = len_env->len;
+	free(len_env->temp);
 	free(len_env);
 	return (ret);
 }
@@ -97,12 +98,13 @@ char	*env_to_str(t_parse *parse, char *str)
 	com = malloc(sizeof(t_command));
 	init_t_command(com);
 	if (str == NULL)
-		com->temp = parse->tmp[parse->i];
+		com->temp = ft_strdup(parse->tmp[parse->i]);
 	else
-		com->temp = str;
+		com->temp = ft_strdup(str);
 	len = len_env_to_str(parse, str);
 	ret = (char *)malloc(sizeof(char) * len + 1);
 	change_env_var(com, parse, ret);
+	free(com->temp);
 	free(com);
 	return (ret);
 }
