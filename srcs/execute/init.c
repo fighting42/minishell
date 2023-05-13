@@ -54,6 +54,7 @@ void	split_cmdline(t_token *token, t_pipeline *pipeline, int cnt)
 	pipeline->cmd = malloc(sizeof(char *) * (cnt + 1));
 	pipeline->path = NULL;
 	pipeline->redirct = NULL;
+	pipeline->next = NULL;
 	i = 0;
 	while (i < cnt)
 	{
