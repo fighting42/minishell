@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/09 14:16:42 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/14 02:55:48 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/14 03:18:12 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@ t_envval	*chk_env(char *str, t_env *env, t_parse *parse)
 	t_envval		*env_var;
 	t_dollar_idx	*dollar_i;	
 	int				quote;
+	int				i;
 
 	quote = 0;
+	i = -1;
 	env_var = malloc(sizeof(t_envval) * (count_dollar(str, parse, 1) + 1));
+	while (++i < parse->dollar_cnt)
+		env_var[i].size_v = 0;
 	dollar_i = malloc(sizeof(t_dollar_idx) * 1);
 	dollar_i->i = 0;
 	dollar_i->j = 0;
-	quote = 0;
 	while (str[dollar_i->i] != '\0')
 	{
 		quote = quote_status(str[dollar_i->i], quote);

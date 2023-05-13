@@ -6,7 +6,7 @@
 /*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 03:03:14 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/14 03:18:38 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,8 +133,6 @@ void	dollar_case(char *str, t_envval *env_var, \
 		env_var[dollar_i->j].ori = strdup_ori(str, dollar_i->i + 1, count - 1);
 		if (env_var[dollar_i->j].value != NULL)
 			env_var[dollar_i->j].size_v = ft_strlen(env_var[dollar_i->j].value);
-		else
-			env_var[dollar_i->j].size_v = 0;
 	}
 	dollar_i->j++;
 	dollar_i->i = count;
