@@ -14,6 +14,17 @@
 
 int	g_status = 0;
 
+void	parsing_execute(t_cmdline *cmdline, char *line, t_env *env)
+{
+	cmdline = parsing(line, env);
+	if (cmdline)
+		execute(cmdline, env);
+	add_history(line);
+	free(line);
+	if (cmdline != NULL)
+		free_cmdline(cmdline);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
@@ -30,17 +41,12 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			signal_ctrl_d();
 		else if (!ft_strncmp(line, "", 1))
-			continue ;
-		else
 		{
-			cmdline = parsing(line, &env);
-			if (cmdline	!= NULL)
-				execute(cmdline, &env);
-			add_history(line);
 			free(line);
-			if (cmdline != NULL)
-				free_cmdline(cmdline);
+			continue ;
 		}
+		else
+			parsing_execute(cmdline, line, &env);
 	}
 	free_env(&env);
 	return (0);

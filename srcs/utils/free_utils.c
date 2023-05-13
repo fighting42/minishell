@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:44:23 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/13 22:09:10 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/13 22:50:56 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_join(t_join *join)
 void	free_cmdline(t_cmdline *cmdline)
 {
 	t_token	*token_f;
-	t_token *token_n;
+	t_token	*token_n;
 
 	token_f = cmdline->token;
 	token_n = cmdline->token;

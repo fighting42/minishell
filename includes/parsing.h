@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/12 02:52:26 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/13 22:53:42 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ typedef struct s_dollar_idx
 	int	j;
 }	t_dollar_idx;
 
-typedef	struct s_rmv_quote
+typedef struct s_rmv_quote
 {
 	int	flag_q;
 	int	curr_q;
@@ -77,7 +77,6 @@ typedef struct s_join
 	char	*ret;
 	char	*ret_add;
 }	t_join;
-
 
 //parse_command.c
 int			cmd_or_str(t_parse	*parse, t_token *t_curr);
