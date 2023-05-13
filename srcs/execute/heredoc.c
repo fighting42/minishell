@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:12:39 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/12 19:17:07 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/13 15:44:37 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file)
 {
 	char		*line;
 	int			fd;
+	char		*tmp;
 
 	fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	dup2(exec->stdin_ori, STDIN_FILENO);
@@ -45,7 +46,8 @@ void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file)
 		if (!ft_strncmp(redirct->value, line, ft_strlen(redirct->value)) \
 			&& !ft_strncmp(redirct->value, line, ft_strlen(line)))
 			break ;
-		write(fd, line, ft_strlen(line));
+		tmp = env_str_heredoc(line, exec->pipeline->env);
+		write(fd, tmp, ft_strlen(tmp));
 		write(fd, "\n", 1);
 		free(line);
 	}

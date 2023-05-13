@@ -56,7 +56,9 @@ SRCS_B	=	srcs/builtin/builtin.c \
 SRCS_U	=	srcs/utils/signal.c \
 			srcs/utils/error.c \
 			srcs/utils/get_next_line.c \
-			srcs/utils/ft_strjoin_free.c
+			srcs/utils/ft_strjoin_free.c \
+			srcs/utils/env_heredoc.c \
+			srcs/utils/env_heredoc_utils.c
 
 SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E) $(SRCS_B) $(SRCS_U)
 
