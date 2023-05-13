@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 21:26:21 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/13 16:42:12 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/13 17:43:48 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ char	*get_env(char **env, char *var)
 			break ;
 		i++;
 	}
+	free(tmp);
 	if (!env[i])
 		return (NULL);
-	free(tmp);
 	return (env[i] + len);
 }
 
@@ -73,16 +73,10 @@ void	set_env(t_env *env, char *var, char *value)
 	char	*tmp;
 	char	*tmp2;
 
-	i = 0;
 	tmp = ft_strjoin(var, "=");
 	len = ft_strlen(tmp);
-	while (env->value[i])
-	{
-		if (!ft_strncmp(env->value[i], tmp, len))
-			break ;
-		i++;
-	}
-	if (!env->value[i])
+	i = get_env_i(env->value, var);
+	if (i < 0)
 	{
 		if (!ft_strncmp("OLDPWD=", tmp, len))
 		{
@@ -94,7 +88,8 @@ void	set_env(t_env *env, char *var, char *value)
 		return ;
 	}
 	free(env->value[i]);
-	env->value[i] = ft_strjoin_free_front(var, value);
+	env->value[i] = ft_strjoin(tmp, value);
+	free(tmp);
 }
 
 void	free_env(t_env *env)

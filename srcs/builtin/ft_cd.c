@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:52:15 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 21:23:02 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/13 17:14:57 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ int	ft_cd(t_pipeline *pipeline)
 		return (0);
 	}
 	ret = getcwd(NULL, 0);
+	if (!ret)
+		print_error(errmsg(TRUE, "cd", NULL, \
+			"No such file or directory"), TRUE, 1);
 	set_env(pipeline->env, "PWD", ret);
 	free(ret);
 	return (0);

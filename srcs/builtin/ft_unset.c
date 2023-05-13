@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:25:38 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/13 15:54:07 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/13 19:08:00 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ int	get_env_i(char **env, char *var)
 			break ;
 		i++;
 	}
+	free(tmp);
 	if (!env[i])
 		return (-1);
-	free(tmp);
 	return (i);
 }
 
@@ -40,13 +40,12 @@ void	del_env(t_env *env, char *var)
 	i = get_env_i(env->value, var);
 	if (i < 0)
 		return ;
-	while (env->value[i + 1])
+	while (env->value[i])
 	{
 		env->value[i] = env->value[i + 1];
 		i++;
 	}
 	env->value[i] = NULL;
-	free(env->value[i]);
 }
 
 int	ft_unset(t_pipeline *pipeline)

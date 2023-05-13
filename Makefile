@@ -58,7 +58,8 @@ SRCS_U	=	srcs/utils/signal.c \
 			srcs/utils/get_next_line.c \
 			srcs/utils/ft_strjoin_free.c \
 			srcs/utils/env_heredoc.c \
-			srcs/utils/env_heredoc_utils.c
+			srcs/utils/env_heredoc_utils.c \
+			srcs/utils/free_utils.c
 
 SRCS	=	srcs/main.c $(SRCS_P) $(SRCS_E) $(SRCS_B) $(SRCS_U)
 

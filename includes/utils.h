@@ -34,22 +34,23 @@ void		signal_ctrl_d(void);
 void		sigint_handler(int sig);
 void		sigint_handler_heredoc(int sig);
 void		set_termios(void);
-//ft_strjoin_free.c
+// ft_strjoin_free.c
 char		*ft_strjoin_free_all(char *s1, char *s2);
 char		*ft_strjoin_free_front(char *s1, char *s2);
 char		*ft_strjoin_free_back(char *s1, char *s2);
-//env_heredoc.c
+// env_heredoc.c
 t_envval	*chk_env_heredoc(char *str, t_env *env);
 void		add_env_val_heredoc(t_command *com, t_env_h *env_h, char *ret);
 void		change_env_var_heredoc(t_command *com, t_env_h *env_h, char *ret);
 char		*env_to_str_heredoc(char *str, t_env_h *env_h);
 char		*env_str_heredoc(char *str, t_env *env);
-
-//env_heredoc_utils.c
+// env_heredoc_utils.c
 int			count_dollar_heredoc(char *str);
 void		env_index_heredoc(t_env_h *env_h, t_len_env *len_env);
 void		dollar_case_heredoc(char *str, t_envval *env_var, \
 								t_dollar_idx *dollar_i, t_env *env);
 int			len_env_to_str_heredoc(char *str, t_env_h *env_h);
+// free_utils.c
+void		free_split(char **arr);
 
 #endif

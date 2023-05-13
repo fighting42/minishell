@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:32:44 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/13 17:04:49 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/13 18:15:46 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,49 +51,37 @@ int	update_env(t_env *env, char *value)
 			!ft_strncmp(env->value[i], tmp[0], ft_strlen(env->value[i])))
 		{
 			env->value[i] = value;
-			i = 0;
-			while (tmp[i])
-				free(tmp[i++]);
-			free(tmp);
+			free_split(tmp);
 			free(tmp2);
 			return (1);
 		}
 		free(tmp2);
 		i++;
 	}
-	i = 0;
-	while (tmp[i])
-		free(tmp[i++]);
-	free(tmp);
+	free_split(tmp);
 	return (0);
 }
 
 int	check_env(t_env *env, char *value)
 {
 	int		i;
-	int		j;
 	char	**tmp;
 	char	*name;
 
 	i = 0;
 	while (env->value[i])
 	{
-		j = 0;
 		tmp = ft_split(env->value[i], '=');
 		name = ft_strdup(tmp[0]);
 		if (!ft_strncmp(value, name, ft_strlen(name)) && \
 			!ft_strncmp(value, name, ft_strlen(value)))
 		{
-			while (tmp[j])
-				free(tmp[j++]);
-			free(tmp);
+			free_split(tmp);
 			free(name);
 			return (1);
 		}
 		i++;
-		while (tmp[j])
-			free(tmp[j++]);
-		free(tmp);
+		free_split(tmp);
 		free(name);
 	}
 	return (0);
