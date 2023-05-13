@@ -23,6 +23,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <termios.h>
+# include <sys/stat.h>
 # include "../srcs/libft/libft.h"
 
 # include "cmdline.h"
