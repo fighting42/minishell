@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:50:08 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 21:29:14 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/14 16:14:29 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ int	check_status(char *cmd)
 int	ft_exit(t_exec *exec)
 {
 	char		**cmd;
-	extern int	g_status;
 
 	cmd = exec->pipeline->cmd;
 	if (!cmd[1])

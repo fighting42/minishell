@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:12:39 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/13 15:44:37 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/14 16:14:25 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,10 @@ char	*fork_heredoc(t_redirct *redirct, t_exec *exec)
 	pid_t		pid;
 	int			status;
 	char		*file;
-	extern int	g_status;
+	char		*num;
 
-	file = ft_strjoin(".heredoc/.tmp", ft_itoa(exec->heredoc_cnt));
+	num = ft_itoa(exec->heredoc_cnt);
+	file = ft_strjoin_free_back(".heredoc/.tmp", num);
 	pid = fork();
 	if (pid == 0)
 	{

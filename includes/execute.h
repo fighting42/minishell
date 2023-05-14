@@ -62,6 +62,7 @@ void		exec_fork(t_exec *exec, int flag);
 void		exec_cmd(int fds[2], t_exec *exec, int flag);
 char		*find_path(char **cmd, char **envp_path);
 char		**pars_envp(char **envp);
+char		*path_join(char **envp_path, char **cmd);
 // redirection.c
 void		redirct(t_exec *exec);
 void		do_redirct(t_redirct *redirct);

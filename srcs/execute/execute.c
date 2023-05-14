@@ -36,7 +36,6 @@ void	wait_procs(int cnt)
 {
 	int			i;
 	int			status;
-	extern int	g_status;
 
 	i = 0;
 	while (i < cnt)
@@ -63,7 +62,6 @@ void	wait_procs(int cnt)
 t_exec	*init_exec(t_cmdline *cmdline, t_env *env)
 {
 	t_exec		*exec;
-	extern int	g_status;
 
 	g_status = 0;
 	exec = malloc(sizeof(t_exec));

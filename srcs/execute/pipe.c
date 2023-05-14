@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/14 03:59:35 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/14 16:18:44 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,30 @@ char	**pars_envp(char **envp)
 	return (path);
 }
 
+char	*path_join(char **envp_path, char **cmd)
+{
+	int			i;
+	char		*tmp;
+	char		*path;
+
+	i = 0;
+	while (envp_path[i])
+	{
+		tmp = ft_strjoin(envp_path[i], "/");
+		path = ft_strjoin(tmp, cmd[0]);
+		free(tmp);
+		if (access(path, X_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	return (NULL);
+}
+
 char	*find_path(char **cmd, char **envp_path)
 {
 	struct stat	st;
-	char		*tmp;
-	char		*path;
-	int			i;
 
-	i = 0;
 	stat(cmd[0], &st);
 	if (S_ISDIR(st.st_mode))
 		print_error(errmsg(TRUE, cmd[0], NULL, "Is a directory"), TRUE, 126);
@@ -47,21 +63,11 @@ char	*find_path(char **cmd, char **envp_path)
 		if (access(cmd[0], X_OK) == 0)
 			return (cmd[0]);
 		else
-			print_error(errmsg(TRUE, cmd[0], NULL, "No such file or directory"), TRUE, 127);
+			print_error(errmsg(TRUE, cmd[0], NULL, \
+				"No such file or directory"), TRUE, 127);
 	}
 	else
-	{
-		while (envp_path[i])
-		{
-			tmp = ft_strjoin(envp_path[i], "/");
-			path = ft_strjoin(tmp, cmd[0]);
-			free(tmp);
-			if (access(path, X_OK) == 0)
-				return (path);
-			free(path);
-			i++;
-		}
-	}
+		return (path_join(envp_path, cmd));
 	return (NULL);
 }
 
