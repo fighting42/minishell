@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_heredoc.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:06:52 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 04:33:10 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/14 15:16:41 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ t_envval	*chk_env_heredoc(char *str, t_env *env)
 
 	i = -1;
 	cnt = count_dollar_heredoc(str);
+	env_var = malloc(sizeof(t_envval) * cnt);
 	while (++i < cnt)
 		env_var[i].size_v = 0;
-	env_var = malloc(sizeof(t_envval) * cnt);
 	dollar_i = malloc(sizeof(t_dollar_idx) * 1);
 	dollar_i->i = 0;
 	dollar_i->j = 0;

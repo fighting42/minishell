@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:55:09 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/11 02:31:04 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/14 15:19:37 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ void	append_token(t_parse *parse, t_token *curr, char *value)
 {
 	t_token	*tmp;
 
+	if (value == NULL)
+	{
+		free(curr);
+		return ;
+	}
 	curr->value = value;
 	make_type(curr, parse->type);
 	tmp = parse->c_head->token;
