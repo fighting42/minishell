@@ -14,6 +14,15 @@
 
 int	g_status = 0;
 
+void	set_termios(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag &= ~(ECHOCTL);
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 void	parsing_execute(char *line, t_env *env)
 {
 	t_cmdline	*cmdline;

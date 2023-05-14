@@ -12,13 +12,21 @@
 
 #include "../../includes/minishell.h"
 
-void	set_termios(void)
+void	print_signal(int status)
 {
-	struct termios	term;
-
-	tcgetattr(STDIN_FILENO, &term);
-	term.c_lflag &= ~(ECHOCTL);
-	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+	if (WTERMSIG(status) == 2 && WIFSIGNALED(status))
+	{
+		g_status = 130;
+		ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
+		ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
+		ft_putendl_fd("^C", STDOUT_FILENO);
+	}
+	if (WTERMSIG(status) == 3 && WIFSIGNALED(status))
+	{
+		g_status = 131;
+		ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
+		ft_putendl_fd("^\\Quit: 3", STDOUT_FILENO);
+	}
 }
 
 void	sigint_handler_heredoc(int sig)

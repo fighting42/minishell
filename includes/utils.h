@@ -23,6 +23,8 @@ typedef struct s_env_h
 	int			dollar_index;
 }	t_env_h;
 
+// main.c
+void		set_termios(void);
 // error.c
 void		*print_error(char *errmsg, int flag, int status);
 char		*errmsg(int flag, char *cmd1, char *cmd2, char *msg);
@@ -33,7 +35,7 @@ void		init_signal(void);
 void		signal_ctrl_d(void);
 void		sigint_handler(int sig);
 void		sigint_handler_heredoc(int sig);
-void		set_termios(void);
+void		print_signal(int status);
 // ft_strjoin_free.c
 char		*ft_strjoin_free_all(char *s1, char *s2);
 char		*ft_strjoin_free_front(char *s1, char *s2);

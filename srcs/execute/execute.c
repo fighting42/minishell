@@ -41,20 +41,9 @@ void	wait_procs(int cnt)
 	while (i < cnt)
 	{
 		waitpid(-1, &status, 0);
-		g_status = WEXITSTATUS(status);
-		if (WTERMSIG(status) == 2 && WIFSIGNALED(status))
-		{
-			g_status = 130;
-			ft_putstr_fd("\x1b[1A", STDOUT_FILENO);
-			ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
-			ft_putendl_fd("^C", STDOUT_FILENO);
-		}
-		if (WTERMSIG(status) == 3 && WIFSIGNALED(status))
-		{
-			g_status = 131;
-			ft_putstr_fd("\x1B[11D", STDOUT_FILENO);
-			ft_putendl_fd("^\\Quit: 3", STDOUT_FILENO);
-		}
+		if (g_status == 0)
+			g_status = WEXITSTATUS(status);
+		print_signal(status);
 		i++;
 	}
 }
