@@ -37,8 +37,6 @@ char	*errmsg(int flag, char *cmd1, char *cmd2, char *msg)
 
 void	*print_error(char *errmsg, int flag, int status)
 {
-	extern int	g_status;
-
 	ft_putendl_fd(errmsg, STDERR_FILENO);
 	g_status = status;
 	free(errmsg);
