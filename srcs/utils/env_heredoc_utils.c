@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_heredoc_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 20:04:07 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 16:16:32 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 02:25:14 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	dollar_case_heredoc(char *str, t_envval *env_var, \
 	{
 		env_var[dollar_i->j].value = ft_strdup("$");
 		env_var[dollar_i->j].size_v = 1;
-		env_var[dollar_i->j].ori = ft_strdup("$");
+		env_var[dollar_i->j].ori = ft_strdup("");
 	}
 	else
 	{
