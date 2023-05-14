@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 04:38:43 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/14 15:37:56 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,13 +123,11 @@ t_cmdline	*parsing(char *str, t_env *env)
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
 	if (error_case(str, parse) == 1)
-		return (print_error(errmsg(TRUE, NULL, NULL, \
-		"syntax error"), FALSE, 258));
+		return (end_program(parse));
 	ret = parse_loop(parse, t_curr);
 	c_curr = parse->c_head;
 	if (ret != 0)
-		return (print_error(errmsg(TRUE, NULL, NULL, \
-		"syntax error"), FALSE, 258));
+		return (end_program(parse));
 	free_parse(parse);
 	return (c_curr);
 }

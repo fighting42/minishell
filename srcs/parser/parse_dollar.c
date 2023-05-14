@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 03:18:38 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/14 15:52:22 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	dollar_case(char *str, t_envval *env_var, \
 	}
 	else
 	{
-		while (check_sep(str[count], " |<\">$") != 1 && str[count] != '\0')
+		while (check_sep(str[count], " |<\"\'>$") != 1 && str[count] != '\0')
 			count++;
 		env_var[dollar_i->j].value = trans_env(env, str, dollar_i->i + 1, \
 									count - dollar_i->i - 1);
