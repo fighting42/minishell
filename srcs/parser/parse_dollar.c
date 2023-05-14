@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
+/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 15:52:22 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 02:10:30 by daheepark        ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	question_mark_str(char *str, t_envval *env_var, int j, int start)
 	l = start;
 	i = -1;
 	g_str = ft_itoa(g_status);
-	while (!(check_sep(str[l], " ><|") == 1 || str[l] == '\0'))
+	while (!(check_sep(str[l], " ><|$") == 1 || str[l] == '\0'))
 		l++;
 	tmp = malloc(sizeof(char) * l - start + 1);
 	while (start < l)
@@ -63,7 +63,7 @@ void	question_mark_str(char *str, t_envval *env_var, int j, int start)
 	ret = ft_strjoin_free_front(ret, tmp);
 	env_var[j].value = ret;
 	env_var[j].size_v = ft_strlen(ret);
-	env_var[j].ori = ft_strjoin("$?", tmp);
+	env_var[j].ori = ft_strjoin("?", tmp);
 	free(tmp);
 }
 
@@ -72,7 +72,7 @@ void	trans_question_mark(t_envval *env_var, char *str, int start, int j)
 	int		l;
 
 	l = start;
-	while (!(check_sep(str[l], " ><|") == 1 || str[l] == '\0'))
+	while (!(check_sep(str[l], " ><|$") == 1 || str[l] == '\0'))
 		l++;
 	if (l - start == 0)
 	{
@@ -89,16 +89,20 @@ int	dollar_dollar(char *str, t_envval *env_var, \
 		t_dollar_idx *dollar_i, int count)
 {
 	int		cnt;
+	int		i;
 	char	*tmp;
 
-	cnt = 2;
-	while (str[count++] == '$' && str[count] != '\0')
+	cnt = 1;
+	while (str[count++] != ' ' && str[count] != '\0')
 		cnt++;
 	tmp = malloc(sizeof(char) * cnt + 1);
+	cnt--;
 	tmp[cnt--] = '\0';
+	i = count - 2;
 	while (cnt >= 0)
 	{
-		tmp[cnt] = '$';
+		tmp[cnt] = str[i];
+		i--;
 		cnt--;
 	}
 	env_var[dollar_i->j].value = NULL;
@@ -122,7 +126,7 @@ void	dollar_case(char *str, t_envval *env_var, \
 	{
 		env_var[dollar_i->j].value = ft_strdup("$");
 		env_var[dollar_i->j].size_v = 1;
-		env_var[dollar_i->j].ori = ft_strdup("$");
+		env_var[dollar_i->j].ori = ft_strdup("");
 	}
 	else
 	{
