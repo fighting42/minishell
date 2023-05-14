@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_error.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:32:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 03:30:23 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/14 16:02:18 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ int	redirection_error(char *str)
 		}
 		while (check_sep(str[i], " ") == 1 && str[i] != '\0')
 			i++;
-		if ((str[i] == '\0' || str[i] == '|') && flag == 1)
+		if ((str[i] == '\0' || str[i] == '|' || \
+			check_sep(str[i], "><") == 1) && flag == 1)
 			return (1);
 		flag = 0;
 	}
