@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/12 19:06:52 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 15:16:41 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/14 16:18:37 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,15 @@ char	*env_str_heredoc(char *str, t_env *env)
 	env_h->dollar_index = 0;
 	env_h->env_var = chk_env_heredoc(str, env);
 	ret = env_to_str_heredoc(str, env_h);
+	env_h->dollar_index--;
+	while (env_h->dollar_index >= 0)
+	{
+		if (env_h->env_var[env_h->dollar_index].ori != NULL)
+			free (env_h->env_var[env_h->dollar_index].ori);
+		if (env_h->env_var[env_h->dollar_index].value != NULL)
+			free (env_h->env_var[env_h->dollar_index].value);
+		env_h->dollar_index--;
+	}
 	free(env_h->env_var);
 	free(env_h);
 	return (ret);
