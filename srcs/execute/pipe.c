@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 21:55:30 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/14 16:59:20 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/14 17:47:19 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ char	*find_path(char **cmd, char **envp_path)
 	if (ft_strchr(cmd[0], '/'))
 	{
 		if (S_ISDIR(st.st_mode))
-			print_error(errmsg(TRUE, cmd[0], NULL, "is a directory"), TRUE, 126);
+			print_error(errmsg(TRUE, cmd[0], NULL, \
+				"is a directory"), TRUE, 126);
 		else if (access(cmd[0], X_OK) == 0)
 			return (cmd[0]);
 		else
