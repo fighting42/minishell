@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_dollar.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/15 02:10:30 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/15 18:05:58 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ int	dollar_dollar(char *str, t_envval *env_var, \
 	while (str[count++] != ' ' && str[count] != '\0')
 		cnt++;
 	tmp = malloc(sizeof(char) * cnt + 1);
-	cnt--;
+	if (str[count] != '\0')
+		cnt--;
 	tmp[cnt--] = '\0';
 	i = count - 2;
 	while (cnt >= 0)
