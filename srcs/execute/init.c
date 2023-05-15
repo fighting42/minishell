@@ -102,7 +102,7 @@ void	check_cmdline(t_cmdline *cmdline, t_env *env, t_exec *exec)
 	{
 		if (token->type == HEREDOC)
 			exec->heredoc_cnt++;
-		if (!token->next || (token->next && token->next->pipe_flag))
+		if ((!token->next || (token->next && token->next->pipe_flag)) && token->value)
 		{
 			append_pipeline(exec, create_pipeline(cmdline, i, prev, env));
 			prev = i;

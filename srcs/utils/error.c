@@ -44,3 +44,17 @@ void	*print_error(char *errmsg, int flag, int status)
 		exit(status);
 	return (NULL);
 }
+
+int	check_null(t_cmdline *cmdline)
+{
+	t_token	*tmp;
+
+	tmp = cmdline->token;
+	while (!tmp->value)
+	{
+		tmp = tmp->next;
+		if (!tmp)
+			return (1);
+	}
+	return (0);
+}
