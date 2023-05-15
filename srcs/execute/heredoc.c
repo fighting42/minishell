@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:12:39 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/15 14:12:33 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/15 14:44:06 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ char	*fork_heredoc(t_redirct *redirct, t_exec *exec)
 	}
 	else
 	{
-		wait(&status);
+		waitpid(pid, &status, 0);
 		exec->heredoc_cnt--;
 		g_status = WEXITSTATUS(status);
 		if (!g_status)

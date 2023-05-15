@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/24 18:50:08 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/14 16:14:29 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/15 14:45:15 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_exit(t_exec *exec)
 			"numeric argument required"), TRUE, 255);
 	if (cmd[2])
 	{
-		print_error(errmsg(TRUE, "exit", cmd[1], \
+		print_error(errmsg(TRUE, "exit", NULL, \
 			"too many arguments"), FALSE, 1);
 		return (0);
 	}
