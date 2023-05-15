@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:16:08 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/15 18:05:58 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 18:33:23 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,19 +93,18 @@ int	dollar_dollar(char *str, t_envval *env_var, \
 	char	*tmp;
 
 	cnt = 1;
-	while (str[count++] != ' ' && str[count] != '\0')
+	while (str[count] != ' ' && str[count] != '\"' && \
+		str[count] != '\0')
+	{
 		cnt++;
+		count++;
+	}
 	tmp = malloc(sizeof(char) * cnt + 1);
-	if (str[count] != '\0')
-		cnt--;
+	cnt--;
 	tmp[cnt--] = '\0';
 	i = count - 2;
 	while (cnt >= 0)
-	{
-		tmp[cnt] = str[i];
-		i--;
-		cnt--;
-	}
+		tmp[cnt--] = str[i--];
 	env_var[dollar_i->j].value = NULL;
 	env_var[dollar_i->j].size_v = 0;
 	env_var[dollar_i->j].ori = ft_strdup(tmp);
