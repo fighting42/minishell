@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:12:39 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/15 16:03:10 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/15 16:51:17 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file)
 		if (ft_strncmp(line, "", 1))
 		{
 			tmp = env_str_heredoc(line, exec->pipeline->env);
-			write(fd, tmp, ft_strlen(tmp));
+			if (tmp)
+				write(fd, tmp, ft_strlen(tmp));
 			free(tmp);
 		}
 		write(fd, "\n", 1);

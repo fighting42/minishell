@@ -79,14 +79,14 @@ void	execute_end(t_exec *exec)
 
 void	execute(t_cmdline *cmdline, t_env *env)
 {
-	int			i;
-	int			last_flag;
-	t_exec		*exec;
+	int		i;
+	int		last_flag;
+	t_exec	*exec;
 
+	if (check_null(cmdline))
+		return ;
 	i = -1;
 	last_flag = 0;
-	if (!cmdline->token->value)
-		return ;
 	exec = init_exec(cmdline, env);
 	if (exec->heredoc_cnt > 16)
 		print_error(errmsg(TRUE, NULL, NULL, \
