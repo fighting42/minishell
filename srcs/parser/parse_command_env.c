@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:56:08 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/15 16:07:46 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 16:12:24 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	add_env_val(t_command *com, t_parse *parse, char *ret)
 	}
 	com->t += ft_strlen(parse->env_var[parse->dollar_index].ori);
 	com->t += 1;
+	if (parse->type == HEREDOC)
+		free(tmp);
 }
 
 void	change_env_var(t_command *com, t_parse *parse, char *ret)
