@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command_env.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/10 01:56:08 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/15 01:53:08 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/15 16:07:46 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	add_env_val(t_command *com, t_parse *parse, char *ret)
 {
+	char	*tmp;
+
 	if (parse->env_var[parse->dollar_index].value == NULL)
 	{
 		com->t += ft_strlen(parse->env_var[parse->dollar_index].ori);
@@ -21,9 +23,14 @@ void	add_env_val(t_command *com, t_parse *parse, char *ret)
 		ret = NULL;
 		return ;
 	}
-	while (parse->env_var[parse->dollar_index].value[com->e] != '\0')
+	if (parse->type == HEREDOC)
+		tmp = ft_strjoin_free_back("$", \
+			ft_strdup(&parse->env_var[parse->dollar_index].ori[com->e]));
+	else
+		tmp = &parse->env_var[parse->dollar_index].value[com->e];
+	while (tmp[com->e] != '\0')
 	{
-		ret[com->r] = parse->env_var[parse->dollar_index].value[com->e];
+		ret[com->r] = tmp[com->e];
 		com->r++;
 		com->e++;
 	}
