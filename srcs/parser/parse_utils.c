@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:55:09 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 15:19:37 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 16:54:27 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	append_token(t_parse *parse, t_token *curr, char *value)
 
 	if (value == NULL)
 	{
+		curr = NULL;
 		free(curr);
 		return ;
 	}

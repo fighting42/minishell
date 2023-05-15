@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 16:32:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 16:02:18 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 17:22:44 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	consecutive_pipe_error(char *str, int i)
 	return (i);
 }
 
-int	redirection_error(char *str)
+int	redirection_error(char *str, t_parse *parse)
 {
 	int	i;
 	int	flag;
@@ -113,5 +113,5 @@ int	redirection_error(char *str)
 			return (1);
 		flag = 0;
 	}
-	return (0);
+	return (redirection_env(str, parse));
 }

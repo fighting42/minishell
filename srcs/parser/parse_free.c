@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 11:55:56 by daheepark         #+#    #+#             */
-/*   Updated: 2023/05/14 15:41:19 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 17:45:49 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,15 @@ void	free_parse(t_parse *parse)
 	free(parse);
 }
 
-void	*end_program(t_parse *parse)
+void	*end_program(t_parse *parse, int ret)
 {
 	free(parse->c_head->token);
 	free(parse->c_head);
 	free_parse(parse);
-	return (print_error(errmsg(TRUE, NULL, NULL, \
+	if (ret == 2)
+		return (print_error(errmsg(TRUE, NULL, NULL, \
+		"ambiguous redirect"), FALSE, 1));
+	else
+		return (print_error(errmsg(TRUE, NULL, NULL, \
 		"syntax error"), FALSE, 258));
 }

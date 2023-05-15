@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_command.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 01:29:16 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/15 17:48:40 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,6 @@ void	make_token_value(t_parse *parse, char *str, t_token *t_curr)
 	char	*temp;
 	char	*ret_str;
 
-	if (parse->type == -1)
-		parse->type = COMMAND;
 	if (str == NULL)
 		temp = ft_strdup(parse->tmp[parse->i]);
 	else
@@ -143,6 +141,5 @@ int	cmd_or_str(t_parse	*parse, t_token *t_curr)
 		free(tmp);
 	}
 	move_index_j(parse);
-	parse->type = -1;
 	return (0);
 }

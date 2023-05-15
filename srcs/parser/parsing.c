@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/10 17:57:51 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 15:37:56 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 17:06:33 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ int	error_case(char *str, t_parse *parse)
 {
 	int	i;
 	int	ret_pipe;
+	int	ret;
 
 	i = -1;
 	count_pipe(str, parse);
-	if (pipe_error(str) == 1 || redirection_error(str) == 1)
+	ret = redirection_error(str, parse);
+	if (ret == 2)
+		return (2);
+	if (pipe_error(str) == 1 || ret == 1)
 		return (1);
 	while (str[++i] != '\0')
 	{
@@ -122,12 +126,13 @@ t_cmdline	*parsing(char *str, t_env *env)
 	c_curr->token = t_curr;
 	parse = malloc(sizeof(t_parse));
 	init_parse(parse, str, env, c_curr);
-	if (error_case(str, parse) == 1)
-		return (end_program(parse));
+	ret = error_case(str, parse);
+	if (ret == 1 || ret == 2)
+		return (end_program(parse, ret));
 	ret = parse_loop(parse, t_curr);
 	c_curr = parse->c_head;
 	if (ret != 0)
-		return (end_program(parse));
+		return (end_program(parse, 0));
 	free_parse(parse);
 	return (c_curr);
 }
