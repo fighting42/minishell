@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/15 17:45:20 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/15 17:48:40 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 18:08:22 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,5 +141,6 @@ int	cmd_or_str(t_parse	*parse, t_token *t_curr)
 		free(tmp);
 	}
 	move_index_j(parse);
+	parse->type = COMMAND;
 	return (0);
 }
