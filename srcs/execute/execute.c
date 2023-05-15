@@ -25,6 +25,8 @@ t_pipeline	*next_pipeline(t_pipeline *pipeline)
 	while (tmp)
 	{
 		tmp = pipeline->redirct->next;
+		if (pipeline->redirct->type == HEREDOC)
+			free(pipeline->redirct->value);
 		free(pipeline->redirct);
 		pipeline->redirct = tmp;
 	}
@@ -83,6 +85,8 @@ void	execute(t_cmdline *cmdline, t_env *env)
 
 	i = -1;
 	last_flag = 0;
+	if (!cmdline->token->value)
+		return ;
 	exec = init_exec(cmdline, env);
 	if (exec->heredoc_cnt > 16)
 		print_error(errmsg(TRUE, NULL, NULL, \

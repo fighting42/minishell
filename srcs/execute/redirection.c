@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 16:06:34 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/11 22:46:57 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/15 13:07:45 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,14 @@ void	do_redirct(t_redirct *redirct)
 	int	fd;
 
 	fd = fd_open(redirct);
-	if (redirct->type == STDIN || redirct->type == HEREDOC)
+	if (redirct->type == STDIN)
+	{
+		if (fd < 0)
+			print_error(errmsg(TRUE, redirct->value, NULL, \
+				"No such file or directory"), TRUE, 1);
+		dup2(fd, STDIN_FILENO);
+	}
+	else if (redirct->type == HEREDOC)
 		dup2(fd, STDIN_FILENO);
 	else if (redirct->type == STDOUT || redirct->type == APPEND)
 		dup2(fd, STDOUT_FILENO);
