@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_init.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: daheepark <daheepark@student.42.fr>        +#+  +:+       +#+        */
+/*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/06 17:04:02 by dapark            #+#    #+#             */
-/*   Updated: 2023/05/14 03:51:30 by daheepark        ###   ########.fr       */
+/*   Updated: 2023/05/15 17:48:17 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_parse(t_parse	*parse, char *str, t_env *env, t_cmdline *c_curr)
 	parse->j = 0;
 	parse->dollar_index = 0;
 	parse->dollar_cnt = 0;
-	parse->type = -1;
+	parse->type = COMMAND;
 	parse->cnt_pipe = 0;
 	parse->num_pipe = 0;
 	parse->env_flag = 0;

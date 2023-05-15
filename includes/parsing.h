@@ -6,7 +6,7 @@
 /*   By: dapark <dapark@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/19 15:17:53 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/15 16:05:40 by dapark           ###   ########.fr       */
+/*   Updated: 2023/05/15 17:46:18 by dapark           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,14 @@ typedef struct s_join
 	char	*ret_add;
 }	t_join;
 
+typedef struct s_re_env
+{
+	int		flag;
+	int		i;
+	int		quote;
+	int		dollar;
+}	t_re_env;
+
 //parse_command.c
 int			cmd_or_str(t_parse	*parse, t_token *t_curr);
 void		make_token_value(t_parse *parse, char *str, t_token *t_curr);
@@ -113,7 +121,13 @@ int			error_quote(char *str);
 int			pipe_error(char *str);
 int			pipe_the_end(char *str, t_parse *parse);
 int			consecutive_pipe_error(char *str, int i);
-int			redirection_error(char *str);
+int			redirection_error(char *str, t_parse *parse);
+int			redirection_env(char *str, t_parse *parse);
+
+//parse_error_2.c
+int			redirection_env(char *str, t_parse *parse);
+void		env_flag(char *str, t_re_env *env_re);
+void		init_t_re_env(t_re_env *env_re);
 
 //parse_init.c
 void		init_parse(t_parse	*parse, char *str, t_env *env, \
@@ -160,6 +174,6 @@ int			error_case(char *str, t_parse *parse);
 
 //parse_free.c
 void		free_parse(t_parse *parse);
-void		*end_program(t_parse *parse);
+void		*end_program(t_parse *parse, int ret);
 
 #endif
