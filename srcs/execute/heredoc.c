@@ -6,7 +6,7 @@
 /*   By: yejinkim <yejinkim@student.42seoul.kr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/11 21:12:39 by yejinkim          #+#    #+#             */
-/*   Updated: 2023/05/15 13:08:45 by yejinkim         ###   ########seoul.kr  */
+/*   Updated: 2023/05/15 14:12:33 by yejinkim         ###   ########seoul.kr  */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,16 @@ void	do_heredoc(t_redirct *redirct, t_exec *exec, char *file)
 	while (1)
 	{
 		line = readline("> ");
-		tmp = env_str_heredoc(line, exec->pipeline->env);
-		if (!ft_strncmp(redirct->value, tmp, ft_strlen(redirct->value)) \
-			&& !ft_strncmp(redirct->value, tmp, ft_strlen(tmp)))
-			break ;
-		write(fd, tmp, ft_strlen(tmp));
+		if (ft_strncmp(line, "", 1))
+		{
+			tmp = env_str_heredoc(line, exec->pipeline->env);
+			if (!ft_strncmp(redirct->value, tmp, ft_strlen(redirct->value)) \
+				&& !ft_strncmp(redirct->value, tmp, ft_strlen(tmp)))
+				break ;
+			write(fd, tmp, ft_strlen(tmp));
+			free(tmp);
+		}
 		write(fd, "\n", 1);
-		free(tmp);
 		free(line);
 	}
 	free(tmp);
